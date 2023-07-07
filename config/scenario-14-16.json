@@ -1,0 +1,480 @@
+{
+  "game": {
+    "game_info": {
+      "name": "game_name",
+      "theme": "game_theme",
+      "client": "client",
+      "date": "14.03.2020"
+    },
+    "game_settings": {
+      "tactics": {
+        "remove_answer": 3,
+        "one_for_all": 3,
+        "question_bet": 0,
+        "all_in": 0,
+        "team_bet": 0
+      }
+    },
+    "rounds": [
+      {
+        "type": "classical",
+        "settings": {
+          "is_test": true,
+          "name": "round_name",
+          "display_name": false,
+          "time_to_answer": 40,
+          "use_special_tactics": true
+        },
+        "questions": [
+          {
+            "type": "select",
+            "question": "КАК НАЗЫВАЕТСЯ НАШ ПРОЕКТ?",
+            "answers": [
+              "Царь-Моряк",
+              "Царь-Остряк",
+              "Царь-Государь",
+              "Царь-Плотник"
+            ],
+            "correct_answer": "Царь-Плотник",
+            "time_to_answer": 40,
+            "media_data": {
+              "show_image": false,
+              "video": {
+                "before": "",
+                "after": ""
+              },
+              "image": {
+                "before": "",
+                "after": "",
+                "player_displayed": false
+              }
+            }
+          },
+          {
+            "type": "select",
+            "question": "ЧЕМУ ПОСВЯЩЕН НАШ ПРОЕКТ? ",
+            "answers": [
+              "Ракетостроению",
+              "Автомобилестроению",
+              "Кораблестроению",
+              "Самолетостроению"
+            ],
+            "correct_answer": "Кораблестроению",
+            "time_to_answer": 40,
+            "media_data": {
+              "show_image": false,
+              "video": {
+                "before": "",
+                "after": ""
+              },
+              "image": {
+                "before": "",
+                "after": "",
+                "player_displayed": false
+              }
+            }
+          },
+          {
+            "type": "select",
+            "question": "КАКОЙ СЕЙЧАС ГОД? ",
+            "answers": [
+              "2021",
+              "2022",
+              "1921",
+              "1922"
+            ],
+            "correct_answer": "2022",
+            "time_to_answer": 40,
+            "media_data": {
+              "show_image": false,
+              "video": {
+                "before": "",
+                "after": ""
+              },
+              "image": {
+                "before": "",
+                "after": "",
+                "player_displayed": false
+              }
+            }
+          }
+        ]
+      },
+      {
+        "type": "classical",
+        "settings": {
+          "is_test": false,
+          "name": "round_name",
+          "display_name": false,
+          "time_to_answer": 40,
+          "use_special_tactics": true
+        },
+        "questions": [
+          {
+            "type": "select",
+            "question": "Как называлось изобретение, у которого мотор был от «кукурузника», а корпус из авиационного алюминия?",
+            "answers": [
+              "Судно на воздушной подушке “Сормович”",
+              "Аэросани-амфибия А-3",
+              "Судно на подводных крыльях “Ракета”",
+              "Экраноплан КМ"
+            ],
+            "correct_answer": "Аэросани-амфибия А-3",
+            "time_to_answer": 40,
+            "media_data": {
+              "show_image": false,
+              "video": {
+                "before": "Adults_1_q.mp4",
+                "after": "Adults_1_a.mp4"
+              },
+              "image": {
+                "before": "",
+                "after": "",
+                "player_displayed": false
+              }
+            }
+          },
+          {
+            "type": "select",
+            "question": "Во что мог превращаться советский катер-трансформер?",
+            "answers": [
+              "Автомобильный прицеп",
+              "Миниатюрную подводную лодку",
+              "Понтон",
+              "Гидросамолет"
+            ],
+            "correct_answer": "Автомобильный прицеп",
+            "time_to_answer": 40,
+            "media_data": {
+              "show_image": false,
+              "video": {
+                "before": "Adults_2_q.mp4",
+                "after": "Adults_2_a.mp4"
+              },
+              "image": {
+                "before": "",
+                "after": "",
+                "player_displayed": false
+              }
+            }
+          },
+          {
+            "type": "select",
+            "question": "Так называется классическое водолазное снаряжение?",
+            "answers": [
+              "Водолазка",
+              "Трехлинейка",
+              "Трехболтовка",
+              "Медянка"
+            ],
+            "correct_answer": "Трехболтовка",
+            "time_to_answer": 40,
+            "media_data": {
+              "show_image": false,
+              "video": {
+                "before": "Adults_3_q.mp4",
+                "after": "Adults_3_a.mp4"
+              },
+              "image": {
+                "before": "",
+                "after": "",
+                "player_displayed": false
+              }
+            }
+          },
+          {
+            "type": "select",
+            "question": "За основу конструкции первого советского торпедного катера Г5 инженер взял…",
+            "answers": [
+              "Чугунную ванну",
+              "Кузов гоночного автомобиля",
+              "Поплавок гидросамолета",
+              "Артиллерийский снаряд"
+            ],
+            "correct_answer": "Поплавок гидросамолета",
+            "time_to_answer": 40,
+            "media_data": {
+              "show_image": false,
+              "video": {
+                "before": "Adults_4_q.mp4",
+                "after": "Adults_4_a.mp4"
+              },
+              "image": {
+                "before": "",
+                "after": "",
+                "player_displayed": false
+              }
+            }
+          },
+          {
+            "type": "select",
+            "question": "Кого или что так боялись фашисты, что дали прозвище «черная смерть»?",
+            "answers": [
+              "Морскую пехоту",
+              "Подводных боевых пловцов",
+              "Торпедные катера",
+              "Бомбардировщики-торпедоносцы"
+            ],
+            "correct_answer": "Морскую пехоту",
+            "time_to_answer": 40,
+            "media_data": {
+              "show_image": false,
+              "video": {
+                "before": "Adults_5_q.mp4",
+                "after": "Adults_5_a.mp4"
+              },
+              "image": {
+                "before": "",
+                "after": "",
+                "player_displayed": false
+              }
+            }
+          },
+          {
+            "type": "select",
+            "question": "Какой корабль открывает Военно-морской парад?",
+            "answers": [
+              "Ракетный крейсер “Петр Великий”",
+              "Флагман Балтийского флота эсминец “Настойчивый”",
+              "Десантный катер проекта “Серна”",
+              "Подводная лодка проекта “Варшавянка” в надводном положении"
+            ],
+            "correct_answer": "Десантный катер проекта “Серна”",
+            "time_to_answer": 40,
+            "media_data": {
+              "show_image": false,
+              "video": {
+                "before": "Adults_6_q.mp4",
+                "after": "Adults_6_a.mp4"
+              },
+              "image": {
+                "before": "",
+                "after": "",
+                "player_displayed": false
+              }
+            }
+          },
+          {
+            "type": "select",
+            "question": "Для чего нужны весла с шипом?",
+            "answers": [
+              "Для ловли осетров, сомов и другой крупной рыбы",
+              "Для швартовки и прохождения мелководья",
+              "Для подвешивания весла для сушки и хранения",
+              "Для облегчения гребли"
+            ],
+            "correct_answer": "Для швартовки и прохождения мелководья",
+            "time_to_answer": 40,
+            "media_data": {
+              "show_image": false,
+              "video": {
+                "before": "Adults_7_q.mp4",
+                "after": "Adults_7_a.mp4"
+              },
+              "image": {
+                "before": "",
+                "after": "",
+                "player_displayed": false
+              }
+            }
+          },
+          {
+            "type": "select",
+            "question": "Для чего был построен парусник «Заря»?",
+            "answers": [
+              "Испытание новых кораблестроительных материалов",
+              "Разминирование от магнитных мин",
+              "Измерение магнитного поля Земли",
+              "Экономия дефицитного в послевоенные годы железа"
+            ],
+            "correct_answer": "Измерение магнитного поля Земли",
+            "time_to_answer": 40,
+            "media_data": {
+              "show_image": false,
+              "video": {
+                "before": "Adults_8_q.mp4",
+                "after": "Adults_8_a.mp4"
+              },
+              "image": {
+                "before": "",
+                "after": "",
+                "player_displayed": false
+              }
+            }
+          },
+          {
+            "type": "select",
+            "question": "Что делает субмарина, фонтанируя?",
+            "answers": [
+              "Сбрасывает отработанный воздух, непригодный для дыхания экипажем",
+              "Борется с вражескими водолазами-диверсантами",
+              "Подаёт сигнал “Отчаливаем”",
+              "Простреливает торпедные аппараты"
+            ],
+            "correct_answer": "Танцуют вальс",
+            "time_to_answer": 40,
+            "media_data": {
+              "show_image": false,
+              "video": {
+                "before": "Adults_9_q.mp4",
+                "after": "Adults_9_a.mp4"
+              },
+              "image": {
+                "before": "",
+                "after": "",
+                "player_displayed": false
+              }
+            }
+          },
+          {
+            "type": "select",
+            "question": "Зачем матросу пулеметные ленты, если он вооружен был винтовкой?",
+            "answers": [
+              "Ленты использовались вместо бронежилета",
+              "Матросы носили на себе боекомплект для пулемета",
+              "В ячейках можно было хранить много полезных мелочей",
+              "Матросы меняли пулеметные ленты на хлеб и другие товары"
+            ],
+            "correct_answer": "Матросы носили на себе боекомплект для пулемета",
+            "time_to_answer": 40,
+            "media_data": {
+              "show_image": false,
+              "video": {
+                "before": "Adults_10_q.mp4",
+                "after": "Adults_10_a.mp4"
+              },
+              "image": {
+                "before": "",
+                "after": "",
+                "player_displayed": false
+              }
+            }
+          },
+          {
+            "type": "select",
+            "question": "Почему  Петр I считал, что мосты в Санкт-Петербурге нужно возводить только в крайнем случае?",
+            "answers": [
+              "Город в те времена размещался только на одном острове",
+              "На это не было ресурсов",
+              "В России и за рубежом не было квалифицированных специалистов",
+              "Мосты мешали развитию судоходства и кораблестроения"
+            ],
+            "correct_answer": "Мосты мешали развитию судоходства и кораблестроения",
+            "time_to_answer": 40,
+            "media_data": {
+              "show_image": false,
+              "video": {
+                "before": "Adults_11_q.mp4",
+                "after": "Adults_11_a.mp4"
+              },
+              "image": {
+                "before": "",
+                "after": "",
+                "player_displayed": false
+              }
+            }
+          },
+          {
+            "type": "select",
+            "question": "Для чего нужны пробежки поперек палубы?",
+            "answers": [
+              "Проверка прочности настила палубы",
+              "Определение оптимальной для данного корабля численности команды",
+              "Проверка углов крена и центра тяжести корабля",
+              "Измерение скорости и удобства перемещения матросов по кораблю"
+            ],
+            "correct_answer": "Проверка углов крена и центра тяжести корабля",
+            "time_to_answer": 40,
+            "media_data": {
+              "show_image": false,
+              "video": {
+                "before": "Adults_12_q.mp4",
+                "after": "Adults_12_a.mp4"
+              },
+              "image": {
+                "before": "",
+                "after": "",
+                "player_displayed": false
+              }
+            }
+          },
+          {
+            "type": "select",
+            "question": "Для чего корабли Амурского судостроительного завода грузят в док и буксируют в нем?",
+            "answers": [
+              "На Амурском ССЗ не устанавливают двигатели на корабли",
+              "У завода нет оборудования для спуска кораблей на воду",
+              "Волна от спуска корабля на воду вредит рыбам, населяющим Амур",
+              "Док нужен для того, чтобы пройти мелководье Амурского лимана"
+            ],
+            "correct_answer": "Для производства морских мин",
+            "time_to_answer": 40,
+            "media_data": {
+              "show_image": false,
+              "video": {
+                "before": "Adults_13_q.mp4",
+                "after": "Adults_13_a.mp4"
+              },
+              "image": {
+                "before": "",
+                "after": "",
+                "player_displayed": false
+              }
+            }
+          },
+          {
+            "type": "select",
+            "question": "Какой же подвиг совершили первые семь Героев Советского Союза?",
+            "answers": [
+              "Спасение команды знаменитого парохода “Челюскин”",
+              "Уничтожение немецкого крейсера",
+              "Разведка маршрута Северного морского пути",
+              "Первые посадки самолетов на авианосец"
+            ],
+            "correct_answer": "Спасение команды знаменитого парохода “Челюскин”",
+            "time_to_answer": 40,
+            "media_data": {
+              "show_image": false,
+              "video": {
+                "before": "Adults_14_q.mp4",
+                "after": "Adults_14_a.mp4"
+              },
+              "image": {
+                "before": "",
+                "after": "",
+                "player_displayed": false
+              }
+            }
+          },
+          {
+            "type": "select",
+            "question": "Что сконструировал “советский Леонардо” авиаконструктора Роберта Бартини?",
+            "answers": [
+              "Гигантские реактивные аэросани-амфибию",
+              "Вертикально взлетающий самолет-амфибию",
+              "Корабль на подводных крыльях с турбореактивным двигателем",
+              "Летающую подводную лодку"
+            ],
+            "correct_answer": "Вертикально взлетающий самолет-амфибию",
+            "time_to_answer": 40,
+            "media_data": {
+              "show_image": false,
+              "video": {
+                "before": "Adults_15_q.mp4",
+                "after": "Adults_15_a.mp4"
+              },
+              "image": {
+                "before": "",
+                "after": "",
+                "player_displayed": false
+              }
+            }
+          }
+        ]
+            
+      }
+    ]
+  }
+}
+
+

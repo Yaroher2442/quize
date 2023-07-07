@@ -1,0 +1,21 @@
+.question-select
+  justify-content: space-between
+  padding-top: 10px
+
+  &__answers
+    width: 100%
+
+  &__answer
+    border-radius: 7px
+    padding: 10px 5px
+    margin-bottom: 10px
+    @media (max-width: 400px)
+      padding: 8px 3px
+      font-size: 14px
+
+  &__send-btn:disabled
+    @media (max-width: 400px)
+      padding: 14px 0
+
+  &__send-btn:disabled
+    color: grey!important

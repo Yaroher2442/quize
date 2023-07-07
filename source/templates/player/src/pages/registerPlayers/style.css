@@ -1,0 +1,105 @@
+.register-players {
+  justify-content: space-between;
+}
+.register-players .button_register:disabled {
+  color: grey;
+}
+.register-players__agree-rules {
+  color: #ffffff;
+  font-size: 10px;
+  font-weight: 500;
+  margin: 10px 0 10px;
+}
+@media (min-width: 800px) {
+  .register-players__agree-rules {
+    font-size: 14px;
+  }
+}
+.register-players h1 {
+  margin-bottom: 30px;
+}
+.register-players h3 {
+  margin-bottom: 15px;
+}
+.register-players__players {
+  padding: 0 5px 0 5px;
+  max-height: 26vh;
+  overflow-y: auto;
+  overflow-x: hidden;
+  scrollbar-gutter: stable;
+}
+.register-players__players::-webkit-scrollbar {
+  width: 5px;
+  height: 5px;
+}
+.register-players__players::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, #FEFEFE 0%, #D4D4D4 100%);
+  border-radius: 50px;
+}
+.register-players__players::-webkit-scrollbar-track {
+  background: #007397;
+  border-radius: 50px;
+}
+.register-players__player-info {
+  display: flex;
+  justify-content: space-between;
+  margin: 15px 0 10px;
+}
+.register-players__player-info_num {
+  font-size: 16px;
+  font-weight: 500;
+  color: #FFFFFF;
+}
+@media (min-width: 800px) {
+  .register-players__player-info_num {
+    font-size: 22px;
+  }
+}
+.register-players__player-info_delete {
+  height: 20px;
+  width: 20px;
+  border-radius: 50px;
+  background-color: #FFFFFF;
+  color: #007397;
+  font-size: 16px;
+  box-shadow: 2px 3px 3px #007397;
+  padding: 0;
+}
+.register-players__player input {
+  background: rgba(255, 255, 255, 0.2);
+  border: 1.56102px solid #FFFFFF;
+  padding: 16px 10px;
+  border-radius: 7px;
+  color: #FFFFFF;
+  margin-bottom: 7px;
+  font-weight: 200;
+}
+@media (min-width: 800px) {
+  .register-players__player input {
+    padding: 24px 10px;
+    font-size: 20px;
+  }
+}
+.register-players__player input::placeholder {
+  color: #FFFFFF;
+  font-size: 14px;
+  font-weight: 200;
+}
+@media (min-width: 800px) {
+  .register-players__player input::placeholder {
+    font-size: 18px;
+  }
+}
+.register-players__add-player {
+  width: 50px;
+  height: 50px;
+  padding: 0;
+  margin: 15px 0;
+  font-size: 34px;
+  font-weight: bold;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/*# sourceMappingURL=style.css.map */

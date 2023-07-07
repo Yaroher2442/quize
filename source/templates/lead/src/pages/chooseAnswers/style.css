@@ -1,0 +1,56 @@
+.choose-answers__open-modal {
+  background: #FFEA7D;
+  display: flex;
+  align-items: center;
+  padding: 5px 10px;
+  width: auto;
+  margin: 0 auto;
+}
+.choose-answers__open-modal img {
+  height: 30px;
+  margin-right: 10px;
+}
+.choose-answers__open-modal span {
+  font-size: 16px;
+  color: #556BAC;
+}
+.choose-answers h1 {
+  color: #FFEA7D;
+  margin: 20px 0;
+}
+.choose-answers h2 {
+  margin-bottom: 20px;
+}
+.choose-answers__teams {
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: flex-start;
+  align-items: center;
+}
+.choose-answers__team {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 14px;
+  width: 40px;
+  height: 40px;
+  padding: 5px;
+  margin: 5px;
+  background: #D9D9D9;
+  color: #9D9D9D;
+  font-size: 24px;
+  font-weight: 700;
+}
+.choose-answers__team_answered {
+  background: #FFEA7D;
+  color: #566BAC;
+}
+.choose-answers__btns_wrapper {
+  display: flex;
+  flex-direction: row;
+}
+.choose-answers__btns_spacer {
+  width: 20px;
+}
+
+/*# sourceMappingURL=style.css.map */

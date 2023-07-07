@@ -1,0 +1,75 @@
+.round-result
+  justify-content: space-between
+
+  &__head
+    @media (min-width: 800px)
+      width: 60%
+  h2
+    font-size: 26px
+    margin: 20px 0 30px
+    @media (min-width: 800px)
+      font-size: 38px
+
+  h3
+    font-size: 18px
+    @media (min-width: 800px)
+      font-size: 30px
+
+  &__box
+    background: rgba(0, 0, 0, 0.2)
+    border-radius: 16px
+    padding: 20px 20px
+    width: 100%
+
+    button
+      margin-top: 30px
+
+  .yellow-title
+    margin-bottom: 0
+
+  &__row
+    display: flex
+    justify-content: space-between
+    align-items: center
+    margin-bottom: 20px
+
+    span
+      text-align: left
+      color: white
+      font-size: 16px
+      @media (min-width: 800px)
+        font-size: 24px
+
+    & span + span
+      font-size: 18px
+      color: #FFEA7D
+      padding-left: 20px
+      @media (min-width: 800px)
+        font-size: 28px
+
+  &__blitz_row
+    display: flex
+    justify-content: space-between
+    align-items: center
+    margin-bottom: 20px
+
+    p
+      font-size: 18px
+      color: #ffffff
+      width: 50%
+      text-align: left
+
+    span
+      font-size: 24px
+      color: #FFEA7D
+      margin: 0
+
+    button
+      margin: 0
+      padding: 10px 0
+      font-size: 12px
+      width: 32%
+      border-radius: 8px
+
+      &:disabled
+        color: grey!important

@@ -1,0 +1,70 @@
+.avatar-gallery {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-gap: 20px;
+  height: 100%;
+  max-width: 100%;
+  margin: 0 auto;
+  overflow-Y: auto;
+  overflow-X: hidden;
+}
+.avatar-gallery__wrapper {
+  position: relative;
+  height: 70%;
+  width: 70%;
+}
+@media (min-width: 800px) {
+  .avatar-gallery__wrapper {
+    width: 80%;
+  }
+}
+.avatar-gallery__preview-avatar {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  padding: 0;
+  background: transparent;
+  margin: 0 auto;
+}
+.avatar-gallery__preview-avatar img {
+  object-fit: cover;
+}
+@media (max-width: 400px) {
+  .avatar-gallery__preview-avatar img {
+    height: 50%;
+  }
+}
+.avatar-gallery::-webkit-scrollbar {
+  width: 5px;
+  height: 5px;
+}
+.avatar-gallery::-webkit-scrollbar-thumb {
+  background: #ffffff;
+  border-radius: 50px;
+}
+.avatar-gallery::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.3);
+  border-radius: 50px;
+}
+.avatar-gallery button {
+  width: 100%;
+  height: 100%;
+  padding: 0;
+  background: none;
+  margin: 0 auto;
+}
+.avatar-gallery button:disabled img {
+  opacity: 0.3;
+}
+.avatar-gallery__picked {
+  width: 100px !important;
+  height: 100px !important;
+}
+.avatar-gallery img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/*# sourceMappingURL=style.css.map */

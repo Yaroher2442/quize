@@ -1,0 +1,6 @@
+{
+  "websocket_timeout": 0.1,
+  "event_queue_timeout": 0.01,
+  "ui_timeout": 0.1
+}
+

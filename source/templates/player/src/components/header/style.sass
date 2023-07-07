@@ -1,0 +1,121 @@
+@import ../../styles/variables
+
+.header__register
+  width: 106%
+  height: $headerHeight
+  transform: translate(-3%, -50%)
+  position: absolute
+  top: 0
+  left: 0
+
+  &_logo
+    width: 100%
+    position: absolute
+    left: 50%
+    top: 50%
+    transform: translate(-50%, -50%)
+
+.header__game
+  width: 100%
+  height: $headerHeight
+  transform: translateY(-50%)
+  position: absolute
+  top: 0
+  left: 0
+
+  & > div
+    display: flex
+    flex-direction: column
+    justify-content: center
+    align-items: center
+
+  &_text
+    position: absolute
+    color: white
+    font-weight: 100
+    font-size: 24px
+    line-height: 26px
+    @media (max-width: 400px)
+      font-size: 16px
+      line-height: 16px
+    @media (min-width: 800px)
+      font-size: 36px
+      line-height: 36px
+
+
+  div > img
+    width: 100%
+    height: 100%
+
+  &_logo
+    width: 43%
+    position: absolute
+    left: 50%
+    top: 50%
+    transform: translate(-50%, -50%)
+
+  &_round
+    width: 36%
+    position: absolute
+    top: 45%
+    left: 0
+    transform: translateY(-100%)
+
+  &_question
+    width: 36%
+    position: absolute
+    top: 45%
+    right: 0
+    transform: translateY(-100%)
+
+  &_team-avatar
+    width: 20%
+    position: absolute
+    bottom: 50%
+    left: 8%
+    transform: translateY(105%)
+
+    img
+      max-width: 100%
+
+  &_score
+    width: 33%
+    position: absolute
+    bottom: 48%
+    right: 2%
+    transform: translateY(110%)
+
+    .header__game_text
+      right: 10px
+
+    hr
+      height: 2px
+      width: 91%
+      clip-path: polygon(1% 0%, 100% 0, 100% 100%, 0% 100%)
+      background-color: #DD4A38
+      position: absolute
+      top: calc(50% - 1px)
+      right: 0
+      border: none
+
+    p
+      font-size: 20px
+      line-height: 34px
+      text-align: right
+      color: #DD4A38
+      text-transform: none!important
+
+      b
+        font-size: 18px
+
+      @media (max-width: 400px)
+        font-size: 12px
+        line-height: 22px
+        b
+          font-size: 16px
+
+      @media (min-width: 800px)
+        font-size: 32px
+        line-height: 46px
+        b
+          font-size: 36px

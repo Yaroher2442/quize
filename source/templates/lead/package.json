@@ -1,0 +1,38 @@
+{
+  "name": "lead",
+  "version": "0.1.0",
+  "private": true,
+  "homepage": "/lead/ui",
+  "dependencies": {
+    "@szhsin/react-menu": "^3.1.1",
+    "axios": "^0.26.1",
+    "pullstate": "^1.24.0",
+    "react": "^18.0.0",
+    "react-dom": "^18.0.0",
+    "react-scripts": "5.0.1",
+    "simplebar-react": "^2.3.7",
+    "web-vitals": "^2.1.4"
+  },
+  "scripts": {
+    "dev": "NODE_ENV=development react-scripts start",
+    "build": "NODE_ENV=production react-scripts build"
+  },
+  "eslintConfig": {
+    "extends": [
+      "react-app",
+      "react-app/jest"
+    ]
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  }
+}

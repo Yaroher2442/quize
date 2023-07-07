@@ -1,0 +1,16 @@
+.results-page {
+  padding-top: calc(15vh + 40px);
+  justify-content: flex-start;
+}
+.results-page h1 {
+  font-size: 50px;
+  margin-bottom: 20px;
+}
+.results-page .table .theader {
+  align-items: center;
+}
+.results-page .table .theader span {
+  font-size: 30px;
+}
+
+/*# sourceMappingURL=style.css.map */

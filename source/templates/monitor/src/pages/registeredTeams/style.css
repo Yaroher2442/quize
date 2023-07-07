@@ -1,0 +1,11 @@
+.registered-teams {
+  padding-top: calc(20vh + 40px);
+  justify-content: flex-start;
+}
+.registered-teams h1 {
+  font-size: 40px;
+  margin-top: -50px;
+  margin-bottom: 20px;
+}
+
+/*# sourceMappingURL=style.css.map */

@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8"/>
+    <title>Server Sent Events</title>
+</head>
+<body>
+<div id="time">
+    Time
+</div>
+<script>
+    const eventSource = new EventSource('http://localhost:8888/event');
+    // eventSource.addEventListener('message', function(e) {
+    //     console.log(e.data)
+    //     document.getElementById('time').textContent = e.data;
+    // }, false);
+
+    eventSource.addEventListener('next_question', function (e) {
+        console.log("eeeeeeeeeeee")
+        document.getElementById('time').textContent = e.data;
+    }, false);
+
+    eventSource.addEventListener('ping', function (e) {
+        console.log("eeeeeeeeeeee")
+        document.getElementById('time').textContent = e.data;
+    }, false);
+
+    eventSource.onmessage = function (e) {
+        log("Событие: message, данные: " + e.data);
+    };
+
+</script>
+</body>
+</html>

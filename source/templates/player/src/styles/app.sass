@@ -1,0 +1,133 @@
+@import ./variables
+
+@function calcTopAppPadding($isRegister)
+  $width: min(calc(100vw - 10vw), $maxAppWidth)
+  @if ($isRegister)
+    @return calc($width / 2.87 / 2 + 30px)
+  @else
+    @return calc($headerHeight / 2 + 30px)
+
+.app // пузыри
+    height: 100%
+    width: 100vw
+    padding: calcTopAppPadding(false) 5vw 0
+    background-color: #e7faff
+    display: flex
+    flex-direction: column
+    justify-content: center
+    overflow-Y: scroll
+    overflow-X: hidden
+    position: relative
+    --body-size: 100vh
+    //@media (min-width: 700px)
+    //  background: url(../assets/bg.png) #e7faff center center no-repeat
+    //  background-size: contain
+    &__register
+      padding: calcTopAppPadding(true) 5vw 5vw
+
+    &__unavailable-orientation
+      background-color: #e7faff
+      position: absolute
+      top: 0
+      left: 0
+      right: 0
+      bottom: 0
+      height: 100%
+      display: flex
+      justify-content: center
+      align-items: center
+
+      p
+        font-size: 40px
+        color: black
+
+.app__wrapper // оборачивает фон + head
+    box-shadow: 0px 6.24409px 0px rgba(0, 0, 0, 0.1)
+    border-radius: 16px
+    height: 100%
+    width: 100%
+    max-width: $maxAppWidth
+    padding: calcTopAppPadding(false) 30px 30px
+    //padding: calc($headerHeight/2) 2em 2em
+    margin: 0 auto
+    position: relative
+    max-height: 80vh
+    @media (min-height: 800px)
+        max-width: 800px
+    @media (max-width: 400px)
+      padding: calc($headerHeight/2) 1em 1em
+
+.modal
+  background-color: #E6E6E6
+  padding: 20px 30px
+  border-radius: 8px
+  box-shadow: 0 3px 7px rgb(0 0 0 / 13%), 0 0.6px 2px rgb(0 0 0 / 10%)
+  max-width: 400px
+
+  &__wrapper
+    position: absolute
+    top: 0
+    left: 0
+    right: 0
+    bottom: 0
+    background-color: rgba(0, 0, 0, 0.8)
+    display: flex
+    justify-content: center
+    align-items: center
+    z-index: 999
+    padding: 0 5vw
+
+  &__header
+    color: #555555
+    font-size: 20px
+
+  &__answers
+    max-height: 300px
+    overflow-Y: auto
+    margin: 30px 0
+
+  &__row
+    display: flex
+    justify-content: space-between
+    margin: 10px 0
+
+    p
+      text-align: left
+      font-size: 16px
+      font-weight: bold
+
+    div
+      width: 35%
+
+  &__question
+    max-width: 60%
+    color: #555555
+    flex: 3
+
+  &__correct
+    color: #479A6E
+
+  &__no-time
+    color: #9D9D9D
+
+  &__team-answer
+    color: #DD4A38
+    text-decoration: line-through red
+    -webkit-text-decoration-line: line-through
+    -webkit-text-decoration-color: red
+
+  &__button
+    background: linear-gradient(180deg, #B8B8B8 0%, #6D6D6D 100%)
+    color: white
+    font-weight: bold
+    font-size: 19px
+
+  @media (max-width: 400px)
+    &__header
+      font-size: 16px
+
+    &__row
+      p
+        font-size: 12px
+    &__button
+      font-size: 15px

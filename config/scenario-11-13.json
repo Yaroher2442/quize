@@ -1,0 +1,481 @@
+{
+  "game": {
+    "game_info": {
+      "name": "game_name",
+      "theme": "game_theme",
+      "client": "client",
+      "date": "14.03.2020"
+    },
+    "game_settings": {
+      "tactics": {
+        "remove_answer": 3,
+        "one_for_all": 3,
+        "question_bet": 0,
+        "all_in": 0,
+        "team_bet": 0
+      },
+      "skip_emails": true
+    },
+    "rounds": [
+      {
+        "type": "classical",
+        "settings": {
+          "is_test": true,
+          "name": "round_name",
+          "display_name": false,
+          "time_to_answer": 40,
+          "use_special_tactics": true
+        },
+        "questions": [
+          {
+            "type": "select",
+            "question": "КАК НАЗЫВАЕТСЯ НАШ ПРОЕКТ?",
+            "answers": [
+              "Царь-Моряк",
+              "Царь-Остряк",
+              "Царь-Государь",
+              "Царь-Плотник"
+            ],
+            "correct_answer": "Царь-Плотник",
+            "time_to_answer": 40,
+            "media_data": {
+              "show_image": false,
+              "video": {
+                "before": "",
+                "after": ""
+              },
+              "image": {
+                "before": "",
+                "after": "",
+                "player_displayed": false
+              }
+            }
+          },
+          {
+            "type": "select",
+            "question": "ЧЕМУ ПОСВЯЩЕН НАШ ПРОЕКТ? ",
+            "answers": [
+              "Ракетостроению",
+              "Автомобилестроению",
+              "Кораблестроению",
+              "Самолетостроению"
+            ],
+            "correct_answer": "Кораблестроению",
+            "time_to_answer": 40,
+            "media_data": {
+              "show_image": false,
+              "video": {
+                "before": "",
+                "after": ""
+              },
+              "image": {
+                "before": "",
+                "after": "",
+                "player_displayed": false
+              }
+            }
+          },
+          {
+            "type": "select",
+            "question": "КАКОЙ СЕЙЧАС ГОД? ",
+            "answers": [
+              "2021",
+              "2022",
+              "1921",
+              "1922"
+            ],
+            "correct_answer": "2022",
+            "time_to_answer": 40,
+            "media_data": {
+              "show_image": false,
+              "video": {
+                "before": "",
+                "after": ""
+              },
+              "image": {
+                "before": "",
+                "after": "",
+                "player_displayed": false
+              }
+            }
+          }
+        ]
+      },
+      {
+        "type": "classical",
+        "settings": {
+          "is_test": false,
+          "name": "round_name",
+          "display_name": false,
+          "time_to_answer": 40,
+          "use_special_tactics": true
+        },
+        "questions": [
+          {
+            "type": "select",
+            "question": "Почему моряки носили пилотку?",
+            "answers": [
+              "В память о моряках, которые стали первыми летчиками",
+              "Это единый головной убор для всех солдат и офицеров вооруженных сил",
+              "В пилотке удобно перемещаться по кораблю",
+              "Удачно сочеталась с брюками клёш и воротником-гюйсом"
+            ],
+            "correct_answer": "В пилотке удобно перемещаться по кораблю",
+            "time_to_answer": 40,
+            "media_data": {
+              "show_image": false,
+              "video": {
+                "before": "Children_1_q.mp4",
+                "after": "Children_1_a.mp4"
+              },
+              "image": {
+                "before": "",
+                "after": "",
+                "player_displayed": false
+              }
+            }
+          },
+          {
+            "type": "select",
+            "question": "Чем занимаются якутские судостроители в лютую стужу?",
+            "answers": [
+              "Обеспечивают ремонт и обслуживание судов",
+              "Вымораживают суда, чтобы их не раздавило льдами",
+              "Добывают лед для кораблей-рефрижераторов",
+              "Очищают акваторию от мусора и стоков"
+            ],
+            "correct_answer": "Обеспечивают ремонт и обслуживание судов",
+            "time_to_answer": 40,
+            "media_data": {
+              "show_image": false,
+              "video": {
+                "before": "Children_2_q.mp4",
+                "after": "Children_2_a.mp4"
+              },
+              "image": {
+                "before": "",
+                "after": "",
+                "player_displayed": false
+              }
+            }
+          },
+          {
+            "type": "select",
+            "question": "Как называется сооружение по-русски?",
+            "answers": [
+              "Морской страж",
+              "Колокол",
+              "Выгружающий на берег",
+              "Корабль-дверь"
+            ],
+            "correct_answer": "Корабль-дверь",
+            "time_to_answer": 40,
+            "media_data": {
+              "show_image": false,
+              "video": {
+                "before": "Children_3_q.mp4",
+                "after": "Children_3_a.mp4"
+              },
+              "image": {
+                "before": "",
+                "after": "",
+                "player_displayed": false
+              }
+            }
+          },
+          {
+            "type": "select",
+            "question": "Как остров «Новая Голландия» связан с флотом?",
+            "answers": [
+              "Здесь находились склады корабельного леса",
+              "Здесь работал первый в России опытовый бассейн",
+              "Здесь был склад Ленинградской военно-морской базы",
+              "Все варианты правильные"
+            ],
+            "correct_answer": "Все варианты правильные",
+            "time_to_answer": 40,
+            "media_data": {
+              "show_image": false,
+              "video": {
+                "before": "Children_4_q.mp4",
+                "after": "Children_4_a.mp4"
+              },
+              "image": {
+                "before": "",
+                "after": "",
+                "player_displayed": false
+              }
+            }
+          },
+          {
+            "type": "select",
+            "question": "Что перевозил теплоход “Москвич”?",
+            "answers": [
+              "Молоко",
+              "Зерно",
+              "Песок",
+              "Кирпич"
+            ],
+            "correct_answer": "Молоко",
+            "time_to_answer": 40,
+            "media_data": {
+              "show_image": false,
+              "video": {
+                "before": "Children_5_q.mp4",
+                "after": "Children_5_a.mp4"
+              },
+              "image": {
+                "before": "",
+                "after": "",
+                "player_displayed": false
+              }
+            }
+          },
+          {
+            "type": "select",
+            "question": "Какое прозвище дали катеру «Шмель» моряки? ",
+            "answers": [
+              "Речной танк",
+              "Каспийский монстр",
+              "Морской еж",
+              "Плавучая батарея"
+            ],
+            "correct_answer": "Речной танк",
+            "time_to_answer": 40,
+            "media_data": {
+              "show_image": false,
+              "video": {
+                "before": "Children_6_q.mp4",
+                "after": "Children_6_a.mp4"
+              },
+              "image": {
+                "before": "",
+                "after": "",
+                "player_displayed": false
+              }
+            }
+          },
+          {
+            "type": "select",
+            "question": "Какова была главная цель проекта “Ихтиандр”?",
+            "answers": [
+              "Научить человека жить под водой в специальных домах",
+              "Разработать гидрокостюм для глубоководных погружений",
+              "Построить миниатюрную подводную лодку для граждан",
+              "Организовать подводные фермы морских животных и растений"
+            ],
+            "correct_answer": "Научить человека жить под водой в специальных домах",
+            "time_to_answer": 40,
+            "media_data": {
+              "show_image": false,
+              "video": {
+                "before": "Children_7_q.mp4",
+                "after": "Children_7_a.mp4"
+              },
+              "image": {
+                "before": "",
+                "after": "",
+                "player_displayed": false
+              }
+            }
+          },
+          {
+            "type": "select",
+            "question": "Чем являются гигантские конструкции, которые возвышаются над кораблем «Ураган»?",
+            "answers": [
+              "Пусковые установки крылатых ракет",
+              "Устройства для причаливания к кораблям в открытом море",
+              "Подводные крылья",
+              "Устройство для выхода корабля на берег"
+            ],
+            "correct_answer": "Подводные крылья",
+            "time_to_answer": 40,
+            "media_data": {
+              "show_image": false,
+              "video": {
+                "before": "Children_8_q.mp4",
+                "after": "Children_8_a.mp4"
+              },
+              "image": {
+                "before": "",
+                "after": "",
+                "player_displayed": false
+              }
+            }
+          },
+          {
+            "type": "select",
+            "question": "Чем занимаются команды буксиров?",
+            "answers": [
+              "Проводят тренировки по противопожарной работе",
+              "Проводят приемку различных систем и механизмов после ремонта",
+              "Участвуют в специальных соревнованиях для моряков",
+              "Танцуют вальс"
+            ],
+            "correct_answer": "Танцуют вальс",
+            "time_to_answer": 40,
+            "media_data": {
+              "show_image": false,
+              "video": {
+                "before": "Children_9_q.mp4",
+                "after": "Children_9_a.mp4"
+              },
+              "image": {
+                "before": "",
+                "after": "",
+                "player_displayed": false
+              }
+            }
+          },
+          {
+            "type": "select",
+            "question": "Но почему морских зверей тянет к подлодкам? ",
+            "answers": [
+              "Подводная лодка похожа на большого моржа или тюленя",
+              "Подводная лодка - подходящее место для отдыха",
+              "Животным нравится запах металла, резины и масла",
+              "Базы ВМФ строят в местах обитания морского зверя для маскировки"
+            ],
+            "correct_answer": "Подводная лодка - подходящее место для отдыха",
+            "time_to_answer": 40,
+            "media_data": {
+              "show_image": false,
+              "video": {
+                "before": "Children_10_q.mp4",
+                "after": "Children_10_a.mp4"
+              },
+              "image": {
+                "before": "",
+                "after": "",
+                "player_displayed": false
+              }
+            }
+          },
+          {
+            "type": "select",
+            "question": "Почему матросов часто рисовали с накаченными руками?",
+            "answers": [
+              "Матросы много лазили по вантам и работали с канатами",
+              "Руки матросов распухали от соленой воды",
+              "Это было модно",
+              "На флот брали только людей с развитыми предплечьями и кистями"
+            ],
+            "correct_answer": "Матросы много лазили по вантам и работали с канатами",
+            "time_to_answer": 40,
+            "media_data": {
+              "show_image": false,
+              "video": {
+                "before": "Children_11_q.mp4",
+                "after": "Children_11_a.mp4"
+              },
+              "image": {
+                "before": "",
+                "after": "",
+                "player_displayed": false
+              }
+            }
+          },
+          {
+            "type": "select",
+            "question": "Кем был квартирмейстер на пиратском корабле?",
+            "answers": [
+              "Командир артиллерийских орудий",
+              "Начальник оружейной комнаты",
+              "Второй человек после капитана",
+              "Комендант матросского кубрика"
+            ],
+            "correct_answer": "Второй человек после капитана",
+            "time_to_answer": 40,
+            "media_data": {
+              "show_image": false,
+              "video": {
+                "before": "Children_12_q.mp4",
+                "after": "Children_12_a.mp4"
+              },
+              "image": {
+                "before": "",
+                "after": "",
+                "player_displayed": false
+              }
+            }
+          },
+          {
+            "type": "select",
+            "question": "Как использовались чугунные плитки кронштадтской мостовой во время войны?",
+            "answers": [
+              "Для ремонта кораблей",
+              "Для производства морских мин",
+              "Для постановки заграждений против подводных лодок",
+              "Для строительства морских фортов"
+            ],
+            "correct_answer": "Для производства морских мин",
+            "time_to_answer": 40,
+            "media_data": {
+              "show_image": false,
+              "video": {
+                "before": "Children_13_q.mp4",
+                "after": "Children_13_a.mp4"
+              },
+              "image": {
+                "before": "",
+                "after": "",
+                "player_displayed": false
+              }
+            }
+          },
+          {
+            "type": "select",
+            "question": "Зачем российские моряки буксируют айсберги?",
+            "answers": [
+              "Чтобы получить много пресной воды",
+              "Для исследований морских течений",
+              "Для спасения белых медведей",
+              "Чтобы защитить нефтедобывающие платформы"
+            ],
+            "correct_answer": "Чтобы защитить нефтедобывающие платформы",
+            "time_to_answer": 40,
+            "media_data": {
+              "show_image": false,
+              "video": {
+                "before": "Children_14_q.mp4",
+                "after": "Children_14_a.mp4"
+              },
+              "image": {
+                "before": "",
+                "after": "",
+                "player_displayed": false
+              }
+            }
+          },
+          {
+            "type": "select",
+            "question": "Что жители разных регионов нашей страны называют «губой» и «рогом»?",
+            "answers": [
+              "Море",
+              "Пролив",
+              "Залив",
+              "Озеро"
+            ],
+            "correct_answer": "Залив",
+            "time_to_answer": 40,
+            "media_data": {
+              "show_image": false,
+              "video": {
+                "before": "Children_15_q.mp4",
+                "after": "Children_15_a.mp4"
+              },
+              "image": {
+                "before": "",
+                "after": "",
+                "player_displayed": false
+              }
+            }
+          }
+        ]
+            
+      }
+    ]
+  }
+}
+
+

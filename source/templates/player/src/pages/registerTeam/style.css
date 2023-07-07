@@ -1,0 +1,43 @@
+.register-team {
+  justify-content: space-between;
+}
+.register-team div {
+  width: 100%;
+}
+.register-team h1 {
+  margin-bottom: 30px;
+}
+.register-team h2 {
+  margin: 15px 0 7px;
+}
+.register-team__input_text {
+  background: rgba(255, 255, 255, 0.2);
+  border: 1px solid #FFFFFF;
+  padding: 16px 10px;
+  border-radius: 7px;
+  color: #FFFFFF;
+  font-weight: 200;
+  margin-bottom: 15px;
+}
+@media (min-width: 800px) {
+  .register-team__input_text {
+    padding: 24px 10px;
+    font-size: 20px;
+  }
+}
+.register-team__input_text[type=number]::-webkit-outer-spin-button, .register-team__input_text[type=number]::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+.register-team__input_text::placeholder {
+  color: #FFFFFF;
+  font-size: 14px;
+  font-weight: 200;
+}
+@media (min-width: 800px) {
+  .register-team__input_text::placeholder {
+    font-size: 18px;
+  }
+}
+
+/*# sourceMappingURL=style.css.map */

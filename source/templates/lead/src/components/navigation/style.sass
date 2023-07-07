@@ -1,0 +1,25 @@
+nav
+  display: flex
+  background: #566BAC
+  width: 100%
+
+  .nav-btn
+    border-radius: 0 0 14px 14px
+    margin: 0 20px
+    flex: 1
+    padding: 8px 20px 10px
+    background: #ffffff
+    color: #566BAC
+    font-size: 16px
+    font-weight: 700
+
+    &_selected
+      background: #FFEA7D
+      color: #566BAC
+      font-weight: 900
+
+    @media (max-width: 768px)
+      font-size: 14px
+
+    &:nth-child(2n)
+      flex: 2

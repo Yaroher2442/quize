@@ -1,0 +1,486 @@
+{
+  "game": {
+    "game_info": {
+      "name": "game_name",
+      "theme": "game_theme",
+      "client": "client",
+      "date": "14.03.2020"
+    },
+    "game_settings": {
+      "tactics": {
+        "remove_answer": 10,
+        "one_for_all": 2,
+        "question_bet": 1,
+        "all_in": 1,
+        "team_bet": 1
+      },
+      "skip_emails":true
+    },
+    "rounds": [
+      {
+        "type": "classical",
+        "settings": {
+          "is_test": true,
+          "name": "round_name",
+          "display_name": false,
+          "time_to_answer": 40,
+          "use_special_tactics": true
+        },
+        "questions": [
+          {
+            "type": "text",
+            "question": "КАКОЙ СЕЙЧАС ГОД?",
+            "answers": [
+              "2102",
+              "2021",
+              "2202",
+              "2022"
+            ],
+            "correct_answer": "2022",
+            "time_to_answer": 40,
+            "media_data": {
+              "show_image": false,
+              "video": {
+                "before": "",
+                "after": ""
+              },
+              "image": {
+                "before": "",
+                "after": "",
+                "player_displayed": false
+              }
+            }
+          },
+          {
+            "type": "select",
+            "question": "СКОЛЬКО ЦВЕТОВ НА ФЛАГЕ РОССИИ?",
+            "answers": [
+              "1",
+              "2",
+              "3",
+              "4"
+            ],
+            "correct_answer": "3",
+            "time_to_answer": 40,
+            "media_data": {
+              "show_image": false,
+              "video": {
+                "before": "",
+                "after": ""
+              },
+              "image": {
+                "before": "",
+                "after": "",
+                "player_displayed": false
+              }
+            }
+          },
+          {
+            "type": "select",
+            "question": "Столица России?",
+            "answers": [
+              "САНКТ-ПЕТЕРБУРГ",
+              "ЕКАТЕРИНБУРГ",
+              "МОСКВА",
+              "НОВОСИБИРСК"
+            ],
+            "correct_answer": "МОСКВА",
+            "time_to_answer": 40,
+            "media_data": {
+              "show_image": false,
+              "video": {
+                "before": "",
+                "after": ""
+              },
+              "image": {
+                "before": "",
+                "after": "",
+                "player_displayed": false
+              }
+            }
+          }
+        ]
+      },
+      {
+        "type": "classical",
+        "settings": {
+          "is_test": false,
+          "name": "round_name",
+          "display_name": false,
+          "time_to_answer": 40,
+          "use_special_tactics": true
+        },
+        "questions": [
+          {
+            "type": "select",
+            "question": "СКОЛЬКО РАЗ ВСТРЕЧАЕТСЯ ЦИФРА ‘9’ ПРИ СЧЕТЕ ОТ ‘10 до 100’?",
+            "answers": [
+              "9",
+              "19",
+              "10",
+              "20"
+            ],
+            "correct_answer": "19",
+            "time_to_answer": 40,
+            "media_data": {
+              "show_image": true,
+              "video": {
+                "before": "",
+                "after": ""
+              },
+              "image": {
+                "before": "",
+                "after": "1-2.jpg",
+                "player_displayed": false
+              }
+            }
+          },
+          {
+            "type": "select",
+            "question": "КАКОЕ НАПИСАНИЕ ПРАВИЛЬНОЕ?",
+            "answers": [
+              "ВИНЕГРЕТ",
+              "ВИНИГРЕТ",
+              "ВЕНИГРЕТ",
+              "ВЕНЕГРЕТ"
+            ],
+            "correct_answer": "ВИНЕГРЕТ",
+            "time_to_answer": 40,
+            "media_data": {
+              "show_image": false,
+              "video": {
+                "before": "",
+                "after": ""
+              },
+              "image": {
+                "before": "",
+                "after": "",
+                "player_displayed": false
+              }
+            }
+          },
+          {
+            "type": "select",
+            "question": "ЗАЧЕМ В 18 ВЕКЕ МОРЯКИ БРАЛИ С СОБОЙ В ПЛАВАНИЕ СВИНЬЮ?",
+            "answers": [
+              "ЧТОБЫ ПИТАТЬСЯ СВЕЖИМ МЯСОМ В ПЛАВАНЬЕ",
+              "КАК ИСТОЧНИК САЛА ДЛЯ СМАЗКИ СУДОВЫХ МЕХАНИЗМОВ",
+              "ДЛЯ ПОДАЧИ ЗВУКОВЫХ СИГНАЛОВ",
+              "Интерьер подводной лодки окрашивается красной краской"
+            ],
+            "correct_answer": "ДЛЯ ПОДАЧИ ЗВУКОВЫХ СИГНАЛОВ",
+            "time_to_answer": 40,
+            "media_data": {
+              "show_image": false,
+              "video": {
+                "before": "3-1.mp4",
+                "after": "3-2.mp4"
+              },
+              "image": {
+                "before": "",
+                "after": "",
+                "player_displayed": false
+              }
+            }
+          },
+          {
+            "type": "select",
+            "question": "КАКОЙ ХУДОЖНИК ИЗОБРАЗИЛ МОМЕНТ НАПИСАНИЯ ПИСЬМА ЗАПОРОЖЦЕВ ТУРЕЦКОМУ СУЛТАНУ? ",
+            "answers": [
+              "СУРИКОВ",
+              "РЕПИН",
+              "ВАСНЕЦОВ",
+              "СЕРОВ"
+            ],
+            "correct_answer": "РЕПИН",
+            "time_to_answer": 40,
+            "media_data": {
+              "show_image": true,
+              "video": {
+                "before": "",
+                "after": ""
+              },
+              "image": {
+                "before": "4-1.jpg",
+                "after": "",
+                "player_displayed": false
+              }
+            }
+          },
+          {
+            "type": "select",
+            "question": "ЧТО УКРАШАЕТ ШЕЮ ДЖОКОНДЫ НА ПОЛОТНЕ ЛЕОНАРДО?",
+            "answers": [
+              "НИЧЕГО",
+              "СЕРЕБРЯНЫЙ КРЕСТИК",
+              "ЗОЛОТОЙ КУЛОН",
+              "ЯНТАРНЫЕ БУСЫ"
+            ],
+            "correct_answer": "НИЧЕГО",
+            "time_to_answer": 40,
+            "media_data": {
+              "show_image": true,
+              "video": {
+                "before": "",
+                "after": ""
+              },
+              "image": {
+                "before": "5-1.jpg",
+                "after": "5-2.jpg",
+                "player_displayed": false
+              }
+            }
+          },
+          {
+            "type": "select",
+            "question": "КАК НАПИСАТЬ ПРАВИЛЬНО?",
+            "answers": [
+              "ПОДЧИВАЛА ЯВСТВАМИ",
+              "ПОТЧЕВАЛА ЯВСТВАМИ",
+              "ПОТЧЕВАЛА ЯСТВАМИ",
+              "ПОТЧИВАЛА ЯСТВАМИ"
+            ],
+            "correct_answer": "ПОТЧЕВАЛА ЯСТВАМИ",
+            "time_to_answer": 20,
+            "media_data": {
+              "show_image": false,
+              "video": {
+                "before": "",
+                "after": ""
+              },
+              "image": {
+                "before": "",
+                "after": "",
+                "player_displayed": false
+              }
+            }
+          },
+          {
+            "type": "text",
+            "question": "КАК ЗВАЛИ НЕМЕЦКОГО ФИЛОСОФА МАРКСА, АВТОРА НАУЧНОГО ТРУДА «КАПИТАЛ. КРИТИКА ПОЛИТИЧЕСКОЙ ЭКОНОМИИ»? ",
+            "answers": [
+              "Водолазка",
+              "Трехлинейка",
+              "Трехболтовка",
+              "Медянка"
+            ],
+            "correct_answer": "КАРЛ",
+            "time_to_answer": 20,
+            "media_data": {
+              "show_image": true,
+              "video": {
+                "before": "",
+                "after": ""
+              },
+              "image": {
+                "before": "7-1.jpg",
+                "after": "",
+                "player_displayed": false
+              }
+            }
+          },
+          {
+            "type": "select",
+            "question": "ЗАЧЕМ КРАСНАЯ НИТЬ ВПЛЕТАЛАСЬ В МОРСКИЕ КАНАТЫ?",
+            "answers": [
+              "ДЛЯ ОБОЗНАЧЕНИЯ БРИТАНСКИХ КОРАБЛЕЙ",
+              "ДАНЬ ТРАДИЦИЯМ БРИТАНСКОЙ АРМИИ, ВОЕВАВШЕЙ В КРАСНЫХ МУНДИРАХ",
+              "ДЛЯ ЗАЩИТЫ КАНАТОВ ОТ ВОРОВСТВА ",
+              "ДЛЯ ПОВЫШЕНИЯ ПРОЧНОСТИ"
+            ],
+            "correct_answer": "ДЛЯ ЗАЩИТЫ КАНАТОВ ОТ ВОРОВСТВА ",
+            "time_to_answer": 20,
+            "media_data": {
+              "show_image": false,
+              "video": {
+                "before": "8-1.mp4",
+                "after": "8-2.mp4"
+              },
+              "image": {
+                "before": "",
+                "after": "",
+                "player_displayed": false
+              }
+            }
+          },
+          {
+            "type": "select",
+            "question": "КТО ЭТА ДЕВОЧКА НА ФОТО СЛЕВА?",
+            "answers": [
+              "АЛИСА ФРЕЙНДЛИХ",
+              "ИРИНА МУРАВЬЕВА",
+              "ИННА ЧУРИКОВА",
+              "ЛИЯ АХЕДЖАКОВА"
+            ],
+            "correct_answer": "ЛИЯ АХЕДЖАКОВА",
+            "time_to_answer": 20,
+            "media_data": {
+              "show_image": true,
+              "video": {
+                "before": "",
+                "after": ""
+              },
+              "image": {
+                "before": "9-1.jpg",
+                "after": "",
+                "player_displayed": false
+              }
+            }
+          },
+          {
+            "type": "select",
+            "question": "УКАЖИТЕ ПРАВИЛЬНУЮ ОЧЕРЕДНОСТЬ БУКВ РУССКОГО АЛФАВИТА",
+            "answers": [
+              "Ъ Ы Ь",
+              "Ь Ы Ъ",
+              "Ъ Ь Ы",
+              "Ь Ъ Ы"
+            ],
+            "correct_answer": "Ъ Ы Ь",
+            "time_to_answer": 20,
+            "media_data": {
+              "show_image": true,
+              "video": {
+                "before": "",
+                "after": ""
+              },
+              "image": {
+                "before": "",
+                "after": "10-2.jpg",
+                "player_displayed": false
+              }
+            }
+          },
+          {
+            "type": "text",
+            "question": "НАЗВАНИЕ ГРУППЫ (ПО-АНГЛИЙСКИ)?",
+            "answers": [
+              "Ракетный крейсер “Петр Великий”",
+              "Флагман Балтийского флота эсминец “Настойчивый”",
+              "Десантный катер проекта “Серна”",
+              "Подводная лодка проекта “Варшавянка” в надводном положении"
+            ],
+            "correct_answer": "Depeche Mode",
+            "time_to_answer": 20,
+            "media_data": {
+              "show_image": false,
+              "video": {
+                "before": "11-1.mp4",
+                "after": ""
+              },
+              "image": {
+                "before": "",
+                "after": "",
+                "player_displayed": false
+              }
+            }
+          }
+        ]
+      },
+      {
+        "type": "blitz",
+        "settings": {
+          "is_test": false,
+          "name": "round_name",
+          "display_name": false,
+          "time_to_answer": 120,
+          "blitz_score": 50
+        },
+         "questions": [
+          {
+            "id": 0,
+            "type": "text",
+            "question": "ФАМИЛИЯ АВТОРА РОМАНА В СТИХАХ «ЕВГЕНИЙ ОНЕГИН»",
+            "correct_answer": "Пушкин"
+          },
+          {
+            "id": 1,
+            "type": "text",
+            "question": "КАКОЙ ГОРОД ИЗОБРАЖЕН НА ПЯТИТЫСЯЧНОЙ КУПЮРЕ БАНКА РОССИИ?",
+            "correct_answer": "Хабаровск"
+          },
+          {
+            "id": 2,
+            "type": "text",
+            "question": "НАЗВАНИЕ ВТОРОГО МЕСЯЦА ЗИМЫ",
+            "correct_answer": "Январь"
+          },
+          {
+            "id": 3,
+            "type": "text",
+            "question": "ИМЯ ВОЖДЯ ОКТЯБРЬСКОЙ РЕВОЛЮЦИИ ЛЕНИНА",
+            "correct_answer": "Владимир"
+          },
+          {
+            "id": 4,
+            "type": "text",
+            "question": "В КАКОМ ГОДУ БЫЛО ОТМЕНЕНО КРЕПОСТНОЕ ПРАВО В РОССИИ",
+            "correct_answer": "1861"
+          },
+          {
+            "id": 5,
+            "type": "text",
+            "question": "КТО СТАЛ ПЕРВЫМ ПРЕЗИДЕНТОМ РОССИИ (ФАМИЛИЯ)?",
+            "correct_answer": "Ельцин"
+          },
+          {
+            "id": 6,
+            "type": "text",
+            "question": "КАК НАЗЫВАЛСЯ ПЕРВЫЙ АМЕРИКАНСКИЙ КОСМИЧЕСКИЙ КОРАБЛЬ, СОСТЫКОВАВШИЙСЯ В 1975 ГОДУ С СОВЕТСКИМ КОРАБЛЕМ «СОЮЗ-19»",
+            "correct_answer": "Аполлон"
+          },
+          {
+            "id": 7,
+            "type": "text",
+            "question": "ФАМИЛИЯ ПОЭТА, НАПИСАВШЕГО СТИХОТВОРЕНИЕ «КРЕСТЬЯНСКИЕ ДЕТИ» (ОДНАЖДЫ В СТУДЕНУЮ ЗИМНЮЮ ПОРУ…)",
+            "correct_answer": "Некрасов"
+          },
+          {
+            "id": 8,
+            "type": "text",
+            "question": "НАЗВАНИЕ ОДНОЙ ИЗ ЗВЁЗД НАШЕЙ ГАЛАКТИКИ И ЕДИНСТВЕННОЙ ЗВЕЗДЫ СОЛНЕЧНОЙ СИСТЕМЫ",
+            "correct_answer": "Солнце"
+          },
+          {
+            "id": 9,
+            "type": "text",
+            "question": "ФАМИЛИЯ СЦЕНАРИСТА И РЕЖИССЕРА ФИЛЬМА «АВАТАР» 2009 ГОДА",
+            "correct_answer": "Кэмерон"
+          },
+          {
+            "id": 10,
+            "type": "text",
+            "question": "ФАМИЛИЯ ВЕЛИКОГО РУССКОГО КОМПОЗИТОРА, НАПИСАВШЕГО БАЛЕТ «ЩЕЛКУНЧИК»",
+            "correct_answer": "Чайковский"
+          },
+          {
+            "id": 11,
+            "type": "text",
+            "question": "ПЯТАЯ С КОНЦА БУКВА РУССКОГО АЛФАВИТА",
+            "correct_answer": "Ы"
+          },
+          {
+            "id": 12,
+            "type": "text",
+            "question": "ФАМИЛИЯ ГЛАВНОГО ГЕРОЯ ФИЛЬМА Э. РЯЗАНОВА «ИРОНИЯ СУДЬБЫ, ИЛИ С ЛЕГКИМ ПАРОМ!», ПО ОШИБКЕ УЛЕТЕВШЕГО В ЛЕНИНГРАД",
+            "correct_answer": "Лукашин"
+          },
+          {
+            "id": 13,
+            "type": "text",
+            "question": "НАСТОЯЩЕЕ ИМЯ ЭЛТОНА ДЖОНА (НАПИШИТЕ ТОЛЬКО ИМЯ)",
+            "correct_answer": "Реджиналд"
+          },
+          {
+            "id": 14,
+            "type": "text",
+            "question": "ФАМИЛИЯ СОВЕТСКОГО УЧЕНОГО И АВИАКОНСТРУКТОРА, СОЗДАВШЕГО САМОЛЕТЫ МАРКИ «ТУ»",
+            "correct_answer": "Туполев"
+          }
+        ]
+      }
+    ]
+  }
+}
+
+

@@ -1,0 +1,19 @@
+.waiting-round {
+  display: flex;
+  justify-content: center;
+  align-content: center;
+}
+.waiting-round p {
+  font-size: 40px;
+  color: white;
+}
+.waiting-round p:first-child {
+  margin-bottom: 10px;
+}
+@media (min-width: 800px) {
+  .waiting-round p {
+    font-size: 46px;
+  }
+}
+
+/*# sourceMappingURL=styles.css.map */

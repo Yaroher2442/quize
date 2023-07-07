@@ -1,0 +1,37 @@
+.countdown {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  padding: 0 5%;
+}
+.countdown__line {
+  margin: 0 10px;
+  height: 12px;
+  width: 99%;
+  border-radius: 50px;
+  border: 3px solid #ffffff;
+}
+.countdown__filler {
+  background-color: #ffffff;
+  height: 100%;
+  width: 100%;
+  border-radius: inherit;
+  transition: width 0.3s ease;
+  transform: scaleY(1.6) scaleX(1.02);
+}
+.countdown__time {
+  color: #ffffff;
+  font-size: 18px;
+  padding: 0 5px;
+}
+@media (min-width: 800px) {
+  .countdown__time {
+    font-size: 24px;
+  }
+}
+.countdown svg {
+  height: 6vh;
+}
+
+/*# sourceMappingURL=style.css.map */

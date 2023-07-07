@@ -1,0 +1,70 @@
+.pick-avatar {
+  justify-content: space-between;
+  padding-top: 20px;
+}
+.pick-avatar__title {
+  font-size: 30px;
+}
+@media (min-width: 800px) {
+  .pick-avatar__title {
+    font-size: 38px;
+  }
+}
+.pick-avatar__input_file {
+  display: none;
+}
+.pick-avatar__btns_wrapper {
+  display: flex;
+  flex-direction: row;
+}
+.pick-avatar__btns_wrapper button {
+  width: 150px;
+  padding: 10px 0;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: bold;
+}
+.pick-avatar__btns_wrapper button:disabled {
+  color: grey !important;
+}
+.pick-avatar__btns_wrapper button:last-child {
+  font-size: 20px;
+}
+@media (max-width: 400px) {
+  .pick-avatar__btns_wrapper button {
+    width: 130px;
+    font-size: 14px;
+  }
+  .pick-avatar__btns_wrapper button:last-child {
+    font-size: 16px;
+  }
+}
+@media (min-width: 800px) {
+  .pick-avatar__btns_wrapper button {
+    width: 240px;
+    padding: 26px;
+    font-size: 26px;
+  }
+  .pick-avatar__btns_wrapper button:last-child {
+    font-size: 30px;
+  }
+}
+.pick-avatar__btns_spacer {
+  width: 20px;
+}
+.pick-avatar__input_file-label {
+  color: #ffffff;
+  font-size: 16px;
+}
+@media (max-width: 400px) {
+  .pick-avatar__input_file-label {
+    font-size: 14px;
+  }
+}
+@media (min-width: 800px) {
+  .pick-avatar__input_file-label {
+    font-size: 26px;
+  }
+}
+
+/*# sourceMappingURL=style.css.map */

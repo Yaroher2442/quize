@@ -1,0 +1,27 @@
+.game-info > div {
+  min-width: 45vw;
+}
+.game-info__field {
+  display: flex;
+  flex-direction: column;
+}
+.game-info__field p {
+  font-size: 14px;
+  letter-spacing: 1px;
+}
+.game-info__field span {
+  color: #FFEA7D;
+  font-size: 24px;
+  font-weight: 700;
+}
+.game-info hr {
+  margin: 25px 0 40px;
+  border-top: 1px solid #ffffff;
+}
+@media (max-width: 768px) {
+  .game-info hr {
+    margin: 20px 0;
+  }
+}
+
+/*# sourceMappingURL=style.css.map */

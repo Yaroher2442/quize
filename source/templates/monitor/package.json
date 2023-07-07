@@ -1,0 +1,37 @@
+{
+  "name": "monitor",
+  "version": "0.1.0",
+  "private": true,
+  "homepage": "/monitor/ui",
+  "dependencies": {
+    "axios": "^0.27.2",
+    "pullstate": "^1.24.0",
+    "react": "^18.1.0",
+    "react-dom": "^18.1.0",
+    "react-fittext": "^1.0.0",
+    "react-scripts": "5.0.1",
+    "web-vitals": "^2.1.4"
+  },
+  "scripts": {
+    "dev": "NODE_ENV=development react-scripts start",
+    "build": "NODE_ENV=production react-scripts build"
+  },
+  "eslintConfig": {
+    "extends": [
+      "react-app",
+      "react-app/jest"
+    ]
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  }
+}

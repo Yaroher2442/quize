@@ -1,0 +1,89 @@
+.rules
+  h1
+    margin-bottom: 20px
+
+  p,h3,h2
+    text-align: left
+  input
+    display: none
+
+  &-accordion__wrapper
+    overflow-Y: auto
+    margin: 0 auto
+    padding-right: 10px
+    width: 100%
+    height: 100%
+    max-height: 35vh
+    @media (min-width: 800px)
+      max-height: 40vh
+    @media (max-width: 400px)
+      max-height: 32vh
+
+    &::-webkit-scrollbar
+      width: 9px
+
+    &::-webkit-scrollbar-thumb
+      background: rgba(255, 255, 255, 0.77)
+      border-radius: 50px
+
+    &::-webkit-scrollbar-track
+      background: rgba(255, 255, 255, 0.1)
+      border-radius: 50px
+
+  &-accordion
+    width: 100%
+    color: white
+    overflow: hidden
+    margin-bottom: 16px
+    border-radius: 8px
+
+  &-accordion:last-child
+    margin-bottom: 0
+
+  &-accordion__label
+    display: flex
+    justify-content: space-between
+    padding: 16px
+    font-weight: bold
+    font-size: 20px
+
+  &-accordion__label::after
+    content: "\276F"
+    width: 16px
+    height: 16px
+    text-align: center
+    transition: all 0.3s
+
+  &-accordion__content
+    display: none
+    padding: 0 16px
+    background: white
+    transition: all 0.3s
+
+  &-accordion__content p
+    text-transform: none
+    margin: 0
+    color: rgba(0,0,0,0.7)
+    font-size: 18px
+
+  &-accordion__content h3
+    color: rgba(0,0,0,0.7)
+    font-size: 20px
+    margin-top: 10px
+
+  &-accordion__full-rules
+    color: #ffffff
+    font-size: 12px
+    margin: 14px 10px 0
+    @media (min-width: 800px)
+      font-size: 18px
+
+  input:checked + &-accordion__label
+    background: rgba(4,57,94,1)
+
+  input:checked + &-accordion__label::after
+    transform: translate(6px, 6px) rotate(90deg)
+
+  input:checked ~ &-accordion__content
+    display: block
+    padding: 16px

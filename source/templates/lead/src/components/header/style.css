@@ -1,0 +1,35 @@
+header {
+  padding: 20px 30px 10px;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+header .header__side {
+  flex: 1;
+}
+header img {
+  width: 10vw;
+  flex: 3;
+  max-width: 280px;
+  margin: 0 40px;
+}
+@media (max-width: 600px) {
+  header img {
+    margin: 0 5px;
+  }
+}
+header h1 {
+  font-size: 22px;
+}
+header h1:last-child {
+  margin-top: 12px;
+  color: #FFEA7D;
+}
+@media (max-width: 768px) {
+  header h1 {
+    font-size: 16px;
+  }
+}
+
+/*# sourceMappingURL=style.css.map */

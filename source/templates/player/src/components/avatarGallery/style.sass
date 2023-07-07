@@ -1,0 +1,62 @@
+.avatar-gallery
+    display: grid
+    grid-template-columns: repeat(3, 1fr)
+    grid-gap: 20px
+    height: 100%
+    max-width: 100%
+    margin: 0 auto
+    overflow-Y: auto
+    overflow-X: hidden
+
+    &__wrapper
+        position: relative
+        height: 70%
+        width: 70%
+        @media (min-width: 800px)
+            width: 80%
+
+    &__preview-avatar
+        position: absolute
+        top: 0
+        left: 0
+        right: 0
+        padding: 0
+        background: transparent
+        margin: 0 auto
+
+        img
+            object-fit: cover
+
+            @media (max-width: 400px)
+                height: 50%
+
+    &::-webkit-scrollbar
+        width: 5px
+        height: 5px
+
+    &::-webkit-scrollbar-thumb
+        background: #ffffff
+        border-radius: 50px
+
+    &::-webkit-scrollbar-track
+        background: rgba(255, 255, 255, 0.3)
+        border-radius: 50px
+
+    button
+        width: 100%
+        height: 100%
+        padding: 0
+        background: none
+        margin: 0 auto
+
+        &:disabled img
+            opacity: 0.3
+
+    &__picked
+        width: 100px!important
+        height: 100px!important
+
+    img
+        width: 100%
+        height: 100%
+        object-fit: cover

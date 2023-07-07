@@ -1,0 +1,28 @@
+.question-select {
+  justify-content: space-between;
+  padding-top: 10px;
+}
+.question-select__answers {
+  width: 100%;
+}
+.question-select__answer {
+  border-radius: 7px;
+  padding: 10px 5px;
+  margin-bottom: 10px;
+}
+@media (max-width: 400px) {
+  .question-select__answer {
+    padding: 8px 3px;
+    font-size: 14px;
+  }
+}
+@media (max-width: 400px) {
+  .question-select__send-btn:disabled {
+    padding: 14px 0;
+  }
+}
+.question-select__send-btn:disabled {
+  color: grey !important;
+}
+
+/*# sourceMappingURL=style.css.map */

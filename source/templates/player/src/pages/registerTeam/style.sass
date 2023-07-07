@@ -1,0 +1,36 @@
+.register-team
+    justify-content: space-between
+
+    div
+        width: 100%
+
+    h1
+        margin-bottom: 30px
+
+    h2
+        margin: 15px 0 7px
+
+    &__input_text
+        background: rgba(255, 255, 255, 0.2)
+        border: 1px solid #FFFFFF
+        padding: 16px 10px
+        border-radius: 7px
+        color: #FFFFFF
+        font-weight: 200
+        margin-bottom: 15px
+        @media (min-width: 800px)
+            padding: 24px 10px
+            font-size: 20px
+
+        &[type='number']
+            &::-webkit-outer-spin-button,
+            &::-webkit-inner-spin-button
+                -webkit-appearance: none
+                margin: 0
+
+        &::placeholder
+            color: #FFFFFF
+            font-size: 14px
+            font-weight: 200
+            @media (min-width: 800px)
+                font-size: 18px

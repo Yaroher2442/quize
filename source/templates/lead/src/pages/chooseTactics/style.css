@@ -1,0 +1,9 @@
+.choose-tactics__btns_wrapper {
+  display: flex;
+  flex-direction: row;
+}
+.choose-tactics__btns_spacer {
+  width: 20px;
+}
+
+/*# sourceMappingURL=style.css.map */

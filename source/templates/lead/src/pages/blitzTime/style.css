@@ -1,0 +1,21 @@
+.blitz-time {
+  padding-top: 20px;
+}
+.blitz-time__total-time {
+  position: relative;
+  height: 33vh;
+}
+.blitz-time__total-time img {
+  height: 100%;
+}
+.blitz-time__total-time h3 {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -55%);
+  margin-top: 18px;
+  font-size: 50px;
+  font-weight: 900;
+}
+
+/*# sourceMappingURL=style.css.map */

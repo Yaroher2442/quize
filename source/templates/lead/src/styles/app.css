@@ -1,0 +1,136 @@
+* {
+  text-align: center;
+  text-transform: uppercase;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  border: none;
+  outline: none;
+  font-family: "DIN Pro", serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  color: #ffffff;
+}
+
+body {
+  background: #556BAC;
+}
+
+.app {
+  height: 100vh;
+  width: 100vw;
+  padding: 0 10vw 40px;
+  display: flex;
+  flex-direction: column;
+  overflow-Y: scroll;
+}
+
+section {
+  padding-top: 40px;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  animation: page-animation 0.5s forwards;
+}
+section button {
+  background: linear-gradient(180deg, #FEFEFE 0%, #D4D4D4 100%);
+  color: #566BAC;
+  border-radius: 16px;
+  font-size: 22px;
+  font-weight: 700;
+  width: 300px;
+  padding: 18px;
+  height: 62px;
+}
+section button:disabled {
+  color: #9D9D9D;
+}
+
+.modal {
+  background-color: #566BAC;
+  padding: 20px 30px;
+  border-radius: 8px;
+  box-shadow: 0 3px 7px rgba(0, 0, 0, 0.13), 0 0.6px 2px rgba(0, 0, 0, 0.1);
+  max-width: 400px;
+}
+.modal__wrapper {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.8);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 999;
+  padding: 0 5vw;
+}
+.modal__p {
+  font-size: 20px;
+}
+.modal__p_margin {
+  margin: 10px 0 20px;
+}
+.modal__input {
+  font-size: 20px;
+  margin: 20px 0;
+  padding: 5px 15px;
+  color: #566BAC;
+  border-radius: 6px;
+  text-align: left;
+}
+.modal__button {
+  font-size: 16px;
+  border-radius: 8px;
+  color: #566BAC;
+  padding: 10px 90px;
+  z-index: 9999;
+  background-color: #ffffff;
+}
+.modal div {
+  display: flex;
+  align-items: center;
+}
+.modal__buttons button {
+  padding: 10px 0;
+  width: 150px;
+  margin: 0 10px;
+}
+.modal__answers-header {
+  display: flex;
+  flex-direction: column;
+  min-width: 300px;
+}
+.modal hr {
+  border-top: 3px dashed #ffffff;
+  width: 100%;
+  margin: 20px 0 50px;
+}
+.modal li {
+  font-size: 20px;
+  margin-bottom: 20px;
+}
+.modal__close-button {
+  padding: 10px 15px;
+  background: linear-gradient(180deg, #FEFEFE 0%, #D4D4D4 100%);
+  border-radius: 8px;
+  font-size: 20px;
+  color: #566BAC;
+  margin-top: 15px;
+}
+
+@keyframes page-animation {
+  0% {
+    transform: translateY(-50px);
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0px);
+  }
+}
+
+/*# sourceMappingURL=app.css.map */

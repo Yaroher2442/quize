@@ -1,0 +1,36 @@
+.text-page {
+  justify-content: center;
+  max-height: 60vh;
+}
+.text-page__wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+.text-page ul {
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+}
+.text-page h1 {
+  font-size: 50px;
+  text-overflow: ellipsis;
+}
+.text-page .showAnswers {
+  margin-bottom: -80px;
+}
+.text-page .showAnswers p, .text-page .showAnswers li {
+  font-size: 30px;
+}
+.text-page .showAnswers p {
+  margin-top: 30px;
+  text-decoration: underline;
+}
+.text-page .showAnswers li {
+  margin-top: 10px;
+  list-style: none;
+  text-align: left;
+}
+
+/*# sourceMappingURL=style.css.map */

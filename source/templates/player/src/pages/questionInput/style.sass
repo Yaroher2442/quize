@@ -1,0 +1,47 @@
+.question-input
+  &_focused-input
+    justify-content: flex-start
+    h3
+      margin: 10px 0
+
+    &__btns_wrapper
+      margin-bottom: 10px
+  &__send-btn:disabled
+    color: grey!important
+
+  .yellow-title
+    margin: 0
+
+  .yellow-title + h3
+    margin: 20px 0
+
+  .textarea
+    display: flex
+    flex-direction: column
+    justify-content: space-around
+    resize: none
+    width: 80%
+    height: 12vh
+    padding: 20px 10px
+    border-radius: 15px
+    margin-bottom: 20px
+    color: #636363
+    background: #ffffff
+    font-weight: 300
+    opacity: 1
+
+    input
+      color: #636363
+      font-size: 14px
+      @media (min-width: 800px)
+        font-size: 22px
+
+      &:disabled
+        background-color: #ffffff
+
+  &__correct-answer
+    color: green
+    font-size: 14px
+    font-weight: 300
+    @media (min-width: 800px)
+      font-size: 22px

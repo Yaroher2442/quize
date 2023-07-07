@@ -1,0 +1,31 @@
+.tactics-vabank__points-input {
+  background: rgba(255, 255, 255, 0.2);
+  border: 1px solid #FFFFFF;
+  padding: 16px 10px;
+  border-radius: 7px;
+  color: #FFFFFF;
+  font-weight: 200;
+}
+@media (min-width: 800px) {
+  .tactics-vabank__points-input {
+    padding: 24px 10px;
+  }
+}
+@media only screen and (min-device-width: 768px) and (max-device-width: 1024px) and (orientation: portrait) and (-webkit-device-pixel-ratio: 2) {
+  .tactics-vabank__points-input {
+    flex-shrink: 0;
+    min-height: 66px;
+  }
+}
+.tactics-vabank__points-input::placeholder {
+  color: #FFFFFF;
+  font-size: 14px;
+  font-weight: 200;
+}
+@media (min-width: 800px) {
+  .tactics-vabank__points-input::placeholder {
+    font-size: 18px;
+  }
+}
+
+/*# sourceMappingURL=style.css.map */

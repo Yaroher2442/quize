@@ -1,0 +1,44 @@
+.modal__team-results {
+  padding: 30px 40px !important;
+  max-width: 420px !important;
+}
+.modal__team-results .modal__header {
+  display: flex;
+  justify-content: center;
+  font-size: 22px;
+}
+.modal__team-results .modal__body {
+  display: flex;
+  flex-direction: column;
+  margin: 20px 0 30px;
+}
+.modal__team-results_footer {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+.modal__team-results_footer hr {
+  margin: 15px 0 15px !important;
+  border-top: 3px solid #ffffff !important;
+}
+.modal__team-results_footer p {
+  color: #FFEA7D;
+  font-size: 24px;
+}
+.modal__team-results_row {
+  margin-bottom: 5px;
+  width: 100%;
+  font-size: 20px;
+  display: flex;
+  justify-content: space-between;
+}
+.modal__team-results_row p {
+  text-align: left;
+}
+.modal__team-results_row span {
+  margin-left: 30px;
+  color: #FFEA7D;
+  font-size: 24px;
+}
+
+/*# sourceMappingURL=index.css.map */

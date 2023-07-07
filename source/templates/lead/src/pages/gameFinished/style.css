@@ -1,0 +1,17 @@
+.game-finished {
+  justify-content: center;
+}
+.game-finished h1 {
+  font-size: 38px;
+}
+.game-finished hr {
+  margin: 20px 0;
+  width: 40%;
+  border-bottom: 1px solid #ffffff;
+}
+.game-finished h2 {
+  font-size: 38px;
+  color: #FFEA7D;
+}
+
+/*# sourceMappingURL=style.css.map */

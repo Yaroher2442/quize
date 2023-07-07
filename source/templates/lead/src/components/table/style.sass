@@ -1,0 +1,77 @@
+.table
+  width: 100%
+
+  .theader
+    padding: 10px 20px 10px 20px
+    display: flex
+    flex-direction: row
+    align-items: center
+
+    &__divider
+      width: 2px
+      background: transparent
+
+  .tbody
+    padding: 20px
+    border-radius: 16px
+    background: rgba(255, 255, 255, 0.71)
+
+    &__content
+      height: 40vh
+      display: flex
+      flex-direction: column
+      overflow-y: auto
+
+      &::-webkit-scrollbar
+        width: 9px
+
+      &::-webkit-scrollbar-thumb
+        background: rgba(255, 255, 255, 0.77)
+        border-radius: 50px
+
+      &::-webkit-scrollbar-track
+        background: #556BAC
+        border-radius: 50px
+
+
+    &__divider
+      background: #556BAC
+      width: 2px
+      height: auto
+      border-radius: 16px
+
+    &__row
+      display: flex
+      flex-direction: row
+      align-items: center
+      position: relative
+      &:not(span:last-child)
+        margin: 10px 0
+
+    span
+      color: #556BAC
+
+  .tedit
+    border-radius: 8px
+
+    &__opener
+      background: transparent
+      padding: 0
+      display: flex
+      justify-content: center
+      align-items: center
+      width: 25px
+      height: 25px
+
+      img
+        object-fit: contain
+        width: 15px
+
+    &__item
+      img
+        object-fit: contain
+        margin-right: 10px
+        max-width: 20px
+      p
+        color: #556BAC
+        text-transform: none

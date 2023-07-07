@@ -1,0 +1,102 @@
+@charset "UTF-8";
+.rules h1 {
+  margin-bottom: 20px;
+}
+.rules p, .rules h3, .rules h2 {
+  text-align: left;
+}
+.rules input {
+  display: none;
+}
+.rules-accordion__wrapper {
+  overflow-Y: auto;
+  margin: 0 auto;
+  padding-right: 10px;
+  width: 100%;
+  height: 100%;
+  max-height: 35vh;
+}
+@media (min-width: 800px) {
+  .rules-accordion__wrapper {
+    max-height: 40vh;
+  }
+}
+@media (max-width: 400px) {
+  .rules-accordion__wrapper {
+    max-height: 32vh;
+  }
+}
+.rules-accordion__wrapper::-webkit-scrollbar {
+  width: 9px;
+}
+.rules-accordion__wrapper::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.77);
+  border-radius: 50px;
+}
+.rules-accordion__wrapper::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 50px;
+}
+.rules-accordion {
+  width: 100%;
+  color: white;
+  overflow: hidden;
+  margin-bottom: 16px;
+  border-radius: 8px;
+}
+.rules-accordion:last-child {
+  margin-bottom: 0;
+}
+.rules-accordion__label {
+  display: flex;
+  justify-content: space-between;
+  padding: 16px;
+  font-weight: bold;
+  font-size: 20px;
+}
+.rules-accordion__label::after {
+  content: "❯";
+  width: 16px;
+  height: 16px;
+  text-align: center;
+  transition: all 0.3s;
+}
+.rules-accordion__content {
+  display: none;
+  padding: 0 16px;
+  background: white;
+  transition: all 0.3s;
+}
+.rules-accordion__content p {
+  text-transform: none;
+  margin: 0;
+  color: rgba(0, 0, 0, 0.7);
+  font-size: 18px;
+}
+.rules-accordion__content h3 {
+  color: rgba(0, 0, 0, 0.7);
+  font-size: 20px;
+  margin-top: 10px;
+}
+.rules-accordion__full-rules {
+  color: #ffffff;
+  font-size: 12px;
+  margin: 14px 10px 0;
+}
+@media (min-width: 800px) {
+  .rules-accordion__full-rules {
+    font-size: 18px;
+  }
+}
+input:checked + .rules-accordion__label {
+  background: #04395e;
+}
+input:checked + .rules-accordion__label::after {
+  transform: translate(6px, 6px) rotate(90deg);
+}
+input:checked ~ .rules-accordion__content {
+  display: block;
+  padding: 16px;
+}
+
+/*# sourceMappingURL=style.css.map */

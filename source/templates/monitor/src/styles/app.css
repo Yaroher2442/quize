@@ -1,0 +1,34 @@
+* {
+  text-align: center;
+  text-transform: uppercase;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  border: none;
+  outline: none;
+  font-family: "DIN Pro", serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.app {
+  background: #556BAC;
+  height: 100vh;
+  width: 100vw;
+  padding: 0 10vw 40px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  color: white;
+  overflow: hidden;
+}
+
+section {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/*# sourceMappingURL=app.css.map */

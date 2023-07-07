@@ -1,0 +1,21 @@
+.blitz-timer {
+  justify-content: center;
+}
+.blitz-timer h1 {
+  font-size: 50px;
+  margin-bottom: 4%;
+}
+.blitz-timer__total-time {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 30%;
+  height: 42%;
+  background: url(../../assets/countdown_big.svg) no-repeat center/60%;
+}
+.blitz-timer__total-time h2 {
+  margin-top: 25px;
+  font-size: 94px;
+}
+
+/*# sourceMappingURL=style.css.map */
