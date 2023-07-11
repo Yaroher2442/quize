@@ -48,23 +48,14 @@ class QuizeGame:
         self._sanic = item
 
     async def timer_task(self, emitter: AsyncIOEventEmitter):
-        while self.current_time >= 0:
+        while True:
+            if self.current_time == 0:
+                self._emmit_event(emitter, AllTeamAnswered)
+                break
             self._emmit_event(emitter, TimerTickEvent, payload={"time": self.current_time})
             self.current_time -= 1
             self.write_snapshot()
             await asyncio.sleep(0.95)
-            # if self.current_time == 1:
-            #     await asyncio.sleep(1)
-            #     self._emmit_event(emitter, AllTeamAnswered)
-            #     break
-            # else:
-            #     logger.warning(f"TIMER: {self.current_time}")
-            #     self.current_time -= 1
-            #     self.write_snapshot()
-            #     await asyncio.sleep(1)
-        else:
-            self._emmit_event(emitter, AllTeamAnswered)
-        return
 
     def write_snapshot(self):
         if len(self.db.table(GameState.__name__)) == 0:
