@@ -22,6 +22,35 @@ class Tactics:
     team_bet = 'team_bet'
 
 
+def erase_team_stats(team: TeamModel):
+    team.current_counted.correct_in_row_reached = False
+    team.current_counted.base_score = 0
+    team.current_counted.correct = False
+    team.current_counted.remove_answer = 0
+    team.current_counted.one_for_all = False
+    team.current_counted.question_bet = 0
+    team.current_counted.all_in = False
+    team.current_counted.earned_points = 0.0
+    team.current_counted.once_correct = False
+    team.current_counted.team_bet = ""
+
+
+def _check_in_row(team: TeamModel, increment=True):
+    team.correct_in_row += 1
+    team.current_counted.correct_in_row_reached = False
+    if team.correct_in_row >= 3:
+        if increment:
+            team.current_counted.correct_in_row_reached = True
+            team.correct_in_row = 0
+
+
+def _cast_to_pd(doc: Document) -> TeamModel:
+    t = TeamModel(**doc)
+    t.current_counted.earned_points = round(t.current_counted.earned_points, 1)
+    t.current_score = round(t.current_score, 1)
+    return t
+
+
 class TeamsStorage:
 
     def __init__(self, game):
@@ -48,12 +77,12 @@ class TeamsStorage:
         else:
             raise RegisterTeamException("not unique user")
 
-    def drop_team(self, emmiter: AsyncIOEventEmitter, team_uid: str):
+    async def drop_team(self, emmiter: AsyncIOEventEmitter, team_uid: str):
         try:
             self.db.table(TeamModel.__name__).remove(cond=Query().uid == team_uid)
             self._emmit_event(emmiter, TeamWasRemoved, payload={"team_uid": team_uid})
-            self.sent_all_teams_chose(emmiter)
-            self.sent_all_teams_answered(emmiter)
+            await self.sent_all_teams_chose(emmiter)
+            await self.sent_all_teams_answered(emmiter)
             return "team_removed"
         except Exception as e:
             logger.error(f"Can't delete team {e} from db")
@@ -61,8 +90,8 @@ class TeamsStorage:
 
     def update_team_name(self, emmiter: AsyncIOEventEmitter, team_uid: str, new_name: str):
         try:
-            team = self.db.table(TeamModel.__name__).update(cond=Query().uid == team_uid,
-                                                            fields={"team_name": new_name})
+            self.db.table(TeamModel.__name__).update(cond=Query().uid == team_uid,
+                                                     fields={"team_name": new_name})
             self._emmit_event(emmiter, TeamWasUpdated, payload={"new_name": new_name, "team_uid": team_uid})
             return "team_removed"
         except Exception as e:
@@ -87,22 +116,13 @@ class TeamsStorage:
             self.db.table(TeamModel.__name__).update(cond=Query().uid == team_id, fields={"avatar": avatar_path})
 
     def get_team(self, team_uid: str) -> TeamModel:
-        return self._cast_to_pd(self.db.table(TeamModel.__name__).get(cond=Query().uid == team_uid))
+        return _cast_to_pd(self.db.table(TeamModel.__name__).get(cond=Query().uid == team_uid))
 
     def erase_teams_state(self):
         for team in self._all_pd():
             team.current_tactic = None
             team.current_answer = None
-            team.current_counted.correct_in_row_reached = False
-            team.current_counted.base_score = 0
-            team.current_counted.correct = False
-            team.current_counted.remove_answer = 0
-            team.current_counted.one_for_all = False
-            team.current_counted.question_bet = 0
-            team.current_counted.all_in = False
-            team.current_counted.earned_points = 0.0
-            team.current_counted.once_correct = False
-            team.current_counted.team_bet = ""
+            erase_team_stats(team)
 
             self.db.table(TeamModel.__name__).update(cond=Query().uid == team.uid, fields=team.dict())
 
@@ -116,16 +136,7 @@ class TeamsStorage:
             team.current_answer = None
             team.current_tactic = None
             team.current_blitz_answers = {}
-            team.current_counted.correct_in_row_reached = False
-            team.current_counted.base_score = 0
-            team.current_counted.correct = False
-            team.current_counted.remove_answer = 0
-            team.current_counted.one_for_all = False
-            team.current_counted.question_bet = 0
-            team.current_counted.all_in = False
-            team.current_counted.earned_points = 0.0
-            team.current_counted.once_correct = False
-            team.current_counted.team_bet = ""
+            erase_team_stats(team)
             team.current_place = 0
             self.db.table(TeamModel.__name__).update(cond=Query().uid == team.uid, fields=team.dict())
 
@@ -156,7 +167,7 @@ class TeamsStorage:
 
         self.db.table(TeamModel.__name__).update(cond=Query().uid == dto.uid, fields=team.dict())
 
-    def sent_all_teams_chose(self, emitter: AsyncIOEventEmitter):
+    async def sent_all_teams_chose(self, emitter: AsyncIOEventEmitter):
         if self._check_all_team_chose():
             media = self.game.is_media_exists()
             logger.warning(media)
@@ -175,7 +186,7 @@ class TeamsStorage:
             raise BaseGameException("Tactic not allowed")
         self._set_tactics(team, dto)
         self._emmit_event(emitter, TeamChoseTactic, self.get_team(dto.uid).dict())
-        self.sent_all_teams_chose(emitter)
+        await self.sent_all_teams_chose(emitter)
 
     async def sent_all_teams_answered(self, emitter: AsyncIOEventEmitter):
         if self._check_all_team_answer():
@@ -188,8 +199,8 @@ class TeamsStorage:
                 self.game.show_media_after(self.game.emitter)
             try:
                 await self.game.sanic.cancel_task(name='timer')
-            except:
-                pass
+            except Exception as e:
+                logger.error(e)
 
     async def team_chose_answer(self, dto: AnswerChosePOST, emitter: AsyncIOEventEmitter):
         team = self.get_team(dto.uid)
@@ -199,10 +210,10 @@ class TeamsStorage:
         team.current_counted.remove_answer = dto.remove_answer
         team.current_answer = dto.answer if dto.answer else ""
         if team.tactic_balance.remove_answer - dto.remove_answer >= 0:
-            team.tactic_balance.remove_answer = team.tactic_balance.remove_answer - dto.remove_answer
+            team.tactic_balance.remove_answer -= dto.remove_answer
         self.db.table(TeamModel.__name__).update(cond=Query().uid == dto.uid, fields=team.dict())
         self._emmit_event(emitter, TeamChoseAnswer, self.get_team(dto.uid).dict())
-        self.sent_all_teams_answered(emitter)
+        await self.sent_all_teams_answered(emitter)
 
     async def team_answer_blitz(self, emitter, dto: BlitzAnswerChosePOST):
         team = self.get_team(dto.uid)
@@ -212,8 +223,8 @@ class TeamsStorage:
             self._emmit_event(emitter, AllTeamAnswered)
             try:
                 await self.game.sanic.cancel_task(name='timer')
-            except:
-                pass
+            except Exception as e:
+                logger.error(e)
 
     async def finish_blitz(self, emitter: AsyncIOEventEmitter):
         self.game.stage = GameStage.ALL_ANSWERED
@@ -228,10 +239,10 @@ class TeamsStorage:
                 if q.type == "select":
                     return cur == cor
                 else:
-                    if (cur.isdigit() and cor.isdigit()):
+                    if cur.isdigit() and cor.isdigit():
                         return int(cur) == int(cor)
                     else:
-                        if (len(cor) < 3):
+                        if len(cor) < 3:
                             return cur == cor
                         else:
                             if distance(cur, cor) <= 1:
@@ -246,15 +257,15 @@ class TeamsStorage:
             mul = 1
             for i in range(team.current_counted.remove_answer):
                 mul -= 0.25
-            result = result * mul
+            result *= mul
         if team.current_counted.correct_in_row_reached:
-            result = result * 3
+            result *= 3
         corrects = []
         for t in self.get_all_teams():
             if self._check_correct(t) and t.uid != team.uid:
                 corrects.append(t)
         if not corrects:
-            result = result * 2
+            result *= 2
             team.current_counted.once_correct = True
         return result
 
@@ -263,7 +274,7 @@ class TeamsStorage:
         is_correct = team.current_counted.correct
 
         if team.current_counted.one_for_all:
-            result = result * 3
+            result *= 3
 
         if team.current_counted.team_bet:
             if is_correct:
@@ -281,14 +292,6 @@ class TeamsStorage:
             return 0
         return result
 
-    def _check_in_row(self, team: TeamModel, increment=True):
-        team.correct_in_row += 1
-        team.current_counted.correct_in_row_reached = False
-        if team.correct_in_row >= 3:
-            if increment:
-                team.current_counted.correct_in_row_reached = True
-                team.correct_in_row = 0
-
     def count_results(self):
         if self.game.now_blitz:
             cur_round: BlitzRoundScenario = self.game.get_round()[0]
@@ -302,12 +305,12 @@ class TeamsStorage:
                             cur = answr["answr"].strip().lower()
                             cor: str = qestion.correct_answer.strip().lower()
                             if cur:
-                                if (cur.isdigit() and cor.isdigit()):
+                                if cur.isdigit() and cor.isdigit():
                                     if int(cur) == int(cor):
                                         res += cur_round.settings.blitz_score
                                         answr["correct"] = True
                                 else:
-                                    if (len(cor) < 3):
+                                    if len(cor) < 3:
                                         if cur == cor:
                                             res += cur_round.settings.blitz_score
                                             answr["correct"] = True
@@ -336,16 +339,16 @@ class TeamsStorage:
                         self.db.table(TeamModel.__name__).update(cond=Query().uid == team.uid, fields=team.dict())
                         continue
                     else:
-                        self._check_in_row(team, increment=False)
+                        _check_in_row(team, increment=False)
                         team.current_counted.earned_points = team.current_score
-                        team.current_score = team.current_score * 2
+                        team.current_score *= 2
                         self.db.table(TeamModel.__name__).update(cond=Query().uid == team.uid, fields=team.dict())
                         continue
 
                 if team.current_counted.question_bet != 0:
                     s = team.current_score * team.current_counted.question_bet
                     if team.current_counted.correct:
-                        self._check_in_row(team, increment=False)
+                        _check_in_row(team, increment=False)
                         team.current_score += s
                         team.current_counted.earned_points = s
                     else:
@@ -357,7 +360,7 @@ class TeamsStorage:
                     continue
 
                 if team.current_counted.correct:
-                    self._check_in_row(team)
+                    _check_in_row(team)
                     res = self._count_team_res(team)
                     team.current_counted.earned_points = res
                     team.current_score += res
@@ -380,14 +383,8 @@ class TeamsStorage:
             team.current_place += 1
             self.db.table(TeamModel.__name__).update(cond=Query().uid == team.uid, fields=team.dict())
 
-    def _cast_to_pd(self, doc: Document) -> TeamModel:
-        t = TeamModel(**doc)
-        t.current_counted.earned_points = round(t.current_counted.earned_points, 1)
-        t.current_score = round(t.current_score, 1)
-        return t
-
     def _all_pd(self) -> Union[List[TeamModel], None]:
-        return [self._cast_to_pd(db_team) for db_team in self.db.table(TeamModel.__name__).all()]
+        return [_cast_to_pd(db_team) for db_team in self.db.table(TeamModel.__name__).all()]
 
     def _check_all_team_chose(self) -> bool:
         chose = []

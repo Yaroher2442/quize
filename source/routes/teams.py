@@ -75,7 +75,7 @@ class TeamApi(HTTPMethodView):
 
     async def delete(self, request: Request, uid: str):
         try:
-            removed = request.app.ctx.game.teams.drop_team(request.app.ctx.emitter, uid)
+            removed = await request.app.ctx.game.teams.drop_team(request.app.ctx.emitter, uid)
             return json({"team_id": uid, "status": "removed"})
         except BaseGameException as e:
             logger.error(e)
