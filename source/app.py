@@ -28,23 +28,29 @@ class HttpApp:
         self._register_api()
         setup_loggers()
         # self.sanic_app.add_task(self.run_ui())
-        self.sanic_app.add_task(self.thread_ui())
+        self.sanic_app.add_task(self.run_ui())
 
-    async def thread_ui(self):
+    async def run_ui(self):
         tk = TechnicalGUI(self.game, self.emitter)
-        ui = UiThread(tk)
-        ui.daemon = True
-        ui.start()
+        await tk.as_run()
 
-        def check_thread_alive(thr):
-            thr.join(timeout=0.0)
-            return thr.is_alive()
+    #     self.sanic_app.add_task(self.thread_ui())
 
-        while True:
-            if check_thread_alive(ui):
-                await asyncio.sleep(0.2)
-            else:
-                ui.start()
+    # async def thread_ui(self):
+    #     tk = TechnicalGUI(self.game, self.emitter)
+    #     ui = UiThread(tk)
+    #     ui.daemon = True
+    #     ui.start()
+
+    #     def check_thread_alive(thr):
+    #         thr.join(timeout=0.0)
+    #         return thr.is_alive()
+
+    #     while True:
+    #         if check_thread_alive(ui):
+    #             await asyncio.sleep(0.2)
+    #         else:
+    #             ui.start()
 
     async def run_ui(self):
         tk = TechnicalGUI(self.game, self.emitter)
