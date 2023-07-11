@@ -47,17 +47,23 @@ class QuizeGame:
     def sanic(self, item: Sanic):
         self._sanic = item
 
-    async def timer_task(self, emitter: AsyncIOEventEmitter, count: int):
-        while self.current_time != 0:
-            if self.current_time == 1:
-                await asyncio.sleep(1)
-                self._emmit_event(emitter, AllTeamAnswered)
-                break
-            else:
-                logger.warning(f"TIMER: {self.current_time}")
-                self.current_time -= 1
-                self.write_snapshot()
-                await asyncio.sleep(1)
+    async def timer_task(self, emitter: AsyncIOEventEmitter):
+        while self.current_time >= 0:
+            self._emmit_event(emitter, TimerTickEvent, payload={"time": self.current_time})
+            self.current_time -= 1
+            self.write_snapshot()
+            await asyncio.sleep(0.95)
+            # if self.current_time == 1:
+            #     await asyncio.sleep(1)
+            #     self._emmit_event(emitter, AllTeamAnswered)
+            #     break
+            # else:
+            #     logger.warning(f"TIMER: {self.current_time}")
+            #     self.current_time -= 1
+            #     self.write_snapshot()
+            #     await asyncio.sleep(1)
+        else:
+            self._emmit_event(emitter, AllTeamAnswered)
         return
 
     def write_snapshot(self):
@@ -242,7 +248,7 @@ class QuizeGame:
         q = self.get_question().dict()
         if self.now_blitz:
             q.update({"type": "blitz"})
-        self._sanic.add_task(self.timer_task(emitter, self.current_time), name='timer')
+        self._sanic.add_task(self.timer_task(emitter), name='timer')
         self._emmit_event(emitter, ShowAnswersEvent, q)
 
     @check_sequence(GameStage.ALL_ANSWERED, GameStage.SHOW_MEDIA_AFTER)

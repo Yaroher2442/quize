@@ -91,5 +91,9 @@ class AllTeamAnswered(SseEvent):
     name = "all_teams_chosen_answer"
 
 
+class TimerTickEvent(SseEvent):
+    name = "timer_tick"
+
+
 class AcquireAvatarEvent(SseEvent):
     name = "acquire_avatar"
