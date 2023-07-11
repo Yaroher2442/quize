@@ -192,10 +192,8 @@ class TeamsStorage:
         if self._check_all_team_answer():
             media = self.game.is_media_exists()
             self.game.stage = GameStage.ALL_ANSWERED
-            if media:
-                self._emmit_event(emitter, AllTeamAnswered)
-            else:
-                self._emmit_event(emitter, AllTeamAnswered)
+            self._emmit_event(emitter, AllTeamAnswered)
+            if not media:
                 self.game.show_media_after(self.game.emitter)
             try:
                 await self.game.sanic.cancel_task(name='timer')
