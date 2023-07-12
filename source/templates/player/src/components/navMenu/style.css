@@ -15,6 +15,12 @@ nav {
     max-width: 800px;
   }
 }
+@media (min-width: 480px) {
+  nav {
+    flex-shrink: 0;
+    min-height: 85px;
+  }
+}
 @media only screen and (min-device-width: 768px) and (max-device-width: 1024px) and (orientation: portrait) and (-webkit-device-pixel-ratio: 2) {
   nav {
     flex-shrink: 0;
