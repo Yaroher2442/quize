@@ -47,19 +47,21 @@ const App = () => {
 
     const request = new RequestHandler();
 
+    const onResize = debounce(() => {
+        setUnavailableOrientation(window.outerWidth > window.outerHeight)
+    }, 500);
+
     window.addEventListener("beforeunload", onConfirmRefresh, {capture: true});
     window.addEventListener('resize', onResize)
 
-    function onResize() {
-        // if (window.screen.availHeight < window.screen.availWidth) {
-        if(window.innerWidth > window.innerHeight) {
-            setUnavailableOrientation(true);
-        }
-        if(window.innerWidth < window.innerHeight) {
-            setUnavailableOrientation(false);
-        }
-        // const doc = document.documentElement;
-        // doc.style.setProperty('--app-height', `${window.innerHeight}px`);
+    function debounce(func, delay) {
+        let timeout;
+        return function() {
+            const context = this;
+            const args = arguments;
+            clearTimeout(timeout);
+            timeout = setTimeout(() => func.apply(context, args), delay);
+        };
     }
 
     const {
