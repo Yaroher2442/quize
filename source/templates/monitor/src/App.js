@@ -172,6 +172,11 @@ const App = () => {
             case 'team_was_removed':
                 getAppState();
                 break;
+            case 'timer_tick':
+                AppStore.update(s => {
+                    s.blitzTime = edata.time;
+                });
+                break;
         }
     };
 
@@ -193,6 +198,7 @@ const App = () => {
         evtSource.addEventListener('team_was_updated', e => onEvtMessage('team_was_updated', e));
         evtSource.addEventListener('team_was_removed', e => onEvtMessage('team_was_removed', e));
         evtSource.addEventListener('next_round', e => onEvtMessage('next_round', e));
+        evtSource.addEventListener('timer_tick', e => onEvtMessage('timer_tick', e));
     };
 
     const getAppState = async () => {
@@ -270,7 +276,7 @@ const App = () => {
                 AppStore.update(s => {
                     s.showQuestion = true;
                 })
-                if (question.media_data.image.before !== '' && question.media_data.show_image) {
+                if (question.media_data !== undefined && question.media_data.image.before !== '' && question.media_data.show_image) {
                     AppStore.update(s => {
                         s.gamePage = 'imagePage';
                         s.mediaType = 'imageBefore';

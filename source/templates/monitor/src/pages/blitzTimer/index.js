@@ -15,12 +15,8 @@ const BlitzTimer = () => {
     const [timeLeft, setTimeLeft] = useState(blitzTime);
 
     useEffect(() => {
-        const timer = setInterval(() => setTimeLeft(timeLeft-1), 1000);
-        if (timeLeft <= 0 || allAnswered) {
-            clearInterval(timer);
-        }
-        return () => clearInterval(timer);
-    }, [timeLeft]);
+        setTimeLeft(blitzTime);
+    }, [blitzTime]);
 
     return(
         <section className="blitz-timer">
