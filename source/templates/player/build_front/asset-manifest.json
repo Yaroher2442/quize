@@ -1,0 +1,23 @@
+{
+  "files": {
+    "main.css": "/player/ui/index.html/static/css/main.cbfba82c.css",
+    "main.js": "/player/ui/index.html/static/js/main.4b6eb9af.js",
+    "static/media/question.png": "/player/ui/index.html/static/media/question.3e90a89b94aebefa71fd.png",
+    "static/media/round.png": "/player/ui/index.html/static/media/round.6bcc0e62975189a0219d.png",
+    "static/media/logo_register.png": "/player/ui/index.html/static/media/logo_register.2531738286e0711e842e.png",
+    "static/media/logo_game.png": "/player/ui/index.html/static/media/logo_game.e703d809d11f01cea407.png",
+    "static/media/table.svg": "/player/ui/index.html/static/media/table.f06aea17c282cfe892090239ca061fa9.svg",
+    "static/media/game.svg": "/player/ui/index.html/static/media/game.8a3966ace5c764221b6b89cd953e271b.svg",
+    "static/media/rules.svg": "/player/ui/index.html/static/media/rules.a68641425d30a5c90c31da1256f7d2ff.svg",
+    "index.html": "/player/ui/index.html/index.html",
+    "static/media/trash.svg": "/player/ui/index.html/static/media/trash.010506dadad7221480fcc07847493791.svg",
+    "static/media/countdown_big.svg": "/player/ui/index.html/static/media/countdown_big.35be4fecf44bcb93e60e.svg",
+    "static/media/countdown.svg": "/player/ui/index.html/static/media/countdown.5cf4663075c68c9c37ecdffd4fae72cb.svg",
+    "main.cbfba82c.css.map": "/player/ui/index.html/static/css/main.cbfba82c.css.map",
+    "main.4b6eb9af.js.map": "/player/ui/index.html/static/js/main.4b6eb9af.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.cbfba82c.css",
+    "static/js/main.4b6eb9af.js"
+  ]
+}

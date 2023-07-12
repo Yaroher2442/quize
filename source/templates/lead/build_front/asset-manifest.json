@@ -1,0 +1,14 @@
+{
+  "files": {
+    "main.css": "/lead/ui/static/css/main.1af8d553.css",
+    "main.js": "/lead/ui/static/js/main.c7385842.js",
+    "index.html": "/lead/ui/index.html",
+    "static/media/countdown_big.svg": "/lead/ui/static/media/countdown_big.934e1866b63448dc90a373cdec235b12.svg",
+    "main.1af8d553.css.map": "/lead/ui/static/css/main.1af8d553.css.map",
+    "main.c7385842.js.map": "/lead/ui/static/js/main.c7385842.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.1af8d553.css",
+    "static/js/main.c7385842.js"
+  ]
+}
