@@ -138,7 +138,7 @@ const App = () => {
             s.teamsCount = teams.length;
             s.isTestRound = round.settings.is_test;
             s.isBlitzRound = round.type === 'blitz';
-            s.nextBlitz = next_blitz;
+            s.nextBlitz = next_blitz && current_round != 1;
             s.questions = round.questions;
             s.questionNumber = current_question;
             s.timerToAnswer = round.settings.time_to_answer;
