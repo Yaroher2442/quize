@@ -21,14 +21,11 @@ const BlitzTime = ({getAppState}) => {
     const [blitzTime, setBlitzTime] = useState('');
     const [buttonDisabled, setButtonDisabled] = useState(true);
 
-    const timeout = useRef(null);
-
     const loadTimerStatus = async () => {
         await getAppState();
         if (timerToAnswer > timerToAnswerLeft) {
             setBlitzState('showAnswers');
         }
-        setBlitzTime(timerToAnswerLeft);
     };
 
     useEffect(() => {
@@ -36,20 +33,12 @@ const BlitzTime = ({getAppState}) => {
     }, []);
 
     useEffect(() => {
-        if ((blitzTime != '' && blitzTime <= 0) || allTeamsChosenAnswer) {
-            clearInterval(timeout.current);
+        console.log(timerToAnswerLeft);
+        setBlitzTime(timerToAnswerLeft);
+        if ((blitzTime !== '' && blitzTime <= 0) || allTeamsChosenAnswer) {
             setButtonDisabled(false);
         }
-    }, [blitzTime, timeout]);
-
-    useEffect(() => {
-        if (blitzState === 'showAnswers') {
-            timeout.current = setInterval(() => setBlitzTime(prevState => prevState - 1), 1000)
-        }
-        return () => {
-            if (timeout != null) clearInterval(timeout.current);
-        }
-    }, [blitzState]);
+    }, [blitzTime,timerToAnswerLeft]);
 
     const sendShowAnswers = async () => {
         await request.showAnswers();

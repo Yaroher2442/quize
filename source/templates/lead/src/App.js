@@ -101,6 +101,9 @@ const App = () => {
                     s.navPage = 'register';
                 });
                 break;
+            case 'timer_tick':
+                AppStore.update(s => {s.timerToAnswerLeft = edata.time;});
+                break;
         }
     };
 
@@ -118,6 +121,7 @@ const App = () => {
         evtSource.addEventListener('next_question', e => handleEvent('next_question', e));
         evtSource.addEventListener('game_end', e => handleEvent('game_end', e));
         evtSource.addEventListener('next_round', e => handleEvent('next_round', e));
+        evtSource.addEventListener('timer_tick', e => handleEvent('timer_tick', e));
     };
 
     const getAppState = async () => {
