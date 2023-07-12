@@ -38,7 +38,7 @@ const BlitzTime = ({getAppState}) => {
         if ((blitzTime !== '' && blitzTime <= 0) || allTeamsChosenAnswer) {
             setButtonDisabled(false);
         }
-    }, [blitzTime,timerToAnswerLeft]);
+    }, [blitzTime,timerToAnswerLeft, allTeamsChosenAnswer]);
 
     const sendShowAnswers = async () => {
         await request.showAnswers();
