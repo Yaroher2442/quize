@@ -152,7 +152,9 @@ const App = () => {
                 s.availableTactics = currentTeam.tactic_balance;
                 s.currentScore = currentTeam.current_score;
                 s.currentPlace = currentTeam.current_place;
-                s.teamBlitzAnswers = currentTeam.current_blitz_answers;
+                if (ename !== 'timer_tick') {
+                    s.teamBlitzAnswers = currentTeam.current_blitz_answers;
+                }
                 s.teamResult = currentTeam.current_counted;
             });
         }
