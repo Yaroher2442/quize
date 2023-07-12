@@ -21,7 +21,7 @@
 .table .tbody__content {
   display: flex;
   flex-direction: column;
-  min-height: 40vh;
+  min-height: 50vh;
 }
 .table .tbody__row {
   display: flex;
