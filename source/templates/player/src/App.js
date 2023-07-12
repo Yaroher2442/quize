@@ -250,6 +250,9 @@ const App = () => {
                     s.gamePage = 'textAfterGame';
                 });
                 break;
+            case 'timer_tick':
+                AppStore.update(s => {s.timeToAnswerLeft = edata.time;});
+                break;
         }
     };
 
@@ -267,6 +270,7 @@ const App = () => {
         evtSource.addEventListener('team_was_updated', e => onEvtMessage('team_was_updated', e));
         evtSource.addEventListener('team_was_removed', e => onEvtMessage('team_was_removed', e));
         evtSource.addEventListener('next_round', e => onEvtMessage('next_round', e));
+        evtSource.addEventListener('timer_tick', e => onEvtMessage('timer_tick', e));
     };
 
     const getAppState = async () => {
