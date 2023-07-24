@@ -273,16 +273,12 @@ class TeamsStorage:
 
         if team.current_counted.one_for_all:
             result *= 3
-
         if team.current_counted.team_bet:
             if is_correct:
-                bet_team = self.get_team(team.current_counted.team_bet)
                 if self._check_correct(bet_team):
-                    s = self._get_base_score(bet_team)
-                    team.current_counted.team_bet_score = s
-                    result += s
+                    bet_team = self.get_team(team.current_counted.team_bet)
+                    result += self._get_base_score(bet_team)
                 else:
-                    team.current_counted.team_bet_score = 0
                     result = 0
             else:
                 result = 0
@@ -357,6 +353,10 @@ class TeamsStorage:
                     self.db.table(TeamModel.__name__).update(cond=Query().uid == team.uid, fields=team.dict())
                     continue
 
+                if team.current_counted.team_bet:
+                    bet_team = self.get_team(team.current_counted.team_bet)
+                    team.current_counted.team_bet_score = self._get_base_score(bet_team)
+                    
                 if team.current_counted.correct:
                     _check_in_row(team)
                     res = self._count_team_res(team)
