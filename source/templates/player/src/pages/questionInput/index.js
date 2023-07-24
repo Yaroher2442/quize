@@ -78,6 +78,10 @@ const QuestionInput = () => {
     };
 
     const isKeyboardOpen = useDetectKeyboardOpen();
+    const onTextAreaClicked = () => {
+        inputRef.current.scrollIntoView({ behavior: "smooth", block: "start", inline: "nearest" });
+        inputRef.current.focus();
+    };
 
     return(
         <section className={`question-input ${isKeyboardOpen ? 'question-input_focused-input' : ''}`}>
@@ -86,7 +90,7 @@ const QuestionInput = () => {
                 Вопрос открытый<br/>
                 (без вариантов ответа)</h3>
             <h3>{questionName}</h3>
-            <div className="textarea" onClick={() => inputRef.current.focus()}>
+            <div className="textarea" onClick={onTextAreaClicked}>
                 <input type="text"
                    placeholder={currentAnswer !== null ? currentAnswer : 'Ваш ответ'}
                    disabled={inputLock}
