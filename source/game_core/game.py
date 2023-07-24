@@ -186,8 +186,8 @@ class QuizeGame:
                 self.now_blitz = True
             else:
                 self.now_blitz = False
+                self.current_time = round.settings.time_to_answer
             self.all_questions = len(self.scenario.rounds[self.current_round - 1].questions)
-            self.current_time = round.settings.time_to_answer
             return round, self.current_question >= self.all_questions
 
     def get_question(self) -> QuestionScenario:
