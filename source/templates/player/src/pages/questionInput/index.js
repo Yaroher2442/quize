@@ -33,12 +33,7 @@ const QuestionInput = () => {
 
     const inputRef = useRef(null);
     const [inputLock, setInputLock] = useState(false);
-
-    const startTimer = () => {
-        return setInterval(() => {
-            AppStore.update(s => {s.timeToAnswerLeft -= 1;});
-        }, 1000);
-    };
+    const [currentTimeToAnswer, setCurrentTimeToAnswer] = useState(timeToAnswer);
 
     const sendAnswer = async (hard = false) => {
         const answer = inputRef.current.value.trim().replace(/(\r\n|\n|\r)/gm, "");
@@ -59,18 +54,15 @@ const QuestionInput = () => {
     };
 
     useEffect(() => {
-        const timer = startTimer();
         if (currentAnswer !== null) {
-            clearInterval(timer);
             setInputLock(true);
             toast('Ожидайте ведущего', {toastId: 'wait'});
-        }
-        else if (timeToAnswerLeft <= 0) {
-            clearInterval(timer);
+        } else if (timeToAnswerLeft <= 0) {
             toast('Время вышло!', {toastId: 'timeOut'});
             sendAnswer(true);
+        } else {
+            setCurrentTimeToAnswer(timeToAnswerLeft);
         }
-        return () => clearInterval(timer);
     }, [timeToAnswerLeft]);
 
     const getTextareaStyle = () => {
@@ -105,7 +97,7 @@ const QuestionInput = () => {
                     <span className="question-input__correct-answer">{correctAnswer}</span>
                 }
             </div>
-            <CountDown totalTime={timeToAnswer} timeLeft={timeToAnswerLeft ?? timeToAnswer}/>
+            <CountDown totalTime={timeToAnswer} timeLeft={currentTimeToAnswer ?? timeToAnswer}/>
             <button className="question-input__send-btn" onClick={() => sendAnswer()} style={{'color': accentColor}} disabled={inputLock}>Отправить</button>
         </section>
     )

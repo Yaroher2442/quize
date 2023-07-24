@@ -32,12 +32,7 @@ const QuestionSelect = () => {
 
     const [inputLock, setInputLock] = useState(false);
     const [inputAnswer, setInputAnswer] = useState('');
-
-    const startTimer = () => {
-        return setInterval(() => {
-            AppStore.update(s => {s.timeToAnswerLeft -= 1;});
-        }, 1000);
-    };
+    const [currentTimeToAnswer, setCurrentTimeToAnswer] = useState(timeToAnswer);
 
     const sendAnswer = async (hard = false) => {
         if (inputAnswer !== '' || hard) {
@@ -89,17 +84,26 @@ const QuestionSelect = () => {
     };
 
     useEffect(() => {
-        const timer = startTimer();
         if (currentAnswer !== null) {
-            clearInterval(timer);
             setInputLock(true);
-        }
-        if (timeToAnswerLeft <= 0) {
-            clearInterval(timer);
+        } else if (timeToAnswerLeft <= 0) {
             toast('Время вышло!', {toastId: 'timeOut'});
             sendAnswer(true);
+        } else {
+            setCurrentTimeToAnswer(timeToAnswerLeft);
         }
-        return () => clearInterval(timer);
+    }, [timeToAnswerLeft]);
+
+    useEffect(() => {
+        if (currentAnswer !== null) {
+            setInputLock(true);
+            toast('Ожидайте ведущего', {toastId: 'wait'});
+        } else if (timeToAnswerLeft <= 0) {
+            toast('Время вышло!', {toastId: 'timeOut'});
+            sendAnswer(true);
+        } else {
+            setCurrentTimeToAnswer(timeToAnswerLeft);
+        }
     }, [timeToAnswerLeft]);
 
     const getButtonStyle = (answer) => {
@@ -136,7 +140,7 @@ const QuestionSelect = () => {
                     </button>
                 ))}
             </div>
-            <CountDown totalTime={timeToAnswer} timeLeft={timeToAnswerLeft ?? timeToAnswer}/>
+            <CountDown totalTime={timeToAnswer} timeLeft={currentTimeToAnswer ?? timeToAnswer}/>
             <button className="question-select__send-btn" onClick={() => sendAnswer()} disabled={inputLock} style={{'color': accentColor}}>Отправить</button>
         </section>
     )
