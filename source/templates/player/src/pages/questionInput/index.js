@@ -33,7 +33,7 @@ const QuestionInput = () => {
 
     const inputRef = useRef(null);
     const [inputLock, setInputLock] = useState(false);
-    const [currentTimeToAnswer, setCurrentTimeToAnswer] = useState(timeToAnswer);
+    const [currentTimeToAnswer, setCurrentTimeToAnswer] = useState(timeToAnswerLeft);
 
     const sendAnswer = async (hard = false) => {
         const answer = inputRef.current.value.trim().replace(/(\r\n|\n|\r)/gm, "");
@@ -60,6 +60,7 @@ const QuestionInput = () => {
         } else if (timeToAnswerLeft <= 0) {
             toast('Время вышло!', {toastId: 'timeOut'});
             sendAnswer(true);
+            setCurrentTimeToAnswer(timeToAnswerLeft);
         } else {
             setCurrentTimeToAnswer(timeToAnswerLeft);
         }
