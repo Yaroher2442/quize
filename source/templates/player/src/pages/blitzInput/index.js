@@ -106,13 +106,18 @@ const BlitzInput = ({getAppState}) => {
 
     const isKeyboardOpen = useDetectKeyboardOpen();
 
+    const onTextAreaClicked = () => {
+        answerInInput.current.focus();
+        answerInInput.current.scrollIntoView({ behavior: "smooth", block: "start", inline: "nearest" });
+    };
+
     return(
         <section className={`blitz-input ${isKeyboardOpen ? 'blitz-input_focused-input' : ''}`}>
             <h2>РАУНД БЛИЦ</h2>
             { remainedQuestions.length !== 0
                 ?<>
                     <h3>{remainedQuestions[currentBlitzQuestionNum-1].question}</h3>
-                    <div className="textarea" onClick={() => answerInInput.current.focus()}>
+                    <div className="textarea" onClick={onTextAreaClicked}>
                         <input type="text"
                                placeholder='Ваш ответ'
                                disabled={inputLock}
