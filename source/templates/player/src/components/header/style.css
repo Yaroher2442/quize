@@ -1,26 +1,32 @@
 .header__register {
-  width: 106%;
-  height: 21vh;
-  transform: translate(-3%, -50%);
   position: absolute;
-  top: 0;
-  left: 0;
+  top: 10px;
+  left: 50%;
+  height: 32.7526132404vw;
+  z-index: 1;
+  transform: translateX(-50%);
+  width: 100%;
+}
+@media (min-height: 800px) {
+  .header__register {
+    max-width: 800px;
+  }
 }
 .header__register_logo {
-  width: 100%;
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  transform: translate(-50%, -50%);
+  height: 100%;
+  object-fit: contain;
+  max-width: 800px;
 }
 
 .header__game {
-  width: 100%;
-  height: 21vh;
-  transform: translateY(-50%);
   position: absolute;
-  top: 0;
-  left: 0;
+  top: 10px;
+  left: 50%;
+  height: 32.7526132404vw;
+  z-index: 1;
+  transform: translateX(-50%);
+  width: 90vw;
+  max-width: 800px;
 }
 .header__game > div {
   display: flex;
