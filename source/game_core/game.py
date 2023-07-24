@@ -49,11 +49,11 @@ class QuizeGame:
 
     async def timer_task(self, emitter: AsyncIOEventEmitter):
         while True:
+            self.current_time -= 1
+            self._emmit_event(emitter, TimerTickEvent, payload={"time": self.current_time})
             if self.current_time == 0:
                 self._emmit_event(emitter, AllTeamAnswered)
                 break
-            self._emmit_event(emitter, TimerTickEvent, payload={"time": self.current_time})
-            self.current_time -= 1
             self.write_snapshot()
             await asyncio.sleep(0.95)
 
