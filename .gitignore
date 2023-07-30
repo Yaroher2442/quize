@@ -22,6 +22,8 @@ _mailinglist
 docs/_build/
 .vscode
 
+*.rar
+
 # Coverage reports
 htmlcov/
 .coverage
