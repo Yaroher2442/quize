@@ -11,6 +11,19 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
+html {
+  min-height: 100%;
+}
+
+body, #root {
+  height: 100%;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  left: 0;
+}
+
 section {
   height: 100%;
   width: 100%;
