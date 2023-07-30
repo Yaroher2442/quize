@@ -521,12 +521,17 @@ const App = () => {
                 ? <div className={'app__unavailable-orientation'}>
                     <p>Пожалуйста, поверните ваш девайс вертикально</p>
                 </div>
-                : <div className="app__wrapper"
-                       style={{background: backgroundGradient}}>
-                    <Header gameStarted={navPage !== 'register'} currentScore={currentScore}
-                            currentPlace={currentPlace}/>
-                    {getContent()}
-                </div>
+                : <>
+                    <Header gameStarted={navPage !== 'register'}
+                            currentScore={currentScore}
+                            currentPlace={currentPlace}
+                    />
+                    <div className="app__wrapper"
+                         style={{background: backgroundGradient}}>
+
+                        {getContent()}
+                    </div>
+                </>
             }
             {(navPage !== 'register' && localStorage.getItem('kicked') !== 'true' && !unavailableOrientation)
                 && <NavMenu getAppState={getAppState}/>
