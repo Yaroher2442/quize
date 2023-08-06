@@ -34,8 +34,10 @@
 .app__wrapper {
   box-shadow: 0px 6.24409px 0px rgba(0, 0, 0, 0.1);
   border-radius: 16px;
-  height: 100%;
+  flex-grow: 1;
   width: 100%;
+  display: flex;
+  align-items: center;
   max-width: 600px;
   padding: calc(10.5vh + 30px) 30px 30px;
   margin: 0 auto;
