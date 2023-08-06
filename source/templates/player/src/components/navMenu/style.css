@@ -9,6 +9,7 @@ nav {
   max-width: 600px;
   width: 100%;
   z-index: 99;
+  flex-shrink: 0;
 }
 @media (min-height: 800px) {
   nav {
