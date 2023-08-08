@@ -33,6 +33,7 @@ def erase_team_stats(team: TeamModel):
     team.current_counted.earned_points = 0.0
     team.current_counted.once_correct = False
     team.current_counted.team_bet = ""
+    team.current_counted.team_bet_score = 0
 
 
 def _check_in_row(team: TeamModel, increment=True):
@@ -278,7 +279,6 @@ class TeamsStorage:
                 team.current_counted.team_bet_score = plus_score
                 result += plus_score
             else:
-                team.current_counted.team_bet_score = 0
                 result = 0
         if result < 0:
             return 0
