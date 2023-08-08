@@ -278,6 +278,7 @@ class TeamsStorage:
                 team.current_counted.team_bet_score = plus_score
                 result += plus_score
             else:
+                team.current_counted.team_bet_score = 0
                 result = 0
         if result < 0:
             return 0
