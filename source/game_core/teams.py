@@ -273,9 +273,9 @@ class TeamsStorage:
             result *= 3
         if team.current_counted.team_bet:
             bet_team = self.get_team(team.current_counted.team_bet)
-            plus_score = self._get_base_score(bet_team)
-            team.current_counted.team_bet_score = plus_score
             if self._check_correct(bet_team):
+                plus_score = self._get_base_score(bet_team)
+                team.current_counted.team_bet_score = plus_score
                 result += plus_score
             else:
                 result = 0
