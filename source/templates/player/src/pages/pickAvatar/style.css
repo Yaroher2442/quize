@@ -16,6 +16,7 @@
 .pick-avatar__btns_wrapper {
   display: flex;
   flex-direction: row;
+  margin-top: 10px;
 }
 .pick-avatar__btns_wrapper button {
   width: 150px;

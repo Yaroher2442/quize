@@ -1,7 +1,7 @@
 {
   "files": {
-    "main.css": "/player/ui/static/css/main.4191bf80.css",
-    "main.js": "/player/ui/static/js/main.661e079b.js",
+    "main.css": "/player/ui/static/css/main.bb7a9119.css",
+    "main.js": "/player/ui/static/js/main.237086a4.js",
     "static/media/question.png": "/player/ui/static/media/question.3e90a89b94aebefa71fd.png",
     "static/media/round.png": "/player/ui/static/media/round.6bcc0e62975189a0219d.png",
     "static/media/logo_register.png": "/player/ui/static/media/logo_register.2531738286e0711e842e.png",
@@ -13,11 +13,11 @@
     "index.html": "/player/ui/index.html",
     "static/media/countdown_big.svg": "/player/ui/static/media/countdown_big.35be4fecf44bcb93e60e.svg",
     "static/media/countdown.svg": "/player/ui/static/media/countdown.5cf4663075c68c9c37ecdffd4fae72cb.svg",
-    "main.4191bf80.css.map": "/player/ui/static/css/main.4191bf80.css.map",
-    "main.661e079b.js.map": "/player/ui/static/js/main.661e079b.js.map"
+    "main.bb7a9119.css.map": "/player/ui/static/css/main.bb7a9119.css.map",
+    "main.237086a4.js.map": "/player/ui/static/js/main.237086a4.js.map"
   },
   "entrypoints": [
-    "static/css/main.4191bf80.css",
-    "static/js/main.661e079b.js"
+    "static/css/main.bb7a9119.css",
+    "static/js/main.237086a4.js"
   ]
 }
