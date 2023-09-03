@@ -28,6 +28,7 @@ import {
     Rules,
     TournirTable, WaitingRound,
 } from 'pages';
+import {asyncLocalStorage} from './utils/acync_storage.js'
 import './styles/app.css';
 import './styles/global.css';
 
@@ -50,7 +51,6 @@ const App = () => {
     const onResize = debounce(() => {
         setUnavailableOrientation(window.outerWidth > window.outerHeight)
     }, 500);
-
     window.addEventListener("beforeunload", onConfirmRefresh, {capture: true});
     window.addEventListener('resize', onResize)
 
@@ -121,11 +121,11 @@ const App = () => {
         });
     };
 
-    const onEvtMessage = (ename, e) => {
-        const kicked = localStorage.getItem('kicked');
+    const onEvtMessage = async (ename, e) => {
+        const kicked = await asyncLocalStorage.getItem('kicked');
         if (kicked === 'true') {
             if (ename === 'start' || ename === 'game_end') {
-                localStorage.setItem('kicked', 'false');
+                await asyncLocalStorage.setItem('kicked', 'false');
             } else {
                 AppStore.update(s => {
                     s.gamePage = 'textAfterGame';
@@ -137,7 +137,7 @@ const App = () => {
         let {payload: edata, teams: eteam} = JSON.parse(e.data);
 
         if (ename !== 'start' && eteam !== undefined) {
-            const currentTId = localStorage.getItem('team_id');
+            const currentTId = await asyncLocalStorage.getItem('team_id');
             const currentTeam = eteam.find(team => {
                 return team.uid === currentTId;
             });
@@ -145,7 +145,7 @@ const App = () => {
                 AppStore.update(s => {
                     s.gamePage = 'textAfterGame';
                 });
-                localStorage.setItem('kicked', 'true');
+                await asyncLocalStorage.setItem('kicked', 'true');
                 return;
             }
             AppStore.update(s => {
@@ -168,7 +168,7 @@ const App = () => {
                 });
                 break;
             case 'next_question':
-                localStorage.removeItem('usedRemoveAnswer');
+                await asyncLocalStorage.setItem('usedRemoveAnswer', '0');
                 const {
                     type: qType,
                     settings,
@@ -179,7 +179,7 @@ const App = () => {
                     all_questions
                 } = edata;
                 console.log('edata ===', edata);
-                const tid = localStorage.getItem('team_id');
+                const tid = await asyncLocalStorage.getItem('team_id');
                 AppStore.update(s => {
                     if (tid !== null) {
                         s.currentTactic = eteam.find(team => team.uid === tid).current_tactic ?? null;
@@ -230,7 +230,7 @@ const App = () => {
                 });
                 break;
             case 'show_results':
-                localStorage.removeItem('usedRemoveAnswer');
+                await asyncLocalStorage.setItem('usedRemoveAnswer', '0');
                 AppStore.update(s => {
                     s.usedRemoveAnswer = 0;
                     s.currentTactic = null;
@@ -246,7 +246,7 @@ const App = () => {
                 });
                 break;
             case 'game_end':
-                localStorage.setItem('kicked', 'false');
+                await asyncLocalStorage.setItem('kicked', 'false');
                 AppStore.update(s => {
                     s.navPage = 'register';
                     s.gamePage = 'textAfterGame';
@@ -276,7 +276,7 @@ const App = () => {
     };
 
     const getAppState = async () => {
-        const kicked = localStorage.getItem('kicked');
+        const kicked = await asyncLocalStorage.getItem('kicked');
         if (kicked === 'true') {
             AppStore.update(s => {
                 s.gamePage = 'textAfterGame';
@@ -297,7 +297,7 @@ const App = () => {
             all_questions,
             skip_emails
         } = appState.data;
-        const tid = localStorage.getItem('team_id');
+        const tid = await asyncLocalStorage.getItem('team_id');
         let currTeam;
         if (tid != null) {
             currTeam = teams.find(team => team.uid === tid);
@@ -320,6 +320,8 @@ const App = () => {
 
         console.log('appState ===', appState);
 
+        let removed = parseInt(await asyncLocalStorage.getItem('usedRemoveAnswer')) ?? 0;
+
         AppStore.update(s => {
             s.skipEmails = skip_emails;
             s.currentQuestion = current_question;
@@ -334,10 +336,10 @@ const App = () => {
             s.timeToAnswer = question.time_to_answer ?? round.settings.time_to_answer;
             s.timeToAnswerLeft = timer ?? question.time_to_answer ?? round.settings.time_to_answer;
             s.blitzQuestions = round.questions;
-            s.usedRemoveAnswer = parseInt(localStorage.getItem('usedRemoveAnswer') ?? 0);
+            s.usedRemoveAnswer = removed;
         });
 
-        if (parseInt(localStorage.getItem('usedRemoveAnswer') ?? 0) === 2) {
+        if (parseInt(await asyncLocalStorage.getItem('usedRemoveAnswer') ?? 0) === 2) {
             let sliced = question.answers.slice();
             for (let i = 0; i < 2; i++) {
                 if (sliced[sliced.length - 1] !== question.correct_answer) {
@@ -367,7 +369,7 @@ const App = () => {
                 });
                 break;
             case 'CHOSE_TACTICS':
-                localStorage.removeItem('usedRemoveAnswer');
+                await asyncLocalStorage.setItem('usedRemoveAnswer', '0');
                 AppStore.update(s => {
                     s.usedRemoveAnswer = 0;
                     s.navPage = 'game';
@@ -394,9 +396,10 @@ const App = () => {
                     s.navPage = 'game';
                 });
                 break;
-            case 'CHOSE_ANSWERS':
             case 'ALL_ANSWERED':
             case 'SHOW_MEDIA_AFTER':
+                await asyncLocalStorage.setItem('usedRemoveAnswer', '0');
+            case 'CHOSE_ANSWERS':
                 AppStore.update(s => {
                     s.navPage = 'game';
                     if (round.type === 'blitz') s.gamePage = 'blitzInput';
@@ -405,6 +408,7 @@ const App = () => {
                 });
                 break;
             case 'SHOW_CORRECT_ANSWER':
+                await asyncLocalStorage.setItem('usedRemoveAnswer', '0');
                 AppStore.update(s => {
                     s.showCorrectAnswer = true;
                     s.navPage = 'game';
@@ -414,7 +418,7 @@ const App = () => {
                 });
                 break;
             case 'SHOW_RESULTS':
-                localStorage.removeItem('usedRemoveAnswer');
+                await asyncLocalStorage.setItem('usedRemoveAnswer', '0');
                 AppStore.update(s => {
                     s.usedRemoveAnswer = 0;
                     s.showCorrectAnswer = false;

@@ -17,7 +17,6 @@ const QuestionInput = () => {
         currentAnswer,
         correctAnswer,
         questionName,
-        usedRemoveAnswer,
         teamResult,
     } = AppStore.useState(s => ({
         timeToAnswer: s.timeToAnswer,
@@ -27,7 +26,6 @@ const QuestionInput = () => {
         currentAnswer: s.currentAnswer,
         correctAnswer: s.correctAnswer,
         questionName: s.questionName,
-        usedRemoveAnswer: s.usedRemoveAnswer,
         teamResult: s.teamResult,
     }));
 
@@ -42,11 +40,10 @@ const QuestionInput = () => {
             await request.sendAnswer({
                 "answer": answer,
                 "time": timeToAnswerLeft,
-                "remove_answer": usedRemoveAnswer
+                "remove_answer": 0
             });
             AppStore.update(s => {
                 s.currentAnswer = answer;
-                s.usedRemoveAnswer = 0;
             });
         } else {
             toast('Ответ не может быть пустым', {toastId: 'noAnswer'});
