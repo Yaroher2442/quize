@@ -480,17 +480,17 @@ const App = () => {
 
     const getBlitzAnswers = () => {
         const answers = [];
-        for (let i = 0; i < blitzQuestions.length; i++) {
-            if (i < Object.keys(teamBlitzAnswers).length) {
-                answers.push({
-                    "teamAnswer": teamBlitzAnswers[i].answr,
-                    "correctAnswer": blitzQuestions[i].correct_answer,
-                    "isCorrect": teamBlitzAnswers[i].correct,
-                    "question": blitzQuestions[i].question
-                });
-            }
+        let team_answers = typeof teamBlitzAnswers === 'Object' || typeof teamBlitzAnswers === 'object'
+            ? Object.values(teamBlitzAnswers)
+            : teamBlitzAnswers;
+        for (let i = 0; i < blitzQuestions.length && i < team_answers.length; i++) {
+            answers.push({
+                "teamAnswer": team_answers[i].answr,
+                "correctAnswer": blitzQuestions[i].correct_answer,
+                "isCorrect": team_answers[i].correct,
+                "question": blitzQuestions[i].question
+            });
         }
-        console.log('answers === ', answers);
         return answers;
     };
 
