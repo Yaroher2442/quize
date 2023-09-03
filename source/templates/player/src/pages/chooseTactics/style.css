@@ -21,6 +21,13 @@
     font-size: 24px;
   }
 }
+@media (max-height: 800px) {
+  .choose-tactics__button {
+    margin-bottom: 10px;
+    padding: 10px 8px;
+    font-size: 16px;
+  }
+}
 .choose-tactics__button span {
   background-color: #DD4A38;
   border-radius: 5px;

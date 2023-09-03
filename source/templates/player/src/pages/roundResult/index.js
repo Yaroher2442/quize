@@ -211,7 +211,7 @@ const RoundResult = ({openBlitzModal}) => {
                     <h3 className="yellow-title">Итого: {cropNumber(teamResult.earned_points)}</h3>
                 </div>
             </div>
-            <button onClick={() => openTable()} style={{'color': accentColor}}>Турнирная таблица</button>
+            <button className={'round-result__table-btn'} onClick={() => openTable()} style={{'color': accentColor}}>Турнирная таблица</button>
         </section>
     )
 }

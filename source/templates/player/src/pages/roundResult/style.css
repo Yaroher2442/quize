@@ -1,6 +1,9 @@
 .round-result {
   justify-content: space-between;
 }
+.round-result__table-btn {
+  margin-top: 10px;
+}
 @media (min-width: 800px) {
   .round-result__head {
     width: 60%;
