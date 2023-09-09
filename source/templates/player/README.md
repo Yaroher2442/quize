@@ -1,3 +1,7 @@
+.env
+BUILD_PATH="build_front"
+REACT_APP_SERVER_URL="http://ip:8844"
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
