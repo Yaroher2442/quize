@@ -10,6 +10,7 @@ const QuestionInput = () => {
     const request = new RequestHandler();
 
     const {
+        usedRemoveAnswer,
         timeToAnswer,
         timeToAnswerLeft,
         showCorrectAnswer,
@@ -19,6 +20,7 @@ const QuestionInput = () => {
         questionName,
         teamResult,
     } = AppStore.useState(s => ({
+        usedRemoveAnswer: s.usedRemoveAnswer,
         timeToAnswer: s.timeToAnswer,
         timeToAnswerLeft: s.timeToAnswerLeft,
         showCorrectAnswer: s.showCorrectAnswer,
@@ -40,7 +42,7 @@ const QuestionInput = () => {
             await request.sendAnswer({
                 "answer": answer,
                 "time": timeToAnswerLeft,
-                "remove_answer": 0
+                "remove_answer": usedRemoveAnswer
             });
             AppStore.update(s => {
                 s.currentAnswer = answer;

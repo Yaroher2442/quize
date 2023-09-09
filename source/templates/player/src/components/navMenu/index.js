@@ -69,24 +69,25 @@ const NavMenu = ({getAppState, isAllIn}) => {
         } else if (usedRemoveAnswer < availableTactics.remove_answer && usedRemoveAnswer <= answers.length - 2) {
             await asyncLocalStorage.setItem('usedRemoveAnswer', (usedRemoveAnswer + 1).toString())
             AppStore.update(s => {
-                s.usedRemoveAnswer++;
+                s.usedRemoveAnswer = usedRemoveAnswer + 1;
             });
         } else {
             toast('Максимум вопросов убрано', {toastId: 'maxremoved'});
         }
-        await getRemovedCount();
+        await updateRemovedCounter();
     };
 
     useEffect(() => {
-        getRemovedCount();
-    }, []);
+        updateRemovedCounter();
+    }, [teamResult, availableTactics, usedRemoveAnswer]);
 
-    const getRemovedCount = async () => {
+    const updateRemovedCounter = async () => {
         let storaged = await asyncLocalStorage.getItem('usedRemoveAnswer') ?? 0;
-        if (teamResult.removeAnswer > 0) {
+        if (teamResult.remove_answer > 0) {
             setRemovedCount(availableTactics.remove_answer);
+        } else {
+            setRemovedCount(availableTactics.remove_answer - storaged);
         }
-        setRemovedCount(availableTactics.remove_answer - storaged);
     };
 
     return (

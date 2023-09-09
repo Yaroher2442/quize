@@ -15,7 +15,7 @@ export const AppStore = new Store({
   questionsCount: 10,
   currentRound: 1,
   roundsCount: 10,
-  teamResult: [],
+  teamResult: {},
   currentScore: 0,
   currentPlace: 0,
   availableTactics: {},

@@ -150,12 +150,12 @@ const App = () => {
             }
             AppStore.update(s => {
                 s.availableTactics = currentTeam.tactic_balance;
+                s.teamResult = currentTeam.current_counted;
                 s.currentScore = currentTeam.current_score;
                 s.currentPlace = currentTeam.current_place;
                 if (ename !== 'timer_tick') {
                     s.teamBlitzAnswers = currentTeam.current_blitz_answers;
                 }
-                s.teamResult = currentTeam.current_counted;
             });
         }
 
@@ -201,8 +201,10 @@ const App = () => {
                 });
                 break;
             case 'show_question':
+                await asyncLocalStorage.setItem('usedRemoveAnswer', '0');
                 const {question, answers, type, correct_answer, time_to_answer} = edata;
                 AppStore.update(s => {
+                    s.usedRemoveAnswer = 0;
                     s.questionName = question;
                     s.answers = answers;
                     s.answersType = type;
@@ -214,7 +216,9 @@ const App = () => {
                 });
                 break;
             case 'show_answers':
+                await asyncLocalStorage.setItem('usedRemoveAnswer', '0');
                 AppStore.update(s => {
+                    s.usedRemoveAnswer = 0;
                     if (edata.type === 'blitz') s.gamePage = 'blitzInput';
                     else if (edata.type === 'select') s.gamePage = 'questionSelect';
                     else if (edata.type === 'text') s.gamePage = 'questionInput';
