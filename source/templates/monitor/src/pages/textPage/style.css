@@ -17,6 +17,10 @@
   font-size: 50px;
   text-overflow: ellipsis;
 }
+.text-page h5 {
+  font-size: 40px;
+  text-overflow: ellipsis;
+}
 .text-page .showAnswers {
   margin-bottom: -80px;
 }

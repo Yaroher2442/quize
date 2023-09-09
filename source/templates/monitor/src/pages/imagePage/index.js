@@ -1,6 +1,5 @@
 import React from 'react';
 import {AppStore} from "utils";
-import ReactFitText from "react-fittext";
 import './style.css';
 
 const ImagePage = () => {
@@ -38,9 +37,7 @@ const ImagePage = () => {
         <section className="image-page">
             <img src={buildUrl()} alt={getLoaderUrl()}/>
             {showQuestion && mediaType === 'imageBefore' &&
-                <ReactFitText maxFontSize={36}>
-                    <h1>{questionText}</h1>
-                </ReactFitText>
+                <h1>{questionText}</h1>
             }
         </section>
     )

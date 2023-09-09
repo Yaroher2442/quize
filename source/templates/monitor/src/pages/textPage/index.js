@@ -1,6 +1,5 @@
 import React, {useEffect} from 'react';
 import {AppStore} from "utils";
-import ReactFitText from "react-fittext";
 import './style.css'
 
 const TextPage = ({isAnswersPage, getAppState=function(){}}) => {
@@ -24,19 +23,19 @@ const TextPage = ({isAnswersPage, getAppState=function(){}}) => {
             {
                 !showAnswers
                     ? <h1 style={showAnswers ? {color: '#FFEA7D', marginBottom: '30px'} : {}}>{pageTitle}</h1>
-                    : <ReactFitText maxFontSize={50}>
-                        <div className={'text-page__wrapper'} style={{height: '100%'}}>
-                            <h5 style={showAnswers ? {color: '#FFEA7D', marginBottom: '30px'} : {}}>{pageTitle}</h5>
+                    : <div className={'text-page__wrapper'} style={{height: '100%'}}>
+                        <h5 style={showAnswers ? {color: '#FFEA7D', marginBottom: '30px'} : {}}>{pageTitle}</h5>
                             {showAnswers && <div className="showAnswers">
                                 <ul>
                                     { question.answers.map((answer, idx) => (
-                                        <li key={idx}>{idx+1 + '. ' + answer}</li>
+                                        <li key={idx}>
+                                            {idx+1 + '. ' + answer}
+                                        </li>
                                     ))}
                                 </ul>
                             </div>
                             }
-                        </div>
-                    </ReactFitText>
+                    </div>
             }
         </section>
     )
