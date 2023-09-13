@@ -148,15 +148,17 @@ const App = () => {
                 await asyncLocalStorage.setItem('kicked', 'true');
                 return;
             }
-            AppStore.update(s => {
-                s.availableTactics = currentTeam.tactic_balance;
-                s.teamResult = currentTeam.current_counted;
-                s.currentScore = currentTeam.current_score;
-                s.currentPlace = currentTeam.current_place;
-                if (ename !== 'timer_tick') {
-                    s.teamBlitzAnswers = currentTeam.current_blitz_answers;
-                }
-            });
+            if (currentTeam != null) {
+                AppStore.update(s => {
+                    s.availableTactics = currentTeam.tactic_balance;
+                    s.teamResult = currentTeam.current_counted;
+                    s.currentScore = currentTeam.current_score;
+                    s.currentPlace = currentTeam.current_place;
+                    if (ename !== 'timer_tick') {
+                        s.teamBlitzAnswers = currentTeam.current_blitz_answers;
+                    }
+                });
+            }
         }
 
         switch (ename) {
@@ -260,6 +262,7 @@ const App = () => {
                 AppStore.update(s => {s.timeToAnswerLeft = edata.time;});
                 break;
             case 'admin_reload':
+                console.log('HERHEHRHEHERHER');
                 await getAppState();
                 break;
         }
@@ -447,7 +450,17 @@ const App = () => {
         }
     };
 
+    const checkExistingTeam = async () => {
+        const urlParams = new URLSearchParams(window.location.search);
+        const teamIdParam = urlParams.get('team_id');
+        if (teamIdParam) {
+            console.log('SAVING EXISTING TEAM');
+            await asyncLocalStorage.setItem('team_id', teamIdParam);
+        }
+    }
+
     useEffect(() => {
+        checkExistingTeam();
         onResize();
         initEventListener();
         getAppState();
