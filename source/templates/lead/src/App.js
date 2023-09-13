@@ -43,7 +43,7 @@ const App = () => {
     const [blitzResultsModalOpened, setBlitzResultsModalOpened] = useState(false);
     const renamingTeamInput = useRef(null);
 
-    const handleEvent = (ename, e) => {
+    const handleEvent = async (ename, e) => {
         let { payload: edata, teams: eteams } = JSON.parse(e.data);
         switch (ename) {
             case 'next_question':
