@@ -104,6 +104,9 @@ const App = () => {
             case 'timer_tick':
                 AppStore.update(s => {s.timerToAnswerLeft = edata.time;});
                 break;
+            case 'admin_reload':
+                await getAppState();
+                break;
         }
     };
 
@@ -122,6 +125,7 @@ const App = () => {
         evtSource.addEventListener('game_end', e => handleEvent('game_end', e));
         evtSource.addEventListener('next_round', e => handleEvent('next_round', e));
         evtSource.addEventListener('timer_tick', e => handleEvent('timer_tick', e));
+        evtSource.addEventListener('admin_reload', e => onEvtMessage('admin_reload', e));
     };
 
     const getAppState = async () => {
