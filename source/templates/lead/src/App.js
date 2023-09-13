@@ -155,6 +155,10 @@ const App = () => {
 
         switch (stage) {
             case 'WAITING_START':
+                AppStore.update(s => {
+                    s.navPage = 'game';
+                    s.gamePage = 'gameInfo';
+                });
                 break;
             case 'WAITING_NEXT':
                 AppStore.update(s => {

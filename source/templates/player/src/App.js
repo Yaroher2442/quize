@@ -363,6 +363,10 @@ const App = () => {
 
         switch (stage) {
             case 'WAITING_START':
+                AppStore.update(s => {
+                    s.navPage = 'register';
+                    s.gamePage = 'textHello';
+                });
                 break;
             case 'WAITING_NEXT':
                 AppStore.update(s => {
