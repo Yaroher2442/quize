@@ -1,0 +1,13 @@
+{
+  "files": {
+    "main.css": "/admin/ui/static/css/main.97a2cd72.css",
+    "main.js": "/admin/ui/static/js/main.fa6baba8.js",
+    "index.html": "/admin/ui/index.html",
+    "main.97a2cd72.css.map": "/admin/ui/static/css/main.97a2cd72.css.map",
+    "main.fa6baba8.js.map": "/admin/ui/static/js/main.fa6baba8.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.97a2cd72.css",
+    "static/js/main.fa6baba8.js"
+  ]
+}
