@@ -45,16 +45,18 @@ const RegisterTeams = ({openModal}) => {
 
     return(
         <section className="register-teams">
-            <Table
-                openModal={openModal}
-                headers={['НОМЕР СТОЛА', 'НАЗВАНИЕ КОМАНДЫ']}
-                flex={[2,4]}
-                data={teams}
-                isEditing={isEditing}
-            />
-            <div className="register-teams__edit" onClick={clickEdit}>
-                <img className="register-teams__edit_icon" src={editIcon} alt="edit"/>
-                <p>{isEditing ? 'Сохранить изменения' : 'Редактировать список'}</p>
+            <div style={{height: '100%', width: '100%'}}>
+                <Table
+                    openModal={openModal}
+                    headers={['НОМЕР СТОЛА', 'НАЗВАНИЕ КОМАНДЫ']}
+                    flex={[2,4]}
+                    data={teams}
+                    isEditing={isEditing}
+                />
+                <div className="register-teams__edit" onClick={clickEdit}>
+                    <img className="register-teams__edit_icon" src={editIcon} alt="edit"/>
+                    <p>{isEditing ? 'Сохранить изменения' : 'Редактировать список'}</p>
+                </div>
             </div>
             <button onClick={() => clickNext()} disabled={isEditing}>Далее</button>
         </section>

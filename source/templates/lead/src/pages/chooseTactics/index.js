@@ -62,12 +62,14 @@ const ChooseTactics = ({getAppState}) => {
 
     return(
         <section className="choose-tactics">
-            <h1>Выбранные тактики</h1>
-            <Table
-                headers={['НАЗВАНИЕ КОМАНД', 'выбранная тактика']}
-                flex={[1,1]}
-                data={getTableData()}
-            />
+            <div style={{height: '100%', width: '100%'}}>
+                <h1>Выбранные тактики</h1>
+                <Table
+                    headers={['НАЗВАНИЕ КОМАНД', 'выбранная тактика']}
+                    flex={[1,1]}
+                    data={getTableData()}
+                />
+            </div>
             <div className="choose-tactics__btns_wrapper">
                 { mediaInQuestion &&
                     <>
