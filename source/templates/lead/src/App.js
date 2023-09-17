@@ -43,7 +43,7 @@ const App = () => {
     const [blitzResultsModalOpened, setBlitzResultsModalOpened] = useState(false);
     const renamingTeamInput = useRef(null);
 
-    const handleEvent = (ename, e) => {
+    const handleEvent = async (ename, e) => {
         let { payload: edata, teams: eteams } = JSON.parse(e.data);
         switch (ename) {
             case 'next_question':
@@ -104,6 +104,9 @@ const App = () => {
             case 'timer_tick':
                 AppStore.update(s => {s.timerToAnswerLeft = edata.time;});
                 break;
+            case 'admin_reload':
+                await getAppState();
+                break;
         }
     };
 
@@ -122,6 +125,7 @@ const App = () => {
         evtSource.addEventListener('game_end', e => handleEvent('game_end', e));
         evtSource.addEventListener('next_round', e => handleEvent('next_round', e));
         evtSource.addEventListener('timer_tick', e => handleEvent('timer_tick', e));
+        evtSource.addEventListener('admin_reload', e => handleEvent('admin_reload', e));
     };
 
     const getAppState = async () => {
@@ -151,6 +155,10 @@ const App = () => {
 
         switch (stage) {
             case 'WAITING_START':
+                AppStore.update(s => {
+                    s.navPage = 'register';
+                    s.gamePage = 'gameInfo';
+                });
                 break;
             case 'WAITING_NEXT':
                 AppStore.update(s => {

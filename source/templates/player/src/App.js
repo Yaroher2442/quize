@@ -148,15 +148,17 @@ const App = () => {
                 await asyncLocalStorage.setItem('kicked', 'true');
                 return;
             }
-            AppStore.update(s => {
-                s.availableTactics = currentTeam.tactic_balance;
-                s.teamResult = currentTeam.current_counted;
-                s.currentScore = currentTeam.current_score;
-                s.currentPlace = currentTeam.current_place;
-                if (ename !== 'timer_tick') {
-                    s.teamBlitzAnswers = currentTeam.current_blitz_answers;
-                }
-            });
+            if (currentTeam != null) {
+                AppStore.update(s => {
+                    s.availableTactics = currentTeam.tactic_balance;
+                    s.teamResult = currentTeam.current_counted;
+                    s.currentScore = currentTeam.current_score;
+                    s.currentPlace = currentTeam.current_place;
+                    if (ename !== 'timer_tick') {
+                        s.teamBlitzAnswers = currentTeam.current_blitz_answers;
+                    }
+                });
+            }
         }
 
         switch (ename) {
@@ -259,6 +261,10 @@ const App = () => {
             case 'timer_tick':
                 AppStore.update(s => {s.timeToAnswerLeft = edata.time;});
                 break;
+            case 'admin_reload':
+                console.log('HERHEHRHEHERHER');
+                await getAppState();
+                break;
         }
     };
 
@@ -277,6 +283,7 @@ const App = () => {
         evtSource.addEventListener('team_was_removed', e => onEvtMessage('team_was_removed', e));
         evtSource.addEventListener('next_round', e => onEvtMessage('next_round', e));
         evtSource.addEventListener('timer_tick', e => onEvtMessage('timer_tick', e));
+        evtSource.addEventListener('admin_reload', e => onEvtMessage('admin_reload', e));
     };
 
     const getAppState = async () => {
@@ -359,6 +366,10 @@ const App = () => {
 
         switch (stage) {
             case 'WAITING_START':
+                AppStore.update(s => {
+                    s.navPage = 'register';
+                    s.gamePage = 'textHello';
+                });
                 break;
             case 'WAITING_NEXT':
                 AppStore.update(s => {
@@ -439,7 +450,17 @@ const App = () => {
         }
     };
 
+    const checkExistingTeam = async () => {
+        const urlParams = new URLSearchParams(window.location.search);
+        const teamIdParam = urlParams.get('team_id');
+        if (teamIdParam) {
+            console.log('SAVING EXISTING TEAM');
+            await asyncLocalStorage.setItem('team_id', teamIdParam);
+        }
+    }
+
     useEffect(() => {
+        checkExistingTeam();
         onResize();
         initEventListener();
         getAppState();
