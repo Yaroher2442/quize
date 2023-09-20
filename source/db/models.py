@@ -27,7 +27,7 @@ class ResultModelCounted(BaseModel):
     one_for_all: bool
     question_bet: float
     all_in: bool
-    team_bet: Union[str, None]
+    team_bet: Union[str, None] = None
 
     question_bet_score: float
     team_bet_score: float
@@ -41,11 +41,11 @@ class TeamModel(BaseModel):
     current_place: int
     current_score: float
     correct_in_row: int
-    current_tactic: Union[str, None]
-    current_answer: Union[str, None]
+    current_tactic: Union[str, None] = None
+    current_answer: Union[str, None] = None
     current_blitz_answers: Dict
     tactic_balance: TeamTacticBalance
-    users: Union[List[UserModel], None]
+    users: Union[List[UserModel], None] = None
     current_counted: ResultModelCounted
 
 

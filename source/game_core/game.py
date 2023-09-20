@@ -21,13 +21,15 @@ from source.sse.sse_event import *
 class QuizeGame:
     """('./config', 'config/')"""
     _sanic: Sanic
+    db: TinyDB
 
     def __init__(self, scenario_name: str, inited_database: TinyDB):
         self.scenario: GameScenario = GameScenario(
             **json.load(open(f"config/{scenario_name}", encoding=sys.getdefaultencoding()))["game"])
         self.loop = asyncio.get_event_loop()
+        # self.db_str = inited_database
         self.db = inited_database
-        self.teams: TeamsStorage = TeamsStorage(self)
+        # self.db = inited_database
         self.stage = GameStage.WAITING_START
         self.prv_stage = None
         self.current_round: int = 1
@@ -37,7 +39,12 @@ class QuizeGame:
         self.all_rounds = len(self.scenario.rounds)
         self.all_questions = len(self.scenario.rounds[self.current_round - 1].questions)
         self.current_time = 0
+        # self.connect_bd()
         self.restore_game_state()
+        self.teams: TeamsStorage = TeamsStorage(self)
+
+    def connect_bd(self):
+        self.db = TinyDB(self.db_str)
 
     @property
     def sanic(self):
@@ -312,12 +319,16 @@ class QuizeGame:
 
     def acquired_avatars(self):
         path = os.path.join(os.getcwd(), 'config', "media", "image", "avatar")
+        if not os.path.exists(path) or not os.path.isdir(path):
+            return []
         all = [i for i in os.listdir(path) if "default" not in i and not self._check_uuid(i.split(".")[0])]
         q = [t.avatar for t in self.teams.get_all_teams() if t.avatar in all]
         return q
 
     def get_avatars(self):
         path = os.path.join(os.getcwd(), 'config', "media", "image", "avatar")
+        if not os.path.exists(path) or not os.path.isdir(path):
+            return []
         return [i for i in os.listdir(path) if "default" not in i and not self._check_uuid(i.split(".")[0])]
 
     def payload_state(self):

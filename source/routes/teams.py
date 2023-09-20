@@ -33,7 +33,7 @@ class RegisterTeamApi(HTTPMethodView):
                                                 correct_in_row_reached=False
                                                 )
 
-            team_obj = TeamModel(uid=uuid.uuid4().__str__(),
+            team_obj = TeamModel(uid=uuid.uuid4().__str__()[:8],
                                  tactic_balance=tactic_b,
                                  current_score=0.0,
                                  correct_in_row=0,

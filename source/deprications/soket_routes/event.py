@@ -12,7 +12,7 @@ class EventCell(Enum):
 
 
 class EventContext(BaseModel):
-    name: Union[None, str]
+    name: Union[None, str] = None
 
     @property
     def context(self):

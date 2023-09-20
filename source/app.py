@@ -5,7 +5,6 @@ from sanic import Sanic
 from sanic_cors import CORS
 
 from source.deprications.soket_routes.sockets import *
-from source.interface.gui import TechnicalGUI, UiThread
 from source.log_handler import setup_loggers
 from source.routes.controls import *
 from source.routes.infos import *
@@ -17,7 +16,7 @@ class HttpApp:
     def __init__(self, game):
         super().__init__()
         importlib.import_module("source.game_core.game")
-        self.sanic_app = Sanic("__main__")
+        self.sanic_app = Sanic("test")
         self.emitter = AsyncIOEventEmitter()
         self.game = game
         self.game.emitter = self.emitter
@@ -27,38 +26,13 @@ class HttpApp:
         CORS(self.sanic_app)
         self._register_api()
         setup_loggers()
-        # self.sanic_app.add_task(self.run_ui())
-        self.sanic_app.add_task(self.run_ui())
-
-    async def run_ui(self):
-        tk = TechnicalGUI(self.game, self.emitter)
-        await tk.as_run()
-
-    #     self.sanic_app.add_task(self.thread_ui())
-
-    # async def thread_ui(self):
-    #     tk = TechnicalGUI(self.game, self.emitter)
-    #     ui = UiThread(tk)
-    #     ui.daemon = True
-    #     ui.start()
-
-    #     def check_thread_alive(thr):
-    #         thr.join(timeout=0.0)
-    #         return thr.is_alive()
-
-    #     while True:
-    #         if check_thread_alive(ui):
-    #             await asyncio.sleep(0.2)
-    #         else:
-    #             ui.start()
-
-    async def run_ui(self):
-        tk = TechnicalGUI(self.game, self.emitter)
-        await tk.as_run()
 
     async def setup_worker_context(self, app: Sanic, loop: asyncio.AbstractEventLoop):
         app.ctx.emitter = self.emitter
         app.ctx.game = self.game
+
+    async def sse_emitter(self, request: Request):
+        pass
 
     def _register_api(self):
         self.sanic_app.static("/player/ui", file_or_directory="./front/player/build_front")
@@ -104,5 +78,5 @@ class HttpApp:
     def run(self):
         self.sanic_app.run(host="0.0.0.0", port=8844)
 
-    async def as_run(self):
-        self.sanic_app.run(host="0.0.0.0", port=8844)
+    def sanic(self) -> Sanic:
+        return self.sanic_app

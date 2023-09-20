@@ -22,6 +22,7 @@ if __name__ == '__main__':
             copy_tree("source/templates/player/build_front", "dist/front/player/build_front")
             copy_tree("source/templates/lead/build_front", "dist/front/lead/build_front")
             copy_tree("source/templates/monitor/build_front", "dist/front/monitor/build_front")
+            copy_tree("source/templates/admin/build_front", "dist/front/admin/build_front")
             new_name = 'build_1.7z'
             try:
                 os.remove(rf"C:\Pycharm\quize_software\dist\{new_name}")

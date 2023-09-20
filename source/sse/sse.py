@@ -11,9 +11,9 @@ from loguru import logger
 from pydantic import BaseModel
 from sanic import Request
 from sanic.exceptions import SanicException
-from sanic.response import stream, ResponseStream
+from sanic.response import ResponseStream
 from source.log_handler import LogsHandler
-from sanic.views import HTTPMethodView
+from sanic.views import HTTPMethodView, stream
 
 from source.sse.sse_event import SseEvent
 
@@ -21,10 +21,10 @@ from source.sse.sse_event import SseEvent
 class SseEventProtocol(BaseModel):
     _DEFAULT_SEPARATOR = "\r\n"
 
-    event_id: Optional[str]
+    event_id: Optional[str] = None
     event_name: str
-    data: Optional[Dict]
-    retry: Optional[int]
+    data: Optional[Dict] = None
+    retry: Optional[int] = None
 
     def _prepare(self):
         buffer = io.StringIO()
@@ -46,19 +46,23 @@ class SseEventProtocol(BaseModel):
 
 
 class SseConnection():
-    ip: str
-    state: str
+    ip: str = None
+    state: str = None
+    team_id: str = None
     last_event: str = None
 
     def __init__(self, request: Request):
         self.ip = request.ip
         self.state = "online"
+        id_ = request.args.get("team_id")
+        if id_:
+            self.team_id = id_
 
 
 class SsePool:
     _coonections: List[SseConnection] = []
 
-    def conn(self, request: Request):
+    def conn(self, request: Request) -> SseConnection:
         conn = SseConnection(request)
         self._coonections.append(conn)
         return conn
@@ -75,50 +79,83 @@ conn_pool = SsePool()
 
 
 class SSEController(HTTPMethodView):
-    async def get(self, request: Request) -> ResponseStream:
+    class PingEvent(SseEvent):
+        name = "ping"
+
+    @stream
+    async def get(self, request: Request):
         conn = conn_pool.conn(request)
-        ev = Queue()
+        logger.debug(f"SSE Ping to {request.ip} ACVTIVE")
+        stream_handle = await request.respond(content_type="text/event-stream; charset=utf-8")
 
-        async def write_event(event: SseEvent):
-            nonlocal ev
-            nonlocal conn
-            nonlocal request
-            conn.last_event = event.name
-            e_payload = {"payload": event.payload,"teams": event.teams}
-            proto = SseEventProtocol(event_id=str(uuid.uuid4()),
-                                     event_name=event.name, data=e_payload)
-            ev.put(proto.to_send)
+        def create_byte_str(event: SseEvent) -> SseEventProtocol:
+            e_payload = {"payload": event.payload, "teams": event.teams}
+            return SseEventProtocol(event_id=str(uuid.uuid4()),
+                                    event_name=event.name, data=e_payload)
 
-        for name in SseEvent.all_names():
-            request.app.ctx.emitter.on(name, write_event)
-
-        async def sent_ping(response: ResponseStream):
-            logger.debug(f"SSE Ping to {request.ip} ACVTIVE")
-            while True:
-                try:
-                    logger.debug(f"SSE Ping to {request.ip}")
-                    proto = SseEventProtocol(event_name="ping")
-                    await response.write(proto.to_send.encode())
-                    await asyncio.sleep(10)
-                except:
-                    return
-
-        async def streaming(response: ResponseStream):
-            ping_task = request.app.loop.create_task(sent_ping(response))
-            nonlocal ev
+        async def writer(event: SseEvent):
             try:
-                while True:
-                    if not response.stream:
-                        break
-                    while not ev.empty():
-                        await response.write(ev.get().encode())
-                    await asyncio.sleep(0.1)
-            finally:
-                ping_task.cancel()
-                # await response.eof()
-                logger.error("sse disconnected")
-                conn_pool.close(conn)
+                proto = create_byte_str(event)
+                await stream_handle.send(proto.to_send.encode())
+            except Exception as e:
+                pass
 
-        # headers = {"keep-alive": "timeout=500, max=1000"}
-        "text/json; charset=utf-8"
-        return stream(streaming, headers={}, content_type="text/event-stream; charset=utf-8")
+        await writer(self.PingEvent(None))
+        for name in SseEvent.all_names():
+            request.app.ctx.emitter.on(name, writer)
+        counter = 0
+        try:
+            while True:
+                if counter == 50:
+                    e = self.PingEvent(None)
+                    logger.warning(f"ping {request.ip}")
+                    await writer(e)
+                    counter = 0
+                counter += 1
+                await asyncio.sleep(0.1)
+        finally:
+            conn_pool.close(conn)
+
+        # async def write_event(event: SseEvent):
+        #     nonlocal ev
+        #     nonlocal conn
+        #     nonlocal request
+        #     conn.last_event = event.name
+        #     e_payload = {"payload": event.payload, "teams": event.teams}
+        #     proto = SseEventProtocol(event_id=str(uuid.uuid4()),
+        #                              event_name=event.name, data=e_payload)
+        #     ev.put(proto.to_send)
+        #
+        # for name in SseEvent.all_names():
+        #     request.app.ctx.emitter.on(name, write_event)
+        #
+        # async def sent_ping(response: ResponseStream):
+        #     logger.debug(f"SSE Ping to {request.ip} ACVTIVE")
+        #     while True:
+        #         try:
+        #             logger.debug(f"SSE Ping to {request.ip}")
+        #             proto = SseEventProtocol(event_name="ping")
+        #             await response.write(proto.to_send.encode())
+        #             await asyncio.sleep(10)
+        #         except:
+        #             return
+        #
+        # async def streaming(response: ResponseStream):
+        #     ping_task = request.app.loop.create_task(sent_ping(response))
+        #     nonlocal ev
+        #     try:
+        #         while True:
+        #             if not response.stream:
+        #                 break
+        #             while not ev.empty():
+        #                 await response.write(ev.get().encode())
+        #             await asyncio.sleep(0.1)
+        #     finally:
+        #         ping_task.cancel()
+        #         # await response.eof()
+        #         logger.error("sse disconnected")
+        #         conn_pool.close(conn)
+        #
+        # # headers = {"keep-alive": "timeout=500, max=1000"}
+        # "text/json; charset=utf-8"
+        # return stream(streaming, headers={}, content_type="text/event-stream; charset=utf-8")

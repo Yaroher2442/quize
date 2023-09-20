@@ -65,6 +65,10 @@ class GameEndedEvent(SseEvent):
     name = "game_end"
 
 
+class AdminReloadEvent(SseEvent):
+    name = "admin_reload"
+
+
 # ---------------------------TEAMS-------------------------
 
 class TeamWasRemoved(SseEvent):

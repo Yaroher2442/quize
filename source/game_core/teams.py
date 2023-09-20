@@ -82,8 +82,10 @@ class TeamsStorage:
         try:
             self.db.table(TeamModel.__name__).remove(cond=Query().uid == team_uid)
             self._emmit_event(emmiter, TeamWasRemoved, payload={"team_uid": team_uid})
-            await self.sent_all_teams_chose(emmiter)
-            await self.sent_all_teams_answered(emmiter)
+            if self.game.stage == GameStage.CHOSE_TACTICS:
+                await self.sent_all_teams_chose(emmiter)
+            if self.game.stage == GameStage.CHOSE_ANSWERS:
+                await self.sent_all_teams_answered(emmiter)
             return "team_removed"
         except Exception as e:
             logger.error(f"Can't delete team {e} from db")
@@ -374,6 +376,9 @@ class TeamsStorage:
         for team in teams:
             team.current_place += 1
             self.db.table(TeamModel.__name__).update(cond=Query().uid == team.uid, fields=team.dict())
+
+    def all_json(self) -> List[Any]:
+        return self.db.table(TeamModel.__name__).all()
 
     def _all_pd(self) -> Union[List[TeamModel], None]:
         return [_cast_to_pd(db_team) for db_team in self.db.table(TeamModel.__name__).all()]
