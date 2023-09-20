@@ -7,7 +7,7 @@ import ReactJson from 'react-json-view'
 
 const App = () => {
 
-  const url = 'http://192.168.122.168:8844';
+  const url = 'http://localhost:8844';
 
   const sendReload = async () => {
     await axios.post(url + '/admin/reload');
@@ -25,23 +25,21 @@ const App = () => {
   useEffect(() => {
     updateData();
     var intervalId = setInterval(updateData, 1000);
-  }, []); 
+  }, []);
 
   const [json, setJson] = useState('');
 
   return (
     <div className="App">
       <header className="App-header">
-          
-          <Button type="primary" onClick={sendReload}>Send reload event</Button>
+          <Button type="primary" onClick={sendReload}>Reload players</Button>
           <div class="spacer1"></div>
-          <Button type="primary" onClick={sendRestart}>Send restart event</Button>
+          <Button type="primary" onClick={sendRestart}>Restart game (!)</Button>
 
           <div class="spacer1"></div>
           <div className='json-container'>
-            <ReactJson src={json} />  
+            <ReactJson src={json} />
           </div>
-          
       </header>
     </div>
   );
