@@ -89,7 +89,7 @@
   }
 }
 input:checked + .rules-accordion__label {
-  background: #04395e;
+  background: rgb(4, 57, 94);
 }
 input:checked + .rules-accordion__label::after {
   transform: translate(6px, 6px) rotate(90deg);
@@ -97,6 +97,4 @@ input:checked + .rules-accordion__label::after {
 input:checked ~ .rules-accordion__content {
   display: block;
   padding: 16px;
-}
-
-/*# sourceMappingURL=style.css.map */
+}/*# sourceMappingURL=style.css.map */

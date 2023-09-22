@@ -28,7 +28,7 @@ body {
 section {
   padding-top: 40px;
   height: 100%;
-  overflow-Y: scroll;
+  overflow-Y: auto;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -132,6 +132,4 @@ section button:disabled {
     opacity: 1;
     transform: translateY(0px);
   }
-}
-
-/*# sourceMappingURL=app.css.map */
+}/*# sourceMappingURL=app.css.map */

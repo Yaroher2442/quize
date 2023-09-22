@@ -95,7 +95,8 @@
 .header__game_score hr {
   height: 2px;
   width: 91%;
-  clip-path: polygon(1% 0%, 100% 0, 100% 100%, 0% 100%);
+  -webkit-clip-path: polygon(1% 0%, 100% 0, 100% 100%, 0% 100%);
+          clip-path: polygon(1% 0%, 100% 0, 100% 100%, 0% 100%);
   background-color: #DD4A38;
   position: absolute;
   top: calc(50% - 1px);
@@ -129,6 +130,4 @@
   .header__game_score p b {
     font-size: 36px;
   }
-}
-
-/*# sourceMappingURL=style.css.map */
+}/*# sourceMappingURL=style.css.map */

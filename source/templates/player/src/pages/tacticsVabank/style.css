@@ -17,15 +17,21 @@
     min-height: 66px;
   }
 }
+.tactics-vabank__points-input::-moz-placeholder {
+  color: #FFFFFF;
+  font-size: 14px;
+  font-weight: 200;
+}
 .tactics-vabank__points-input::placeholder {
   color: #FFFFFF;
   font-size: 14px;
   font-weight: 200;
 }
 @media (min-width: 800px) {
+  .tactics-vabank__points-input::-moz-placeholder {
+    font-size: 18px;
+  }
   .tactics-vabank__points-input::placeholder {
     font-size: 18px;
   }
-}
-
-/*# sourceMappingURL=style.css.map */
+}/*# sourceMappingURL=style.css.map */

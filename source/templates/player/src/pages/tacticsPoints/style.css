@@ -6,6 +6,11 @@
   color: #FFFFFF;
   font-weight: 200;
 }
+.tactics-points__points-input::-moz-placeholder {
+  color: #FFFFFF;
+  font-size: 14px;
+  font-weight: 200;
+}
 .tactics-points__points-input::placeholder {
   color: #FFFFFF;
   font-size: 14px;
@@ -36,6 +41,4 @@
 }
 .tactics-points .yellow-title {
   margin: 10px 0;
-}
-
-/*# sourceMappingURL=style.css.map */
+}/*# sourceMappingURL=style.css.map */
