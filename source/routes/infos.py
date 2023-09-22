@@ -1,10 +1,10 @@
 import os.path
 
-from loguru import logger
 from sanic import json, Request, response
-
-from sanic.views import HTTPMethodView
 from sanic.exceptions import FileNotFound, InvalidUsage
+from sanic.views import HTTPMethodView
+
+from source.tools.uuid import check_uuid
 
 
 class RoundSettingsApi(HTTPMethodView):
@@ -61,10 +61,17 @@ class Media(HTTPMethodView):
 
 
 class Avatars(HTTPMethodView):
+    @staticmethod
+    def get_avatars():
+        path = os.path.join(os.getcwd(), 'config', "media", "image", "avatar")
+        if not os.path.exists(path) or not os.path.isdir(path):
+            return []
+        return [i for i in os.listdir(path) if "default" not in i and not check_uuid(i.split(".")[0])]
+
     async def get(self, request: Request):
-        return json(request.app.ctx.game.get_avatars())
+        return json(self.get_avatars())
 
 
 class AcquiredAvatars(HTTPMethodView):
     async def get(self, request: Request):
-        return json(request.app.ctx.game.acquired_avatars())
+        return json(request.app.ctx.game.teams.acquired_avatars())

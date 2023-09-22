@@ -36,7 +36,7 @@ class NextQuestionApi(HTTPMethodView):
         try:
             question = request.app.ctx.game.next_question(request.app.ctx.emitter)
             q = {"state": request.app.ctx.game.payload_state()}
-            q.update(question.dict())
+            q.update(question)
             return json(q)
         except BaseGameException as e:
             raise sanic_exc.SanicException(e.__str__(), status_code=409)

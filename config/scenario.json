@@ -9,12 +9,12 @@
     "game_settings": {
       "tactics": {
         "remove_answer": 10,
-        "one_for_all": 2,
-        "question_bet": 1,
-        "all_in": 1,
-        "team_bet": 1
+        "one_for_all": 10,
+        "question_bet": 10,
+        "all_in": 10,
+        "team_bet": 10
       },
-      "skip_emails":true
+      "skip_emails": true
     },
     "rounds": [
       {
@@ -78,104 +78,122 @@
         ]
       },
       {
-        "type": "blitz",
+        "type": "classical",
         "settings": {
           "is_test": false,
           "name": "round_name",
           "display_name": false,
-          "time_to_answer": 120,
-          "blitz_score": 50
+          "time_to_answer": 40,
+          "use_special_tactics": true
         },
-         "questions": [
+        "questions": [
           {
-            "id": 0,
             "type": "text",
-            "question": "ФАМИЛИЯ АВТОРА РОМАНА В СТИХАХ «ЕВГЕНИЙ ОНЕГИН»",
-            "correct_answer": "Пушкин"
+            "question": "КАКОЙ СЕЙЧАС ГОД?",
+            "answers": [
+              "2102",
+              "2021",
+              "2202",
+              "2022"
+            ],
+            "correct_answer": "2022",
+            "time_to_answer": 40,
+            "media_data": {
+              "show_image": false,
+              "video": {
+                "before": "",
+                "after": ""
+              },
+              "image": {
+                "before": "",
+                "after": "",
+                "player_displayed": false
+              }
+            }
           },
           {
-            "id": 1,
+            "type": "select",
+            "question": "СКОЛЬКО ЦВЕТОВ НА ФЛАГЕ РОССИИ?",
+            "answers": [
+              "1",
+              "2",
+              "3",
+              "4"
+            ],
+            "correct_answer": "3",
+            "time_to_answer": 40,
+            "media_data": {
+              "show_image": false,
+              "video": {
+                "before": "",
+                "after": ""
+              },
+              "image": {
+                "before": "",
+                "after": "",
+                "player_displayed": false
+              }
+            }
+          }
+        ]
+      },
+      {
+        "type": "classical",
+        "settings": {
+          "is_test": false,
+          "name": "round_name",
+          "display_name": false,
+          "time_to_answer": 40,
+          "use_special_tactics": true
+        },
+        "questions": [
+          {
             "type": "text",
-            "question": "КАКОЙ ГОРОД ИЗОБРАЖЕН НА ПЯТИТЫСЯЧНОЙ КУПЮРЕ БАНКА РОССИИ?",
-            "correct_answer": "Хабаровск"
+            "question": "КАКОЙ СЕЙЧАС ГОД?",
+            "answers": [
+              "2102",
+              "2021",
+              "2202",
+              "2022"
+            ],
+            "correct_answer": "2022",
+            "time_to_answer": 40,
+            "media_data": {
+              "show_image": false,
+              "video": {
+                "before": "",
+                "after": ""
+              },
+              "image": {
+                "before": "",
+                "after": "",
+                "player_displayed": false
+              }
+            }
           },
           {
-            "id": 2,
-            "type": "text",
-            "question": "НАЗВАНИЕ ВТОРОГО МЕСЯЦА ЗИМЫ",
-            "correct_answer": "Январь"
-          },
-          {
-            "id": 3,
-            "type": "text",
-            "question": "ИМЯ ВОЖДЯ ОКТЯБРЬСКОЙ РЕВОЛЮЦИИ ЛЕНИНА",
-            "correct_answer": "Владимир"
-          },
-          {
-            "id": 4,
-            "type": "text",
-            "question": "В КАКОМ ГОДУ БЫЛО ОТМЕНЕНО КРЕПОСТНОЕ ПРАВО В РОССИИ",
-            "correct_answer": "1861"
-          },
-          {
-            "id": 5,
-            "type": "text",
-            "question": "КТО СТАЛ ПЕРВЫМ ПРЕЗИДЕНТОМ РОССИИ (ФАМИЛИЯ)?",
-            "correct_answer": "Ельцин"
-          },
-          {
-            "id": 6,
-            "type": "text",
-            "question": "КАК НАЗЫВАЛСЯ ПЕРВЫЙ АМЕРИКАНСКИЙ КОСМИЧЕСКИЙ КОРАБЛЬ, СОСТЫКОВАВШИЙСЯ В 1975 ГОДУ С СОВЕТСКИМ КОРАБЛЕМ «СОЮЗ-19»",
-            "correct_answer": "Аполлон"
-          },
-          {
-            "id": 7,
-            "type": "text",
-            "question": "ФАМИЛИЯ ПОЭТА, НАПИСАВШЕГО СТИХОТВОРЕНИЕ «КРЕСТЬЯНСКИЕ ДЕТИ» (ОДНАЖДЫ В СТУДЕНУЮ ЗИМНЮЮ ПОРУ…)",
-            "correct_answer": "Некрасов"
-          },
-          {
-            "id": 8,
-            "type": "text",
-            "question": "НАЗВАНИЕ ОДНОЙ ИЗ ЗВЁЗД НАШЕЙ ГАЛАКТИКИ И ЕДИНСТВЕННОЙ ЗВЕЗДЫ СОЛНЕЧНОЙ СИСТЕМЫ",
-            "correct_answer": "Солнце"
-          },
-          {
-            "id": 9,
-            "type": "text",
-            "question": "ФАМИЛИЯ СЦЕНАРИСТА И РЕЖИССЕРА ФИЛЬМА «АВАТАР» 2009 ГОДА",
-            "correct_answer": "Кэмерон"
-          },
-          {
-            "id": 10,
-            "type": "text",
-            "question": "ФАМИЛИЯ ВЕЛИКОГО РУССКОГО КОМПОЗИТОРА, НАПИСАВШЕГО БАЛЕТ «ЩЕЛКУНЧИК»",
-            "correct_answer": "Чайковский"
-          },
-          {
-            "id": 11,
-            "type": "text",
-            "question": "ПЯТАЯ С КОНЦА БУКВА РУССКОГО АЛФАВИТА",
-            "correct_answer": "Ы"
-          },
-          {
-            "id": 12,
-            "type": "text",
-            "question": "ФАМИЛИЯ ГЛАВНОГО ГЕРОЯ ФИЛЬМА Э. РЯЗАНОВА «ИРОНИЯ СУДЬБЫ, ИЛИ С ЛЕГКИМ ПАРОМ!», ПО ОШИБКЕ УЛЕТЕВШЕГО В ЛЕНИНГРАД",
-            "correct_answer": "Лукашин"
-          },
-          {
-            "id": 13,
-            "type": "text",
-            "question": "НАСТОЯЩЕЕ ИМЯ ЭЛТОНА ДЖОНА (НАПИШИТЕ ТОЛЬКО ИМЯ)",
-            "correct_answer": "Реджиналд"
-          },
-          {
-            "id": 14,
-            "type": "text",
-            "question": "ФАМИЛИЯ СОВЕТСКОГО УЧЕНОГО И АВИАКОНСТРУКТОРА, СОЗДАВШЕГО САМОЛЕТЫ МАРКИ «ТУ»",
-            "correct_answer": "Туполев"
+            "type": "select",
+            "question": "СКОЛЬКО ЦВЕТОВ НА ФЛАГЕ РОССИИ?",
+            "answers": [
+              "1",
+              "2",
+              "3",
+              "4"
+            ],
+            "correct_answer": "3",
+            "time_to_answer": 40,
+            "media_data": {
+              "show_image": false,
+              "video": {
+                "before": "",
+                "after": ""
+              },
+              "image": {
+                "before": "",
+                "after": "",
+                "player_displayed": false
+              }
+            }
           }
         ]
       }

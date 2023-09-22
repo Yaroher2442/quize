@@ -52,15 +52,16 @@ class SettingsScenario(BaseModel):
     blitz_score: Union[int, None] = None
 
 
-class BlitzRoundScenario(BaseModel):
+class RoundInfo(BaseModel):
     type: str
     settings: SettingsScenario
+
+
+class BlitzRoundScenario(RoundInfo):
     questions: List[BlitzQuestionScenario]
 
 
-class RoundScenario(BaseModel):
-    type: str
-    settings: SettingsScenario
+class RoundScenario(RoundInfo):
     questions: List[QuestionScenario]
 
 
