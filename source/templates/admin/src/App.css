@@ -4,32 +4,18 @@
 }
 
 .wrapper {
+  display: inline-block;
   background-color: #282c34;
-  min-height: 100vh;
-  min-width: 100vw;
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   padding: 15px;
-}
-
-.left-container {
-  width: 70%;
-}
-.right-container {
-  width: 30%;
-}
-
-.spacer {
-  height: 15px;
+  overflow: hidden;
 }
 
 .button-container {
-  display: inline-block;
-  margin-bottom: 20px
-}
-
-.button-container button:first-child {
-  margin-right: 10px
+  display: flex;
+  justify-content: space-between;
+  margin: 30px 0 10px;
 }
 
 .json-container {
@@ -39,8 +25,11 @@
   background-color: #ffffff;
   font-size: calc(10px + 2vmin);
   border-radius: 8px;
-  width: 95%;
   padding: 10px;
+}
+
+.teams-container {
+  
 }
 
 .qr-container {
