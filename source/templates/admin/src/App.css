@@ -10,6 +10,7 @@
   flex-direction: column;
   padding: 15px;
   overflow: hidden;
+  min-height: 100vh;
 }
 
 .button-container {
@@ -18,18 +19,25 @@
   margin: 30px 0 10px;
 }
 
+.content-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.teams-container {
+  width: 69%;
+}
+
 .json-container {
+  width: 30%;
   display: flex;
   align-items: start;
   justify-content: start;
   background-color: #ffffff;
-  font-size: calc(10px + 2vmin);
+  font-size: 16px;
   border-radius: 8px;
   padding: 10px;
-}
-
-.teams-container {
-  
 }
 
 .qr-container {

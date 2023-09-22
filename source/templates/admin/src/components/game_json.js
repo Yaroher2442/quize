@@ -2,7 +2,6 @@ import axios from 'axios';
 import {useState, useEffect} from 'react';
 import ReactJson from 'react-json-view'
 
-
 export const GameJson = ({baseUrl}) => {
     
     const [json, setJson] = useState({});
@@ -13,8 +12,8 @@ export const GameJson = ({baseUrl}) => {
     }
 
     useEffect(() => {
-        updateJson();
-        setInterval(updateJson, 1000);
+        // updateJson();
+        // setInterval(updateJson, 1000);
     }, []);
 
     return (
