@@ -37,9 +37,7 @@ const RegisterTeams = ({openModal}) => {
 
     const clickNext = async () => {
         AppStore.update(s => {
-            nextBlitz
-                ? s.gamePage = 'nowNormalGame'
-                : s.gamePage = 'startGame';
+            s.gamePage = 'startGame';
         });
     };
 

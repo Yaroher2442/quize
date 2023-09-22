@@ -76,7 +76,7 @@ const ShowResults = ({getAppState, openModal}) => {
             state: {current_question},
         } = res.data;
         const currentQuestion = questions[questionNumber - 1];
-        if (roundType === 'blitz') await getAppState();
+        await getAppState();
         AppStore.update(s => {
             if (isTestRound && !is_test) {
                 s.gamePage = 'nowNormalGame';

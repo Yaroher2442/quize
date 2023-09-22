@@ -189,9 +189,9 @@ const App = () => {
                     s.currentAnswer = null;
                     s.currentBlitzQuestionId = 1;
                     s.usedRemoveAnswer = 0;
-                    s.currentQuestion = current_question;
+                    s.currentQuestion = current_question+1;
                     s.questionsCount = all_questions;
-                    s.currentRound = current_round;
+                    s.currentRound = current_round+1;
                     s.roundsCount = all_rounds;
                     s.blitzQuestions = questions;
                     s.roundType = qType;
@@ -262,7 +262,6 @@ const App = () => {
                 AppStore.update(s => {s.timeToAnswerLeft = edata.time;});
                 break;
             case 'admin_reload':
-                console.log('HERHEHRHEHERHER');
                 await getAppState();
                 break;
         }
@@ -335,9 +334,9 @@ const App = () => {
 
         AppStore.update(s => {
             s.skipEmails = skip_emails;
-            s.currentQuestion = current_question;
+            s.currentQuestion = current_question+1;
             s.questionsCount = all_questions;
-            s.currentRound = current_round;
+            s.currentRound = current_round+1;
             s.roundsCount = all_rounds;
             s.roundType = round.type;
             s.questionName = question.question;

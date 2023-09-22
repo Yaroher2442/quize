@@ -17,8 +17,8 @@
     "use-detect-keyboard-open": "^0.4.0"
   },
   "scripts": {
-    "dev": "NODE_ENV=development react-scripts start",
-    "build": "NODE_ENV=production react-scripts build"
+    "dev": "cross-env NODE_ENV=development react-scripts start",
+    "build": "cross-env NODE_ENV=production react-scripts build"
   },
   "eslintConfig": {
     "extends": [

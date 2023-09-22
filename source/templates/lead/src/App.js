@@ -22,12 +22,14 @@ import editIcon from "./assets/edit.png";
 const App = () => {
     const request = new RequestHandler();
     const {
+        isBlitzRound,
         navPage,
         gamePage,
         teamsRegistered,
         teamsResult,
         teamsChosenAnswer,
     } = AppStore.useState(s => ({
+        isBlitzRound: s.isBlitzRound,
         navPage: s.navPage,
         gamePage: s.gamePage,
         teamsRegistered: s.teamsRegistered,
@@ -48,7 +50,7 @@ const App = () => {
         switch (ename) {
             case 'next_question':
                 const {all_questions, all_rounds, current_question, current_round} = edata;
-                const isLastQuestion = (all_rounds === current_round) && (all_questions === current_question);
+                const isLastQuestion = (all_rounds === current_round+1) && (all_questions === current_question);
                 AppStore.update(s => {s.isLast = isLastQuestion;});
                 break;
             case 'new_team':
@@ -133,9 +135,7 @@ const App = () => {
         const {all_rounds, next_test, next_blitz, current_round, teams, timer, stage, question, round, current_question, prv_stage} = appState.data;
 
         AppStore.update(s => {
-            if (round.type === 'blitz') {
-                s.isLast = all_rounds === current_round;
-            }
+            s.isLast = all_rounds === current_round+1;
             s.isNextRoundTest = next_test;
             s.teamsRegistered = teams;
             s.teamsResult = teams;
@@ -144,7 +144,7 @@ const App = () => {
             s.isBlitzRound = round.type === 'blitz';
             s.nextBlitz = next_blitz && current_round != 1;
             s.questions = round.questions;
-            s.questionNumber = current_question + 1;
+            s.questionNumber = current_question+1;
             s.timerToAnswer = round.settings.time_to_answer;
             s.timerToAnswerLeft = timer;
             s.teamsChosenTactic = teams.filter(team => team.current_tactic !== null);
@@ -162,12 +162,11 @@ const App = () => {
                 break;
             case 'WAITING_NEXT':
                 AppStore.update(s => {
-                    if (prv_stage === 'WAITING_START') {
-                        s.gamePage = 'registerTeams';
-                    }
-                    else if (prv_stage === 'SHOW_RESULTS') {
+                    if (prv_stage === 'SHOW_RESULTS') {
                         s.navPage = 'game';
                         s.gamePage = 'chooseTactics';
+                    } else {
+                        s.gamePage = 'registerTeams';
                     }
                 });
                 break;

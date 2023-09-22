@@ -15,7 +15,7 @@ const StartGame = ({getAppState}) => {
 
     const openNextPage = async () => {
         const res = await request.nextQuestion();
-        const {
+        let {
             settings: {is_test},
             questions,
             type: roundType,
@@ -30,11 +30,11 @@ const StartGame = ({getAppState}) => {
             else {
                 s.isBlitzRound = false;
                 s.gamePage = 'chooseTactics';
-                s.mediaInQuestion = questions[questionNumber - 1].media_data.image.before !== '' || questions[questionNumber - 1].media_data.video.before !== '';
+                s.mediaInQuestion = questions[questionNumber].media_data.image.before !== '' || questions[questionNumber].media_data.video.before !== '';
             }
             s.questions = questions;
             s.isTestRound = is_test;
-            s.questionNumber = questionNumber;
+            s.questionNumber = questionNumber + 1;
             s.navPage = 'game';
         });
     };
