@@ -144,7 +144,7 @@ const App = () => {
             s.isBlitzRound = round.type === 'blitz';
             s.nextBlitz = next_blitz && current_round != 1;
             s.questions = round.questions;
-            s.questionNumber = current_question;
+            s.questionNumber = current_question + 1;
             s.timerToAnswer = round.settings.time_to_answer;
             s.timerToAnswerLeft = timer;
             s.teamsChosenTactic = teams.filter(team => team.current_tactic !== null);
