@@ -2,8 +2,7 @@ import asyncio
 import json
 import os
 import sys
-import uuid
-from typing import Type, Tuple
+from typing import Type
 
 from loguru import logger
 from pyee.asyncio import AsyncIOEventEmitter
@@ -16,35 +15,37 @@ from source.game_core.stages import GameStage
 from source.game_core.teams import TeamsStorage
 from source.game_core.wrappers import check_sequence
 from source.sse.sse_event import *
+from source.tools.sllist import Dllistnode, Dllist
+
+
+class Round:
+    questions: Dllist[Union[QuestionScenario, BlitzQuestionScenario]]
+    current_question: Dllistnode[Union[QuestionScenario, BlitzQuestionScenario]]
+    info: RoundInfo
+    base_round: Union[RoundScenario, BlitzRoundScenario]
+
+    def __init__(self, round_data: Union[RoundScenario, BlitzRoundScenario]):
+        self.base_round = round_data
+        self.questions = Dllist(round_data.questions)
+        self.current_question = self.questions.first
+        self.info = round_data
+
+    def next_question(self):
+        self.current_question = self.current_question.next
+
+    def get_question(self) -> Union[QuestionScenario, BlitzQuestionScenario]:
+        return self.current_question.value
 
 
 class QuizeGame:
-    """('./config', 'config/')"""
+    rounds: Dllist[Round]
+    current_round: Dllistnode[Round]
+    base_scenario: GameScenario
+    teams: TeamsStorage
+    _finished: bool = False
     _sanic: Sanic
+    now_blitz: bool
     db: TinyDB
-
-    def __init__(self, scenario_name: str, inited_database: TinyDB):
-        self.scenario: GameScenario = GameScenario(
-            **json.load(open(f"config/{scenario_name}", encoding=sys.getdefaultencoding()))["game"])
-        self.loop = asyncio.get_event_loop()
-        # self.db_str = inited_database
-        self.db = inited_database
-        # self.db = inited_database
-        self.stage = GameStage.WAITING_START
-        self.prv_stage = None
-        self.current_round: int = 1
-        self.current_question: int = 1
-        self.now_blitz = False
-        self.is_finished = False
-        self.all_rounds = len(self.scenario.rounds)
-        self.all_questions = len(self.scenario.rounds[self.current_round - 1].questions)
-        self.current_time = 0
-        # self.connect_bd()
-        self.restore_game_state()
-        self.teams: TeamsStorage = TeamsStorage(self)
-
-    def connect_bd(self):
-        self.db = TinyDB(self.db_str)
 
     @property
     def sanic(self):
@@ -57,243 +58,193 @@ class QuizeGame:
     async def timer_task(self, emitter: AsyncIOEventEmitter):
         while True:
             self.current_time -= 1
-            self._emmit_event(emitter, TimerTickEvent, payload={"time": self.current_time})
+            self.emmit_event(emitter, TimerTickEvent, payload={"time": self.current_time})
             if self.current_time == 0:
-                self._emmit_event(emitter, AllTeamAnswered)
+                self.emmit_event(emitter, AllTeamAnswered)
                 break
-            self.write_snapshot()
+            # self.write_snapshot()
             await asyncio.sleep(0.95)
 
     def write_snapshot(self):
+        game_state = GameState(
+            current_round=self.current_round.idx,
+            current_question=self.get_round().current_question.idx,
+            now_blitz=self.now_blitz,
+            is_finished=self._finished,
+            stage=str(self.stage.name),
+            prv_stage=str(self.stage.name),
+            current_time=self.current_time,
+        )
         if len(self.db.table(GameState.__name__)) == 0:
-            v = vars(self).copy()
-            v["stage"] = str(self.stage.name)
-            if self.prv_stage:
-                v["prv_stage"] = str(self.prv_stage.name)
-            self.db.table(GameState.__name__).insert(GameState(**v).dict())
+            self.db.table(GameState.__name__).insert(game_state.model_dump())
         else:
             for i in self.db.table(GameState.__name__).all():
-                v = vars(self).copy()
-                v["stage"] = str(self.stage.name)
-                if self.prv_stage:
-                    v["prv_stage"] = str(self.prv_stage.name)
                 self.db.table(GameState.__name__).update(doc_ids=[i.doc_id],
-                                                         fields=GameState(**v).dict())
+                                                         fields=game_state.model_dump())
 
-    def next_stage(self):
-        self.stage = self.stage.next()
-        self.prv_stage = self.stage.prev()
-
-    def prev_stage(self):
-        if self.stage.prev():
-            self.stage = self.stage.prev()
-            self.prv_stage = self.stage.prev()
-
-    def _get_from_db(self) -> Union[GameState, None]:
-        if len(self.db.table(GameState.__name__)) != 0:
-            for i in self.db.table(GameState.__name__).all():
-                return GameState(**self.db.table(GameState.__name__).get(doc_id=i.doc_id))
-        else:
-            return None
-
-    def restore_game_state(self):
-        game_state = self._get_from_db()
-        if game_state is None:
-            self.current_round = 1
-            self.current_question = 1
-            self.all_rounds = len(self.scenario.rounds)
-            self.all_questions = len(self.scenario.rounds[self.current_round - 1].questions)
-            self.is_finished = False
-            self.now_blitz = False
-            self.current_time = 0
-            self.stage = GameStage.WAITING_START
-
-        if game_state:
-            for k, v in game_state:
-                if k == "stage":
-                    self.stage = GameStage.all_names()[v]
-                elif k == "prv_stage":
-                    self.prv_stage = GameStage.all_names()[v]
-                else:
-                    setattr(self, k, v)
-
-    def get_round(self, state=False) -> Tuple[Union[RoundScenario, BlitzRoundScenario], bool]:
-        if state:
-            is_next_round = False
-            if self.now_blitz and self.current_round < self.all_rounds:
-                is_next_round = True
-            else:
-                if self.current_question > self.all_questions:
-                    is_next_round = True
-
-            return self.scenario.rounds[self.current_round - 1], is_next_round
-        if self.stage == GameStage.SHOW_RESULTS or self.stage == GameStage.NEXT_ROUND:
-            # logger.warning(
-            #     f"SHOW_RESULTS current_question: {self.current_question}, current_round: {self.current_round} "
-            #     f", all_questions: {self.all_questions} all_rounds: {self.all_rounds}")
-            is_next_round = False
-            if self.now_blitz and self.current_round < self.all_rounds:
-                self.current_round += 1
-                self.current_question = 1
-                is_next_round = True
-            else:
-                self.current_question += 1
-                try:
-                    self.all_questions = len(self.scenario.rounds[self.current_round - 1].questions)
-                except:
-                    self.is_finished = True
-                    return None
-                if self.current_question > self.all_questions:
-                    self.current_question = 1
-                    self.current_round += 1
-                    is_next_round = True
-            try:
-                round = self.scenario.rounds[self.current_round - 1]
-            except:
-                pass
-            if round.type == "blitz":
-                self.now_blitz = True
-            else:
-                self.now_blitz = False
-            if is_next_round:
-                try:
-                    prev_round = self.scenario.rounds[self.current_round - 2]
-                    if prev_round.settings.is_test:
-                        self.teams.erase_test_score()
-                except:
-                    self.is_finished = True
-                    return None, is_next_round
-            try:
-                self.all_questions = len(self.scenario.rounds[self.current_round - 1].questions)
-            except:
-                self.is_finished = True
-                return None, is_next_round
-            self.current_time = round.settings.time_to_answer
-            return round, is_next_round
-        elif self.stage == GameStage.WAITING_NEXT:
-            round = self.scenario.rounds[self.current_round - 1]
-            self.current_round = 1
-            self.current_question = 1
-            logger.warning(
-                f"WAITING_NEXT current_question: {self.current_question}, current_round: {self.current_round} "
-                f", all_questions: {self.all_questions} all_rounds: {self.all_rounds}")
-            if round.type == "blitz":
-                self.now_blitz = True
-            else:
-                self.now_blitz = False
-            self.all_questions = len(self.scenario.rounds[self.current_round - 1].questions)
-            self.current_time = round.settings.time_to_answer
-            return round, False
-        else:
-            round = self.scenario.rounds[self.current_round - 1]
-            logger.warning(
-                f"SHOW_CORRECT_ANSWER current_question: {self.current_question}, current_round: {self.current_round} "
-                f", all_questions: {self.all_questions} all_rounds: {self.all_rounds}")
-            if round.type == "blitz":
-                self.now_blitz = True
-            else:
-                self.now_blitz = False
-                self.current_time = round.settings.time_to_answer
-            self.all_questions = len(self.scenario.rounds[self.current_round - 1].questions)
-            return round, self.current_question >= self.all_questions
-
-    def get_question(self) -> QuestionScenario:
-        return self.scenario.rounds[self.current_round - 1].questions[self.current_question - 1]
-
-    def get_tactic_balance(self) -> TacticsScenario:
-        return self.scenario.game_settings.tactics
-
-    def get_round_settings(self) -> SettingsScenario:
-        return self.get_round()[0].settings
-
-    def _emmit_event(self, emitter: AsyncIOEventEmitter, name: Type[SseEvent], payload: JSONserializeble = None):
+    def emmit_event(self, emitter: AsyncIOEventEmitter, name: Type[SseEvent], payload: JSONserializeble = None):
         if not payload:
             payload = {}
         event = name([i.dict() for i in self.teams.get_all_teams()], payload)
         e_payload = {"payload": event.payload, "teams": event.teams}
         emitter.emit(event.name, event)
 
+    def restore_game_state(self):
+        game_state = GameState(
+            current_round=0,
+            current_question=0,
+            now_blitz=False,
+            is_finished=False,
+            stage=str(GameStage.WAITING_START.name),
+            prv_stage=str(GameStage.WAITING_START.name),
+            current_time=0,
+        )
+        if len(self.db.table(GameState.__name__)) != 0:
+            for i in self.db.table(GameState.__name__).all():
+                game_state = GameState(**self.db.table(GameState.__name__).get(doc_id=i.doc_id))
+
+        self._finished = game_state.is_finished
+        self.now_blitz = game_state.now_blitz
+        self.stage = GameStage.all_names()[game_state.stage]
+        self.current_time = game_state.current_time
+
+        self.load_rounds()
+        for r in self.rounds.iternodes():
+            if r.idx == game_state.current_round:
+                self.current_round = r
+        for q in self.get_round().questions.iternodes():
+            if q.idx == game_state.current_question:
+                self.get_round().current_question = q
+
+    def load_rounds(self):
+        self.rounds = Dllist()
+        rounds: List[Round] = []
+        for r in self.base_scenario.rounds:
+            rounds.append(Round(r))
+        self.rounds = Dllist(rounds)
+
+    def __init__(self, scenario_name: str, inited_database: TinyDB):
+        self.base_scenario: GameScenario = GameScenario(
+            **json.load(open(f"config/{scenario_name}", encoding=sys.getdefaultencoding()))["game"])
+        self.stage = GameStage.WAITING_START
+        self.load_rounds()
+        self.current_round = self.rounds.first
+
+        self.db = inited_database
+        self.current_time = self.get_round().current_question.value.time_to_answer
+        self.now_blitz = False
+        self.restore_game_state()
+        self.teams: TeamsStorage = TeamsStorage(self)
+
+    def get_round(self) -> Round:
+        return self.current_round()
+
+    def is_next_round(self) -> bool:
+        return self.get_round().current_question.next is None
+
+    def get_round_settings(self) -> SettingsScenario:
+        return self.get_round().info.settings
+
+    def get_tactic_balance(self) -> TacticsScenario:
+        return self.base_scenario.game_settings.tactics
+
     @check_sequence(GameStage.WAITING_START, GameStage.WAITING_NEXT)
     def start_game(self, emitter: AsyncIOEventEmitter):
-        self._emmit_event(emitter, StartGameEvent, payload={"skip_emails": self.scenario.game_settings.skip_emails})
-        return {"round": self.get_round(state=True)[0].dict()}
+        self.emmit_event(emitter, StartGameEvent,
+                         payload={"skip_emails": self.base_scenario.game_settings.skip_emails})
+        return {"round": self.get_round().base_round.model_dump()}
 
     @check_sequence([GameStage.WAITING_NEXT, GameStage.SHOW_RESULTS, GameStage.NEXT_ROUND], GameStage.CHOSE_TACTICS)
     def next_question(self, emitter: AsyncIOEventEmitter) -> Dict[str, Any]:
-        round = self.get_round()[0]
-        if self.is_finished:
-            self._emmit_event(emitter, GameEndedEvent)
-            return {"fished": self.is_finished}
+        cur_round = self.get_round()
+        if self._finished:
+            self.emmit_event(emitter, GameEndedEvent)
+            return {"fished": True}
         self.teams.erase_teams_state()
-        self.get_question()
-        r = round.dict()
-        r.update({"current_round": self.current_round, "current_question": self.current_question,
-                  "all_rounds": self.all_rounds,
-                  'all_questions': self.all_questions})
-        self._emmit_event(emitter, NextQuestionEvent, r)
-        return round
+        r = cur_round.base_round.model_dump()
+        r.update({"current_round": self.current_round.idx, "current_question": self.get_round().current_question.idx,
+                  "all_rounds": len(self.rounds),
+                  'all_questions': len(self.get_round().questions)})
+        self.emmit_event(emitter, NextQuestionEvent, r)
+
+        if cur_round.info.type == "blitz":
+            self.current_time = cur_round.info.settings.time_to_answer
+        else:
+            self.current_time = cur_round.current_question.value.time_to_answer
+        return cur_round.base_round.model_dump()
 
     @check_sequence(GameStage.ALL_CHOSE, GameStage.SHOW_MEDIA_BEFORE)
     def show_media_before(self, emitter: AsyncIOEventEmitter):
-        self._emmit_event(emitter, ShowMediaBeforeEvent, self.get_question().media_data.dict())
+        self.emmit_event(emitter, ShowMediaBeforeEvent,
+                         self.get_round().get_question().media_data.model_dump())
 
     @check_sequence(GameStage.SHOW_MEDIA_BEFORE, GameStage.SHOW_QUESTION)
     def show_question(self, emitter: AsyncIOEventEmitter):
-        self._emmit_event(emitter, ShowQuestionsEvent, self.get_question().dict())
+        self.emmit_event(emitter, ShowQuestionsEvent, self.get_round().get_question().model_dump())
 
     @check_sequence(GameStage.SHOW_QUESTION, GameStage.CHOSE_ANSWERS)
     def show_answers(self, emitter: AsyncIOEventEmitter):
-        q = self.get_question().dict()
+        q = self.get_round().get_question().model_dump()
         if self.now_blitz:
             q.update({"type": "blitz"})
         self._sanic.add_task(self.timer_task(emitter), name='timer')
-        self._emmit_event(emitter, ShowAnswersEvent, q)
+        self.emmit_event(emitter, ShowAnswersEvent, q)
 
     @check_sequence(GameStage.ALL_ANSWERED, GameStage.SHOW_MEDIA_AFTER)
     def show_media_after(self, emitter: AsyncIOEventEmitter):
-        self._emmit_event(emitter, ShowMediaAfterEvent, self.get_question().media_data.dict())
+        self.emmit_event(emitter, ShowMediaAfterEvent, self.get_round().get_question().media_data.model_dump())
 
     @check_sequence(GameStage.SHOW_MEDIA_AFTER, GameStage.SHOW_CORRECT_ANSWER)
     def show_correct_answers(self, emitter: AsyncIOEventEmitter):
         self.teams.count_results()
         self.teams.count_places()
         if self.now_blitz:
-            self._emmit_event(emitter, ShowCorrectAnswersEvent, self.get_round()[0].dict())
-        self._emmit_event(emitter, ShowCorrectAnswersEvent, self.get_question().dict())
+            self.emmit_event(emitter, ShowCorrectAnswersEvent, self.get_round()[0].model_dump())
+        self.emmit_event(emitter, ShowCorrectAnswersEvent, self.get_round().get_question().model_dump())
 
     @check_sequence(GameStage.SHOW_CORRECT_ANSWER, GameStage.SHOW_RESULTS)
     def show_results(self, emitter: AsyncIOEventEmitter):
-        if self.now_blitz and (self.current_round == self.all_rounds):
-            self.is_finished = True
-        elif not self.now_blitz and (self.current_question - 1 == self.all_questions):
-            self.is_finished = True
+        # if self.now_blitz and self.current_round.next is None:
+        #     self._finished = True
+        # elif not self.now_blitz and self.get_round().current_question.next is None:
+        #     self._finished = True
         self.teams.count_results()
         self.teams.count_places()
-        data, nexts = self.get_round()
-        self._emmit_event(emitter, ShowResultsEvent, {"next_round": nexts})
+        self.emmit_event(emitter, ShowResultsEvent, {"next_round": self.get_round().current_question.next is None})
+        if self.get_round().current_question.next is not None:
+            self.get_round().current_question = self.get_round().current_question.next
 
     @check_sequence(GameStage.SHOW_RESULTS, GameStage.NEXT_ROUND)
     def next_round(self, emitter: AsyncIOEventEmitter):
-        self._emmit_event(emitter, NextRound, payload={"next_test": self.next_test()})
-
-    def next_test(self):
-        try:
-            return self.scenario.rounds[self.current_round + 1].settings.is_test
-        except:
-            return False
-
-    def next_blitz(self):
-        try:
-            is_blitz = self.scenario.rounds[self.current_round].type
-            return is_blitz == "blitz"
-        except:
-            return False
+        if self.current_round.next is not None:
+            self.current_round = self.current_round.next
+        if self.get_round().info.type == "blitz":
+            self.now_blitz = True
+        if self.get_round().info.settings.is_test:
+            self.teams.erase_test_score()
+        self.teams.erase_team_tactic_balance()
+        self.teams.erase_teams_state()
+        self.emmit_event(emitter, NextRound, payload={"next_test": self._is_next_test()})
 
     def end_game(self, emitter: AsyncIOEventEmitter):
-        self._emmit_event(emitter, GameEndedEvent, payload={"next_test": self.next_test()})
+        self.emmit_event(emitter, GameEndedEvent, payload={"next_test": self._is_next_test()})
+
+    def _is_next_test(self) -> bool:
+        next_round: Round = self.current_round.next
+        re = False
+        if next_round:
+            re = next_round.value.base_round.settings.is_test
+        return re
+
+    def _is_next_blitz(self) -> bool:
+        next_round: Round = self.current_round.next
+        re = False
+        if next_round:
+            re = next_round.value.base_round.type == "blitz"
+        return re
 
     def is_media_exists(self) -> bool:
-        media = self.scenario.rounds[self.current_round - 1].questions[self.current_question - 1].media_data
+        media = self.get_round().get_question().media_data
         if self.stage == GameStage.CHOSE_TACTICS:
             if media.show_image:
                 if media.image.before == "":
@@ -310,57 +261,21 @@ class QuizeGame:
                     return False
         return True
 
-    def _check_uuid(self, uuid_to_test: str) -> bool:
-        try:
-            uuid_obj = uuid.UUID(uuid_to_test, version=4)
-        except ValueError:
-            return False
-        return True
-
-    def acquired_avatars(self):
-        path = os.path.join(os.getcwd(), 'config', "media", "image", "avatar")
-        if not os.path.exists(path) or not os.path.isdir(path):
-            return []
-        all = [i for i in os.listdir(path) if "default" not in i and not self._check_uuid(i.split(".")[0])]
-        q = [t.avatar for t in self.teams.get_all_teams() if t.avatar in all]
-        return q
-
-    def get_avatars(self):
-        path = os.path.join(os.getcwd(), 'config', "media", "image", "avatar")
-        if not os.path.exists(path) or not os.path.isdir(path):
-            return []
-        return [i for i in os.listdir(path) if "default" not in i and not self._check_uuid(i.split(".")[0])]
-
     def payload_state(self):
-        logger.warning(self.stage)
-        """
-        if self.current_time != 0 and not self._sanic.get_task(name="timer",
-                                                               raise_exception=False) and (
-                self.stage != GameStage.SHOW_QUESTION and
-                self.stage != GameStage.CHOSE_TACTICS and
-                self.stage != GameStage.CHOOSE_ANSWERS and
-                self.stage != GameStage.SHOW_MEDIA_BEFORE and
-                self.stage != GameStage.SHOW_MEDIA_AFTER):
-            self.sanic.add_task(self.timer_task(self.emitter, self.current_time), name="timer")
-        """
-        data = self.get_round(state=True)
-        p = {"current_round": self.current_round, "current_question": self.current_question,
-             "all_rounds": len(self.scenario.rounds),
-             'all_questions': len(self.scenario.rounds[self.current_round - 1].questions),
+        data = self.get_round().base_round
+        p = {"current_round": self.current_round.idx, "current_question": self.get_round().current_question.idx,
+             "all_rounds": len(self.rounds),
+             'all_questions': len(self.get_round().questions),
              "stage": self.stage.name,
-             "teams": [i.dict() for i in self.teams.get_all_teams()],
-             "question": self.get_question().dict(),
-             "next_test": self.next_test(),
-             "next_blitz": self.next_blitz(),
-             "round": data[0].dict(),
-             "next_round": data[1],
+             "teams": [i.model_dump() for i in self.teams.get_all_teams()],
+             "question": self.get_round().get_question().model_dump(),
+             "next_test": self._is_next_test(),
+             "next_blitz": self._is_next_blitz(),
+             "round": data.model_dump(),
+             "next_round": self.get_round().current_question.next is None,
              "timer": self.current_time,
-             "skip_emails": self.scenario.game_settings.skip_emails
+             "skip_emails": self.base_scenario.game_settings.skip_emails
              }
-        if self.prv_stage:
-            p.update({"prv_stage": self.prv_stage.name})
-        else:
-            p.update({"prv_stage": None})
         return p
 
     async def new(self):
@@ -372,13 +287,12 @@ class QuizeGame:
                 doc_ids=[i.doc_id for i in self.db.table(TeamModel.__name__).all()])
         try:
             await self.sanic.cancel_task(name='timer')
-        except:
-            pass
+        except Exception as e:
+            logger.warning(e)
         self.restore_game_state()
-        self.prv_stage = None
 
     def get_add_info(self):
-        return self.scenario.game_info.dict()
+        return self.base_scenario.game_info.model_dump()
 
     def _replicate_to_other_file(self):
         dumps = os.listdir("config")

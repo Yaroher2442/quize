@@ -1,4 +1,5 @@
 import multiprocessing
+import socket
 import traceback
 from functools import partial
 
@@ -73,12 +74,23 @@ def sanic_factory(scenario_file: str) -> Sanic:
     return sanic
 
 
+def get_ip() -> str:
+    s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+    s.connect(("8.8.8.8", 80))
+    local_ip = s.getsockname()[0]
+    s.close()
+    return local_ip
+
+
 @click.command()
 @click.option('--scenario', default="scenario.json", required=False, type=str)
 def main(scenario: str = "scenario.json"):
     loader = AppLoader(factory=partial(sanic_factory, scenario_file=scenario))
     app = loader.load()
     app.prepare(host="0.0.0.0", port=8844, single_process=True)
+    logger.success("Load complete")
+    logger.success(f"LEAD LINK: http://{get_ip()}:8844/lead/ui/index.html")
+    logger.success(f"PLAYER LINK: http://{get_ip()}:8844/player/ui/index.html")
     Sanic.serve(primary=app, app_loader=loader)
     traceback.print_exc()
 
