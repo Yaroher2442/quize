@@ -17,6 +17,7 @@ from source.routes.controls import *
 from source.routes.infos import *
 from source.routes.teams import *
 from source.sse.sse import SSEController
+from source.tools.ip import MY_IP
 
 
 def sanic_factory(scenario_file: str) -> Sanic:
@@ -79,6 +80,9 @@ def main(scenario: str = "scenario.json"):
     loader = AppLoader(factory=partial(sanic_factory, scenario_file=scenario))
     app = loader.load()
     app.prepare(host="0.0.0.0", port=8844, single_process=True)
+    logger.success("Load complete")
+    logger.success(f"LEAD LINK: http://{MY_IP}:8844/lead/ui/index.html")
+    logger.success(f"PLAYER LINK: http://{MY_IP}:8844/player/ui/index.html")
     Sanic.serve(primary=app, app_loader=loader)
     traceback.print_exc()
 

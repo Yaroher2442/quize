@@ -3,6 +3,7 @@ from sanic.views import HTTPMethodView
 
 from source.sse.sse import conn_pool
 from source.sse.sse_event import AdminReloadEvent
+from source.tools.ip import MY_IP
 
 
 class AdminReloadState(HTTPMethodView):
@@ -29,6 +30,7 @@ class AdminGetData(HTTPMethodView):
                      "all_questions": request.app.ctx.game.all_questions,
                      "current_time": request.app.ctx.game.current_time}
         data = {"Game": game_data, "SSE": []}
+        data["base_url"] = f'http://{MY_IP}:8844'
         for conn in conn_pool.coons:
             data["SSE"].append(
                 {"conn_id": conn.ip,
@@ -37,4 +39,6 @@ class AdminGetData(HTTPMethodView):
                  "team_id": conn.team_id
                  })
         data["Teams"] = request.app.ctx.game.teams.all_json()
+        for i in data["Teams"]:
+            i["url"] = f'http://{MY_IP}:8844/player/ui/index.html?team_id={i["uid"]}'
         return json(data)
