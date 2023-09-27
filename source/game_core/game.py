@@ -43,7 +43,8 @@ class QuizeGame:
     base_scenario: GameScenario
     teams: TeamsStorage
     _finished: bool = False
-    _sanic: Sanic
+    _sanic: Sanic = None
+    _emitter: AsyncIOEventEmitter
     now_blitz: bool
     db: TinyDB
 
@@ -55,14 +56,22 @@ class QuizeGame:
     def sanic(self, item: Sanic):
         self._sanic = item
 
-    async def timer_task(self, emitter: AsyncIOEventEmitter):
+    @property
+    def emitter(self):
+        return self._emitter
+
+    @emitter.setter
+    def emitter(self, item: AsyncIOEventEmitter):
+        self._emitter = item
+
+    async def timer_task(self):
         while True:
             self.current_time -= 1
-            self.emmit_event(emitter, TimerTickEvent, payload={"time": self.current_time})
+            self.emmit_event(TimerTickEvent, payload={"time": self.current_time})
             if self.current_time == 0:
-                self.emmit_event(emitter, AllTeamAnswered)
+                self.emmit_event(AllTeamAnswered)
                 break
-            # self.write_snapshot()
+            self.write_snapshot()
             await asyncio.sleep(0.95)
 
     def write_snapshot(self):
@@ -82,12 +91,12 @@ class QuizeGame:
                 self.db.table(GameState.__name__).update(doc_ids=[i.doc_id],
                                                          fields=game_state.model_dump())
 
-    def emmit_event(self, emitter: AsyncIOEventEmitter, name: Type[SseEvent], payload: JSONserializeble = None):
+    def emmit_event(self, name: Type[SseEvent], payload: JSONserializeble = None):
         if not payload:
             payload = {}
-        event = name([i.dict() for i in self.teams.get_all_teams()], payload)
+        event = name([i.model_dump() for i in self.teams.get_all_teams()], payload)
         e_payload = {"payload": event.payload, "teams": event.teams}
-        emitter.emit(event.name, event)
+        self.emitter.emit(event.name, event)
 
     def restore_game_state(self):
         game_state = GameState(
@@ -115,6 +124,14 @@ class QuizeGame:
         for q in self.get_round().questions.iternodes():
             if q.idx == game_state.current_question:
                 self.get_round().current_question = q
+        if self.current_time != 0 and self.stage == GameStage.CHOSE_ANSWERS:
+            async def start_timer(app: Sanic, loop: asyncio.AbstractEventLoop):
+                try:
+                    self.sanic.add_task(self.timer_task(), name='timer')
+                except Exception as e:
+                    logger.warning(f"task canceled {e}")
+
+            self.sanic.register_listener(start_timer, "after_server_start")
 
     def load_rounds(self):
         self.rounds = Dllist()
@@ -123,7 +140,9 @@ class QuizeGame:
             rounds.append(Round(r))
         self.rounds = Dllist(rounds)
 
-    def __init__(self, scenario_name: str, inited_database: TinyDB):
+    def __init__(self, scenario_name: str, inited_database: TinyDB, sanic: Sanic, emitter: AsyncIOEventEmitter):
+        self._sanic = sanic
+        self._emitter = emitter
         self.base_scenario: GameScenario = GameScenario(
             **json.load(open(f"config/{scenario_name}", encoding=sys.getdefaultencoding()))["game"])
         self.stage = GameStage.WAITING_START
@@ -149,23 +168,23 @@ class QuizeGame:
         return self.base_scenario.game_settings.tactics
 
     @check_sequence(GameStage.WAITING_START, GameStage.WAITING_NEXT)
-    def start_game(self, emitter: AsyncIOEventEmitter):
-        self.emmit_event(emitter, StartGameEvent,
+    def start_game(self):
+        self.emmit_event(StartGameEvent,
                          payload={"skip_emails": self.base_scenario.game_settings.skip_emails})
         return {"round": self.get_round().base_round.model_dump()}
 
     @check_sequence([GameStage.WAITING_NEXT, GameStage.SHOW_RESULTS, GameStage.NEXT_ROUND], GameStage.CHOSE_TACTICS)
-    def next_question(self, emitter: AsyncIOEventEmitter) -> Dict[str, Any]:
+    def next_question(self) -> Dict[str, Any]:
         cur_round = self.get_round()
         if self._finished:
-            self.emmit_event(emitter, GameEndedEvent)
+            self.emmit_event(GameEndedEvent)
             return {"fished": True}
         self.teams.erase_teams_state()
         r = cur_round.base_round.model_dump()
         r.update({"current_round": self.current_round.idx, "current_question": self.get_round().current_question.idx,
                   "all_rounds": len(self.rounds),
                   'all_questions': len(self.get_round().questions)})
-        self.emmit_event(emitter, NextQuestionEvent, r)
+        self.emmit_event(NextQuestionEvent, r)
 
         if cur_round.info.type == "blitz":
             self.current_time = cur_round.info.settings.time_to_answer
@@ -174,48 +193,48 @@ class QuizeGame:
         return cur_round.base_round.model_dump()
 
     @check_sequence(GameStage.ALL_CHOSE, GameStage.SHOW_MEDIA_BEFORE)
-    def show_media_before(self, emitter: AsyncIOEventEmitter):
-        self.emmit_event(emitter, ShowMediaBeforeEvent,
+    def show_media_before(self):
+        self.emmit_event(ShowMediaBeforeEvent,
                          self.get_round().get_question().media_data.model_dump())
 
     @check_sequence(GameStage.SHOW_MEDIA_BEFORE, GameStage.SHOW_QUESTION)
-    def show_question(self, emitter: AsyncIOEventEmitter):
-        self.emmit_event(emitter, ShowQuestionsEvent, self.get_round().get_question().model_dump())
+    def show_question(self, ):
+        self.emmit_event(ShowQuestionsEvent, self.get_round().get_question().model_dump())
 
     @check_sequence(GameStage.SHOW_QUESTION, GameStage.CHOSE_ANSWERS)
-    def show_answers(self, emitter: AsyncIOEventEmitter):
+    def show_answers(self, ):
         q = self.get_round().get_question().model_dump()
         if self.now_blitz:
             q.update({"type": "blitz"})
-        self._sanic.add_task(self.timer_task(emitter), name='timer')
-        self.emmit_event(emitter, ShowAnswersEvent, q)
+        self._sanic.add_task(self.timer_task(), name='timer')
+        self.emmit_event(ShowAnswersEvent, q)
 
     @check_sequence(GameStage.ALL_ANSWERED, GameStage.SHOW_MEDIA_AFTER)
-    def show_media_after(self, emitter: AsyncIOEventEmitter):
-        self.emmit_event(emitter, ShowMediaAfterEvent, self.get_round().get_question().media_data.model_dump())
+    def show_media_after(self):
+        self.emmit_event(ShowMediaAfterEvent, self.get_round().get_question().media_data.model_dump())
 
     @check_sequence(GameStage.SHOW_MEDIA_AFTER, GameStage.SHOW_CORRECT_ANSWER)
-    def show_correct_answers(self, emitter: AsyncIOEventEmitter):
+    def show_correct_answers(self):
         self.teams.count_results()
         self.teams.count_places()
         if self.now_blitz:
-            self.emmit_event(emitter, ShowCorrectAnswersEvent, self.get_round()[0].model_dump())
-        self.emmit_event(emitter, ShowCorrectAnswersEvent, self.get_round().get_question().model_dump())
+            self.emmit_event(ShowCorrectAnswersEvent, self.get_round()[0].model_dump())
+        self.emmit_event(ShowCorrectAnswersEvent, self.get_round().get_question().model_dump())
 
     @check_sequence(GameStage.SHOW_CORRECT_ANSWER, GameStage.SHOW_RESULTS)
-    def show_results(self, emitter: AsyncIOEventEmitter):
+    def show_results(self):
         # if self.now_blitz and self.current_round.next is None:
         #     self._finished = True
         # elif not self.now_blitz and self.get_round().current_question.next is None:
         #     self._finished = True
         self.teams.count_results()
         self.teams.count_places()
-        self.emmit_event(emitter, ShowResultsEvent, {"next_round": self.get_round().current_question.next is None})
+        self.emmit_event(ShowResultsEvent, {"next_round": self.get_round().current_question.next is None})
         if self.get_round().current_question.next is not None:
             self.get_round().current_question = self.get_round().current_question.next
 
     @check_sequence(GameStage.SHOW_RESULTS, GameStage.NEXT_ROUND)
-    def next_round(self, emitter: AsyncIOEventEmitter):
+    def next_round(self):
         if self.current_round.next is not None:
             self.current_round = self.current_round.next
         if self.get_round().info.type == "blitz":
@@ -224,10 +243,10 @@ class QuizeGame:
             self.teams.erase_test_score()
         self.teams.erase_team_tactic_balance()
         self.teams.erase_teams_state()
-        self.emmit_event(emitter, NextRound, payload={"next_test": self._is_next_test()})
+        self.emmit_event(NextRound, payload={"next_test": self._is_next_test()})
 
-    def end_game(self, emitter: AsyncIOEventEmitter):
-        self.emmit_event(emitter, GameEndedEvent, payload={"next_test": self._is_next_test()})
+    def end_game(self):
+        self.emmit_event(GameEndedEvent, payload={"next_test": self._is_next_test()})
 
     def _is_next_test(self) -> bool:
         next_round: Round = self.current_round.next
@@ -294,20 +313,20 @@ class QuizeGame:
     def get_add_info(self):
         return self.base_scenario.game_info.model_dump()
 
-    def _replicate_to_other_file(self):
-        dumps = os.listdir("config")
-        max_dump_num = 0
-        for dump in dumps:
-            if "db_" in dump:
-                try:
-                    num = int(dump.split("_")[-1].replace(".json", ""))
-                    if num > max_dump_num:
-                        max_dump_num = num
-                except Exception as e:
-                    logger.warning(str(e))
-                    max_dump_num = 0
-                    break
-        db_dump = TinyDB(f'config/db_{max_dump_num + 1}.json')
-        db_dump.table(GameState.__name__).insert(GameState(**vars(self)).dict())
-        for team in self.teams.get_all_teams():
-            db_dump.table(TeamModel.__name__).insert(team.dict())
+    # def _replicate_to_other_file(self):
+    #     dumps = os.listdir("config")
+    #     max_dump_num = 0
+    #     for dump in dumps:
+    #         if "db_" in dump:
+    #             try:
+    #                 num = int(dump.split("_")[-1].replace(".json", ""))
+    #                 if num > max_dump_num:
+    #                     max_dump_num = num
+    #             except Exception as e:
+    #                 logger.warning(str(e))
+    #                 max_dump_num = 0
+    #                 break
+    #     db_dump = TinyDB(f'config/db_{max_dump_num + 1}.json')
+    #     db_dump.table(GameState.__name__).insert(GameState(**vars(self)).dict())
+    #     for team in self.teams.get_all_teams():
+    #         db_dump.table(TeamModel.__name__).insert(team.dict())

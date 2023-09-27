@@ -44,7 +44,7 @@ class RegisterTeamApi(HTTPMethodView):
                                  current_counted=tactic_counter,
                                  avatar="",
                                  **request.json)
-            request.app.ctx.game.teams.add_team(team_obj, request.app.ctx.emitter)
+            request.app.ctx.game.teams.add_team(team_obj)
             return json({"team_id": team_obj.uid})
         except ValidationError:
             raise sanic_exc.SanicException("Can't parse json")
@@ -67,7 +67,7 @@ class TeamApi(HTTPMethodView):
     async def patch(self, request: Request, uid: str):
         try:
             new_name = request.json["new_name"]
-            update = request.app.ctx.game.teams.update_team_name(request.app.ctx.emitter, uid, new_name)
+            update = request.app.ctx.game.teams.update_team_name(uid, new_name)
             return json({"team_id": uid, "status": update})
         except BaseGameException as e:
             logger.error(e)
@@ -75,7 +75,7 @@ class TeamApi(HTTPMethodView):
 
     async def delete(self, request: Request, uid: str):
         try:
-            removed = await request.app.ctx.game.teams.drop_team(request.app.ctx.emitter, uid)
+            removed = await request.app.ctx.game.teams.drop_team(uid)
             return json({"team_id": uid, "status": "removed"})
         except BaseGameException as e:
             logger.error(e)
@@ -87,7 +87,7 @@ class TeamTactic(HTTPMethodView):
         if uid in request.app.ctx.game.teams:
             try:
                 dto = TacticChosePOST(uid=uid, **request.json)
-                await request.app.ctx.game.teams.team_chose_tactic(dto, request.app.ctx.emitter)
+                await request.app.ctx.game.teams.team_chose_tactic(dto)
                 return json({})
             except ValidationError:
                 raise sanic_exc.SanicException("Can't parse json")
@@ -103,7 +103,7 @@ class TeamChoseAnswer(HTTPMethodView):
         if uid in request.app.ctx.game.teams:
             try:
                 dto = AnswerChosePOST(uid=uid, **request.json)
-                await request.app.ctx.game.teams.team_chose_answer(dto, request.app.ctx.emitter)
+                await request.app.ctx.game.teams.team_chose_answer(dto)
                 return json({})
             except ValidationError:
                 raise sanic_exc.SanicException("Can't parse json")
@@ -119,7 +119,7 @@ class TeamBlitzChoseAnswer(HTTPMethodView):
         if uid in request.app.ctx.game.teams:
             try:
                 dto = BlitzAnswerChosePOST(uid=uid, **request.json)
-                await request.app.ctx.game.teams.team_answer_blitz(request.app.ctx.emitter, dto)
+                await request.app.ctx.game.teams.team_answer_blitz(dto)
                 return json({})
             except ValidationError:
                 raise sanic_exc.SanicException("Can't parse json")
@@ -133,7 +133,7 @@ class TeamBlitzChoseAnswer(HTTPMethodView):
 class AcquireAvatar(HTTPMethodView):
     async def post(self, request: Request, uid: str):
         try:
-            ress = request.app.ctx.game.teams.acquire_avatar(request.app.ctx.emitter, uid, request.json["path"])
+            ress = request.app.ctx.game.teams.acquire_avatar(uid, request.json["path"])
             return json(ress)
         except BaseGameException as e:
             logger.error(e)

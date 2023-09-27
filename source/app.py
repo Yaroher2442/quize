@@ -21,6 +21,7 @@ class HttpApp:
         self.game = game
         self.game.emitter = self.emitter
         self.game.sanic = self.sanic_app
+
         self.sanic_app.register_listener(self.setup_worker_context, "before_server_start")
         self.sanic_app.config.NOISY_EXCEPTIONS = True
         CORS(self.sanic_app)
