@@ -6,7 +6,7 @@ import {useEffect, useState} from 'react';
 
 const App = () => {
 
-    const baseUrl = 'http://localhost:8844';
+    const baseUrl = 'https://828b-83-217-201-136.ngrok-free.app';
 
     return (
         <div className="App">

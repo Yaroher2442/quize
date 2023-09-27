@@ -24,12 +24,12 @@ const ShowCorrect = () => {
     return(
         <section className="show-correct">
             <div>
-                <QuestionTypeLabel type={questions[questionNumber - 1].type}/>
-                <h1>{questions[questionNumber - 1].question}</h1>
+                <QuestionTypeLabel type={questions[questionNumber].type}/>
+                <h1>{questions[questionNumber].question}</h1>
             </div>
             <div>
                 <h2>Правильный ответ</h2>
-                <h1>{questions[questionNumber-1].correct_answer}</h1>
+                <h1>{questions[questionNumber].correct_answer}</h1>
             </div>
             <button onClick={openNextPage}>Результат ответа</button>
         </section>

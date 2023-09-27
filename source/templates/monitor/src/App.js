@@ -33,7 +33,7 @@ const App = () => {
                 break;
             case 'next_question':
                 const {type: qType, settings, questions, current_question } = edata;
-                const qText = questions[current_question-1].question;
+                const qText = questions[current_question].question;
                 AppStore.update(s => {
                     s.questionText = qText;
                     if (qType === 'blitz') {

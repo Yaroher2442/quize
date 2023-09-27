@@ -23,6 +23,7 @@ const App = () => {
     const request = new RequestHandler();
     const {
         isBlitzRound,
+        isLast,
         navPage,
         gamePage,
         teamsRegistered,
@@ -30,12 +31,17 @@ const App = () => {
         teamsChosenAnswer,
     } = AppStore.useState(s => ({
         isBlitzRound: s.isBlitzRound,
+        isLast: s.isLast,
         navPage: s.navPage,
         gamePage: s.gamePage,
         teamsRegistered: s.teamsRegistered,
         teamsResult: s.teamsResult,
         teamsChosenAnswer: s.teamsChosenAnswer,
     }));
+
+    useEffect(() => {
+        console.log('isLast === '+isLast);
+    }, [isLast])
 
     const [renamingTeam, setRenamingTeam] = useState(false);
     const [showAnswers, setShowAnswers] = useState(false);
@@ -48,11 +54,6 @@ const App = () => {
     const handleEvent = async (ename, e) => {
         let { payload: edata, teams: eteams } = JSON.parse(e.data);
         switch (ename) {
-            case 'next_question':
-                const {all_questions, all_rounds, current_question, current_round} = edata;
-                const isLastQuestion = (all_rounds === current_round+1) && (all_questions === current_question);
-                AppStore.update(s => {s.isLast = isLastQuestion;});
-                break;
             case 'new_team':
                 AppStore.update(s => {
                     s.teamsRegistered = eteams;
@@ -81,7 +82,10 @@ const App = () => {
                 console.log('teamsChosenAnswer ===', teamsChosenAnswer);
                 break;
             case 'show_results':
+                const {current_question,all_questions} = edata;
                 AppStore.update(s => {
+                    s.questionNumber = current_question;
+                    s.isLast = current_question-1 == all_questions;
                     s.teamsResult = eteams;
                     s.isNextRound = edata.next_round;
                     s.allTeamsChosenAnswer = false;
@@ -132,10 +136,10 @@ const App = () => {
 
     const getAppState = async () => {
         const appState = await request.getAppState();
-        const {all_rounds, next_test, next_blitz, current_round, teams, timer, stage, question, round, current_question, prv_stage} = appState.data;
+        const {finished, all_rounds, next_test, next_blitz, all_questions, current_round, teams, timer, stage, question, round, current_question, prv_stage} = appState.data;
 
         AppStore.update(s => {
-            s.isLast = all_rounds === current_round+1;
+            s.isLast = finished;
             s.isNextRoundTest = next_test;
             s.teamsRegistered = teams;
             s.teamsResult = teams;
@@ -231,6 +235,8 @@ const App = () => {
                 break;
             case 'SHOW_RESULTS':
                 AppStore.update(s => {
+                    s.questionNumber = current_question;
+                    s.isLast = current_question-1 == all_questions;
                     s.shownMediaBefore = false;
                     s.shownMediaAfter = false;
                     s.navPage = 'game';

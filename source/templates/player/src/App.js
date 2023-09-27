@@ -236,8 +236,10 @@ const App = () => {
                 });
                 break;
             case 'show_results':
+                const {current_question: q} = edata;
                 await asyncLocalStorage.setItem('usedRemoveAnswer', '0');
                 AppStore.update(s => {
+                    s.questionNumber = q + 1;
                     s.usedRemoveAnswer = 0;
                     s.currentTactic = null;
                     s.navPage = 'game';

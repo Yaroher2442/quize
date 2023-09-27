@@ -26,7 +26,7 @@ const ChooseAnswers = ({getAppState, openModal}) => {
     }));
 
     const openAnswers = () => {
-        const currentQuestion = questions[questionNumber-1];
+        const currentQuestion = questions[questionNumber];
         openModal(currentQuestion.answers, 'answers');
     };
     
