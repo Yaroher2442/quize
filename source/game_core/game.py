@@ -176,6 +176,7 @@ class QuizeGame:
     @check_sequence([GameStage.WAITING_NEXT, GameStage.SHOW_RESULTS, GameStage.NEXT_ROUND], GameStage.CHOSE_TACTICS)
     def next_question(self) -> Dict[str, Any]:
         cur_round = self.get_round()
+
         if self._finished:
             self.emmit_event(GameEndedEvent)
             return {"fished": True}
@@ -190,6 +191,7 @@ class QuizeGame:
             self.current_time = cur_round.info.settings.time_to_answer
         else:
             self.current_time = cur_round.current_question.value.time_to_answer
+
         return cur_round.base_round.model_dump()
 
     @check_sequence(GameStage.ALL_CHOSE, GameStage.SHOW_MEDIA_BEFORE)
@@ -229,7 +231,8 @@ class QuizeGame:
         #     self._finished = True
         self.teams.count_results()
         self.teams.count_places()
-        self.emmit_event(ShowResultsEvent, {"next_round": self.get_round().current_question.next is None})
+        self.emmit_event(ShowResultsEvent,
+                         {"next_round": self.current_round.next is None})
         if self.get_round().current_question.next is not None:
             self.get_round().current_question = self.get_round().current_question.next
 
@@ -293,7 +296,7 @@ class QuizeGame:
              "round": data.model_dump(),
              "next_round": self.get_round().current_question.next is None,
              "timer": self.current_time,
-             "skip_emails": self.base_scenario.game_settings.skip_emails
+             "skip_emails": self.base_scenario.game_settings.skip_emails,
              }
         return p
 
