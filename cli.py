@@ -10,7 +10,6 @@ from sanic.worker.loader import AppLoader
 from sanic_cors import CORS
 from tinydb import TinyDB
 
-from source.app import HttpApp
 from source.game_core.game import QuizeGame
 from source.log_handler import setup_loggers
 from source.routes.admin import AdminReloadState, AdminResetGame, AdminGetData
@@ -22,9 +21,7 @@ from source.sse.sse import SSEController
 
 def sanic_factory(scenario_file: str) -> Sanic:
     sanic = Sanic.get_app("test", force_create=True)
-    game = QuizeGame(scenario_file, TinyDB('config/db.json'))
-    game.emitter = AsyncIOEventEmitter()
-    game.sanic = sanic
+    game = QuizeGame(scenario_file, TinyDB('config/db.json'), sanic, AsyncIOEventEmitter())
 
     async def setup_worker_context(app: Sanic):
         app.ctx.emitter = game.emitter

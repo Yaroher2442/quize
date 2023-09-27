@@ -68,50 +68,51 @@ class TeamsStorage:
         return len(self.db.table(TeamModel.__name__).all())
 
     def get_all_teams(self) -> List[TeamModel]:
-        return self._all_pd()
+        return self.all_pd()
 
-    def add_team(self, team_obj: TeamModel, emmiter):
+    def add_team(self, team_obj: TeamModel):
         if not self.db.table(TeamModel.__name__).get(
                 cond=Query().team_name == team_obj.team_name and Query().table_num == team_obj.table_num):
             try:
                 self.db.table(TeamModel.__name__).insert(team_obj.model_dump())
-                self._emmit_event(emmiter, NewTeamEvent)
+                self.game.emmit_event(NewTeamEvent)
             except ValueError as e:
                 raise RegisterTeamException(f"Can't create user in db cause {e}")
         else:
             raise RegisterTeamException("not unique user")
 
-    async def drop_team(self, emmiter: AsyncIOEventEmitter, team_uid: str):
+    async def drop_team(self, team_uid: str):
         try:
             self.db.table(TeamModel.__name__).remove(cond=Query().uid == team_uid)
-            self._emmit_event(emmiter, TeamWasRemoved, payload={"team_uid": team_uid})
+
+            self.game.emmit_event(TeamWasRemoved, payload={"team_uid": team_uid})
             if self.game.stage == GameStage.CHOSE_TACTICS:
-                await self.sent_all_teams_chose(emmiter)
+                await self.sent_all_teams_chose()
             if self.game.stage == GameStage.CHOSE_ANSWERS:
-                await self.sent_all_teams_answered(emmiter)
+                await self.sent_all_teams_answered()
             return "team_removed"
         except Exception as e:
             logger.error(f"Can't delete team {e} from db")
             raise BaseGameException("Can't delete team from db")
 
-    def update_team_name(self, emmiter: AsyncIOEventEmitter, team_uid: str, new_name: str):
+    def update_team_name(self, team_uid: str, new_name: str):
         try:
             self.db.table(TeamModel.__name__).update(cond=Query().uid == team_uid,
                                                      fields={"team_name": new_name})
-            self._emmit_event(emmiter, TeamWasUpdated, payload={"new_name": new_name, "team_uid": team_uid})
+            self.game.emmit_event(TeamWasUpdated, payload={"new_name": new_name, "team_uid": team_uid})
             return "team_removed"
         except Exception as e:
             logger.error(f"Can't delete team {e} from db")
             raise BaseGameException("Can't delete team from db")
 
-    def acquire_avatar(self, emitter: AsyncIOEventEmitter, team_id: str, avatar_path: str):
+    def acquire_avatar(self, team_id: str, avatar_path: str):
         # for t in self._all_pd():
         #     if t.avatar == avatar_path and "default" not in t.avatar:
         #         raise BaseGameException("Avatar already acquired")
         if self.get_team(team_id).avatar != "":
             raise BaseGameException("You have avatar")
         else:
-            self._emmit_event(emitter, AcquireAvatarEvent, {"path": avatar_path})
+            self.game.emmit_event(AcquireAvatarEvent, {"path": avatar_path})
             self.db.table(TeamModel.__name__).update(cond=Query().uid == team_id, fields={"avatar": avatar_path})
         return avatar_path
 
@@ -125,21 +126,21 @@ class TeamsStorage:
         return _cast_to_pd(self.db.table(TeamModel.__name__).get(cond=Query().uid == team_uid))
 
     def erase_teams_state(self):
-        for team in self._all_pd():
+        for team in self.all_pd():
             team.current_tactic = None
             team.current_answer = None
             erase_team_stats(team)
             self.db.table(TeamModel.__name__).update(cond=Query().uid == team.uid, fields=team.model_dump())
 
     def erase_team_tactic_balance(self):
-        for team in self._all_pd():
+        for team in self.all_pd():
             tactic_b = TeamTacticBalance(
                 **self.game.get_tactic_balance().dict())
             team.tactic_balance = tactic_b
             self.db.table(TeamModel.__name__).update(cond=Query().uid == team.uid, fields=team.model_dump())
 
     def erase_test_score(self):
-        for team in self._all_pd():
+        for team in self.all_pd():
             team.current_score = 0.0
             team.correct_in_row = 0
             team.current_answer = None
@@ -148,12 +149,6 @@ class TeamsStorage:
             erase_team_stats(team)
             team.current_place = 0
             self.db.table(TeamModel.__name__).update(cond=Query().uid == team.uid, fields=team.model_dump())
-
-    def _emmit_event(self, emitter: AsyncIOEventEmitter, name: Type[SseEvent], payload: JSONserializeble = None):
-        if not payload:
-            payload = {}
-        event = name([i.model_dump() for i in self.get_all_teams()], payload)
-        emitter.emit(event.name, event)
 
     def _set_tactics(self, team: TeamModel, dto: TacticChosePOST):
         team.current_tactic = dto.tactic
@@ -176,40 +171,40 @@ class TeamsStorage:
 
         self.db.table(TeamModel.__name__).update(cond=Query().uid == dto.uid, fields=team.model_dump())
 
-    async def sent_all_teams_chose(self, emitter: AsyncIOEventEmitter):
+    async def sent_all_teams_chose(self):
         if self._check_all_team_chose():
             media = self.game.is_media_exists()
             logger.warning(media)
             self.game.stage = GameStage.ALL_CHOSE
             if media:
-                self._emmit_event(emitter, AllTeamChosenTactic)
+                self.game.emmit_event(AllTeamChosenTactic)
             else:
-                self._emmit_event(emitter, AllTeamChosenTactic)
-                self.game.show_media_before(self.game.emitter)
+                self.game.emmit_event(AllTeamChosenTactic)
+                self.game.show_media_before()
 
-    async def team_chose_tactic(self, dto: TacticChosePOST, emitter: AsyncIOEventEmitter):
+    async def team_chose_tactic(self, dto: TacticChosePOST):
         team = self.get_team(dto.uid)
         if team.current_tactic:
             raise WrongSequence("Tactic already chosen")
         if dto.tactic not in ["one_for_all", "question_bet", "all_in", "team_bet", "without"]:
             raise BaseGameException("Tactic not allowed")
         self._set_tactics(team, dto)
-        self._emmit_event(emitter, TeamChoseTactic, self.get_team(dto.uid).model_dump())
-        await self.sent_all_teams_chose(emitter)
+        self.game.emmit_event(TeamChoseTactic, self.get_team(dto.uid).model_dump())
+        await self.sent_all_teams_chose()
 
-    async def sent_all_teams_answered(self, emitter: AsyncIOEventEmitter):
+    async def sent_all_teams_answered(self):
         if self._check_all_team_answer():
             media = self.game.is_media_exists()
             self.game.stage = GameStage.ALL_ANSWERED
-            self._emmit_event(emitter, AllTeamAnswered)
+            self.game.emmit_event(AllTeamAnswered)
             if not media:
-                self.game.show_media_after(self.game.emitter)
+                self.game.show_media_after()
             try:
                 await self.game.sanic.cancel_task(name='timer')
             except Exception as e:
                 logger.error(e)
 
-    async def team_chose_answer(self, dto: AnswerChosePOST, emitter: AsyncIOEventEmitter):
+    async def team_chose_answer(self, dto: AnswerChosePOST):
         team = self.get_team(dto.uid)
         if team.current_answer:
             raise BaseGameException("You already answered")
@@ -219,23 +214,23 @@ class TeamsStorage:
         if team.tactic_balance.remove_answer - dto.remove_answer >= 0:
             team.tactic_balance.remove_answer -= dto.remove_answer
         self.db.table(TeamModel.__name__).update(cond=Query().uid == dto.uid, fields=team.model_dump())
-        self._emmit_event(emitter, TeamChoseAnswer, self.get_team(dto.uid).model_dump())
-        await self.sent_all_teams_answered(emitter)
+        self.game.emmit_event(TeamChoseAnswer, self.get_team(dto.uid).model_dump())
+        await self.sent_all_teams_answered()
 
     async def team_answer_blitz(self, emitter, dto: BlitzAnswerChosePOST):
         team = self.get_team(dto.uid)
         team.current_blitz_answers.update({str(dto.id): {"answr": dto.answer, "correct": False}})
         self.db.table(TeamModel.__name__).update(cond=Query().uid == dto.uid, fields=team.model_dump())
         if self._check_all_team_blitzed():
-            self._emmit_event(emitter, AllTeamAnswered)
+            self.game.emmit_event(AllTeamAnswered)
             try:
                 await self.game.sanic.cancel_task(name='timer')
             except Exception as e:
                 logger.error(e)
 
-    async def finish_blitz(self, emitter: AsyncIOEventEmitter):
+    async def finish_blitz(self):
         self.game.stage = GameStage.ALL_ANSWERED
-        self._emmit_event(emitter, AllTeamAnswered)
+        self.game.emmit_event(AllTeamAnswered)
 
     def _check_correct(self, team: TeamModel) -> bool:
         if team.current_answer:
@@ -391,15 +386,12 @@ class TeamsStorage:
             team.current_place += 1
             self.db.table(TeamModel.__name__).update(cond=Query().uid == team.uid, fields=team.dict())
 
-    def all_json(self) -> List[Any]:
-        return self.db.table(TeamModel.__name__).all()
-
-    def _all_pd(self) -> Union[List[TeamModel], None]:
+    def all_pd(self) -> Union[List[TeamModel], None]:
         return [_cast_to_pd(db_team) for db_team in self.db.table(TeamModel.__name__).all()]
 
     def _check_all_team_chose(self) -> bool:
         chose = []
-        all_teams = self._all_pd()
+        all_teams = self.all_pd()
 
         for team in all_teams:
             if team.current_tactic:
@@ -410,7 +402,7 @@ class TeamsStorage:
 
     def _check_all_team_answer(self) -> bool:
         answered = []
-        all_teams = self._all_pd()
+        all_teams = self.all_pd()
         for team in all_teams:
             if team.current_answer:
                 answered.append(team.current_answer)
@@ -423,7 +415,7 @@ class TeamsStorage:
     def _check_all_team_blitzed(self) -> bool:
         cond = all(
             [len(team.current_blitz_answers.keys()) == len(self.game.get_round().questions) for team in
-             self._all_pd()])
+             self.all_pd()])
         logger.warning(cond)
         # if cond:
         #     try:
