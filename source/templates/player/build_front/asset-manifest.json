@@ -1,23 +1,23 @@
 {
   "files": {
-    "main.css": "/player/ui/static/css/main.c7e7e48e.css",
-    "main.js": "/player/ui/static/js/main.756953e4.js",
+    "main.css": "/player/ui/static/css/main.dbba517e.css",
+    "main.js": "/player/ui/static/js/main.ab5d1e34.js",
     "static/media/question.png": "/player/ui/static/media/question.3e90a89b94aebefa71fd.png",
     "static/media/round.png": "/player/ui/static/media/round.6bcc0e62975189a0219d.png",
     "static/media/logo_register.png": "/player/ui/static/media/logo_register.2531738286e0711e842e.png",
     "static/media/logo_game.png": "/player/ui/static/media/logo_game.e703d809d11f01cea407.png",
-    "static/media/table.svg": "/player/ui/static/media/table.b8a0bc78f245bdb70c5657c8b0cc0919.svg",
-    "static/media/game.svg": "/player/ui/static/media/game.d6801da385812c536c1966414afae035.svg",
-    "static/media/rules.svg": "/player/ui/static/media/rules.bff96028ff9e2a50d924a285e72ef16f.svg",
-    "static/media/trash.svg": "/player/ui/static/media/trash.c8d01bbc8a38268332d41977a58bed66.svg",
+    "static/media/table.svg": "/player/ui/static/media/table.f06aea17c282cfe892090239ca061fa9.svg",
+    "static/media/game.svg": "/player/ui/static/media/game.8a3966ace5c764221b6b89cd953e271b.svg",
+    "static/media/rules.svg": "/player/ui/static/media/rules.a68641425d30a5c90c31da1256f7d2ff.svg",
+    "static/media/trash.svg": "/player/ui/static/media/trash.010506dadad7221480fcc07847493791.svg",
     "index.html": "/player/ui/index.html",
-    "static/media/countdown_big.svg": "/player/ui/static/media/countdown_big.8f2554cf6e98d04d89b9.svg",
-    "static/media/countdown.svg": "/player/ui/static/media/countdown.706686e51e3eb0f9ac4624247fe9aa27.svg",
-    "main.c7e7e48e.css.map": "/player/ui/static/css/main.c7e7e48e.css.map",
-    "main.756953e4.js.map": "/player/ui/static/js/main.756953e4.js.map"
+    "static/media/countdown_big.svg": "/player/ui/static/media/countdown_big.35be4fecf44bcb93e60e.svg",
+    "static/media/countdown.svg": "/player/ui/static/media/countdown.5cf4663075c68c9c37ecdffd4fae72cb.svg",
+    "main.dbba517e.css.map": "/player/ui/static/css/main.dbba517e.css.map",
+    "main.ab5d1e34.js.map": "/player/ui/static/js/main.ab5d1e34.js.map"
   },
   "entrypoints": [
-    "static/css/main.c7e7e48e.css",
-    "static/js/main.756953e4.js"
+    "static/css/main.dbba517e.css",
+    "static/js/main.ab5d1e34.js"
   ]
 }
