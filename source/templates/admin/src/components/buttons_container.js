@@ -20,10 +20,6 @@ export const ButtonsContainer = ({baseUrl}) => {
     return (
         <div className="button-container">
             <Space>
-                <Space.Compact block>
-                    <Button type="primary" onClick={sendBackStage}>Prev stage</Button>
-                    <Button type="primary" onClick={sendNextStage}>Next stage</Button>
-                </Space.Compact>
                 <Button type="primary" onClick={() => setIsLeadQROpen(true)}>Lead QR</Button>
                 <Button type="primary" onClick={() => setIsPlayerQROpen(true)}>Players QR</Button>
             </Space>

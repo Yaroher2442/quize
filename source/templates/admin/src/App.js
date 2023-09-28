@@ -1,22 +1,34 @@
 import './App.css';
-import {Header, ButtonsContainer, TeamsTable, GameJson} from './components/_exports.js';
+import {Header, ButtonsContainer, TeamsTable, GameTable} from './components/_exports.js';
 import axios from 'axios';
 import {useEffect, useState} from 'react';
 
 
 const App = () => {
 
-    const baseUrl = 'http://localhost:8844';
+    const { REACT_APP_SERVER_URL: baseUrl } = process.env
+    const [json, setJson] = useState({});
+
+    const updateJson = async () => {
+        let response = await axios.get(baseUrl + '/admin/data');
+        setJson(response.data);
+    }
+
+    useEffect(() => {
+        updateJson();
+        setInterval(updateJson, 1000);
+    }, []);
+
 
     return (
         <div className="App">
             <div className="wrapper">
-                <Header baseUrl={baseUrl}/>
+                <Header stage={(json.Game ?? {}).Stage ?? ''}/>
                 <ButtonsContainer baseUrl={baseUrl} />
 
                 <div className='content-container'>
-                    <TeamsTable baseUrl={baseUrl}/>
-                    <GameJson baseUrl={baseUrl}/>
+                    <TeamsTable gameData={json}/>
+                    <GameTable gameData={json}/>
                 </div>
             </div>
         </div>

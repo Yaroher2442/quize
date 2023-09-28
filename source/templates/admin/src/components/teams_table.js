@@ -1,89 +1,101 @@
-import { Table, Tag, } from 'antd';
+import { Table, Tag, Button, QRCode, Modal } from 'antd';
 import axios from 'axios';
 import { useState, useEffect } from 'react';
 
-export const TeamsTable = ({ baseUrl }) => {
+export const TeamsTable = ({ gameData }) => {
 
-    const [dataSource, setDataSource] = useState([
+    const [qrOpened, setQrOpened] = useState('');
+    const [dataSource, setDataSource] = useState([]);
+    const columns = [
         {
-            key: '1',
-            name: 'Бобры',
-            connection: <Tag color="green">+</Tag>,
-            ip: '192.168.1.1',
-            state: 'WAITING_START',
-            tactic: 'ONE_FOR_ALL',
-            answer: '123',
+            title: 'Команда',
+            dataIndex: 'team_name',
+            key: 'team_name',
         },
         {
-            key: '2',
-            name: 'Хуебры',
-            connection: <Tag color="red">-</Tag>,
-            ip: '192.168.1.1',
-            state: 'WAITING_START',
-            tactic: 'ONE_FOR_ALL',
-            answer: '123',
+            title: 'Ответ',
+            dataIndex: 'current_answer',
+            key: 'current_answer',
         },
         {
-            key: '2',
-            name: 'Пиздабры',
-            connection: <Tag color="green">+</Tag>,
-            ip: '192.168.1.1',
-            state: 'WAITING_START',
-            tactic: 'ONE_FOR_ALL',
-            answer: '12312312312312312312312312312312312312312312',
-        },
-    ]);
-
-    const [columns, setColumns] = useState([
-        {
-            title: 'Name',
-            dataIndex: 'name',
-            key: 'name',
+            title: 'Тактика',
+            dataIndex: 'current_tactic',
+            key: 'current_tactic',
         },
         {
-            title: 'Connection',
-            dataIndex: 'connection',
-            key: 'connection',
+            title: 'QR-код команды',
+            dataIndex: 'team_qr',
+            key: 'team_qr',
         },
-        {
-            title: 'IP',
-            dataIndex: 'ip',
-            key: 'ip',
-        },
-        {
-            title: 'State',
-            dataIndex: 'state',
-            key: 'state',
-        },
-        {
-            title: 'Tactic',
-            dataIndex: 'tactic',
-            key: 'tactic',
-        },
-        {
-            title: 'Answer',
-            dataIndex: 'answer',
-            key: 'answer',
-        },
-    ]);
+        // {
+        //     title: 'Connection',
+        //     dataIndex: 'connection',
+        //     key: 'connection',
+        // },
+        // {
+        //     title: 'IP',
+        //     dataIndex: 'ip',
+        //     key: 'ip',
+        // },
+        // {
+        //     title: 'State',
+        //     dataIndex: 'state',
+        //     key: 'state',
+        // },
+    ];
 
     const updateTeams = async () => {
-        let newJson = await axios.get(baseUrl + '/admin/teams');
-        setDataSource(newJson.data);
+        function isEmpty(obj) {
+            for (const prop in obj) {
+                if (Object.hasOwn(obj, prop)) {
+                    return false;
+                }
+            }
+            return true;
+        }
+
+        let teamsData = [];
+
+        if (!isEmpty(gameData)) {
+            gameData.Teams.forEach((team) => {
+                teamsData.push({
+                    team_name: team.team_name,
+                    current_answer: team.current_answer,
+                    current_tactic: team.current_tactic,
+                    team_qr: <Button type="primary" onClick={() => setQrOpened(team.url)}>QR</Button>
+                },);
+            });
+        }
+
+        setDataSource(teamsData);
     }
 
     useEffect(() => {
-        // updateTeams();
-        // setInterval(updateTeams, 1000);
-    }, []);
+        updateTeams();
+    }, [gameData]);
 
     return (
         <div className="teams-container">
             <Table
-                dataSource={dataSource} 
+                dataSource={dataSource}
                 columns={columns}
                 pagination={false}
             />
+            <Modal
+                title="Team QR"
+                footer={null}
+                width={308}
+                open={qrOpened != ''}
+                onOk={() => setQrOpened('')}
+                onCancel={() => setQrOpened('')}
+            >
+                <QRCode
+                    value={qrOpened}
+                    style={{ margin: '0 auto' }}
+                    bgColor={'#ffffff'}
+                    size={260}
+                />
+            </Modal>
         </div>
     );
 };

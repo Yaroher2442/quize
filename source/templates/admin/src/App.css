@@ -29,15 +29,8 @@
   width: 69%;
 }
 
-.json-container {
+.game-container {
   width: 30%;
-  display: flex;
-  align-items: start;
-  justify-content: start;
-  background-color: #ffffff;
-  font-size: 16px;
-  border-radius: 8px;
-  padding: 10px;
 }
 
 .qr-container {
