@@ -43,6 +43,7 @@
   margin: 0 auto;
   position: relative;
   max-height: 80vh;
+  height: 100%;
 }
 @media (min-height: 800px) {
   .app__wrapper {
@@ -110,7 +111,8 @@
 }
 .modal__team-answer {
   color: #DD4A38;
-  text-decoration: line-through red;
+  -webkit-text-decoration: line-through red;
+          text-decoration: line-through red;
   -webkit-text-decoration-line: line-through;
   -webkit-text-decoration-color: red;
 }
@@ -130,6 +132,4 @@
   .modal__button {
     font-size: 15px;
   }
-}
-
-/*# sourceMappingURL=app.css.map */
+}/*# sourceMappingURL=app.css.map */
