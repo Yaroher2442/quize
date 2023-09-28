@@ -65,17 +65,17 @@
   height: 25px;
 }
 .table .tedit__opener img {
-  object-fit: contain;
+  -o-object-fit: contain;
+     object-fit: contain;
   width: 15px;
 }
 .table .tedit__item img {
-  object-fit: contain;
+  -o-object-fit: contain;
+     object-fit: contain;
   margin-right: 10px;
   max-width: 20px;
 }
 .table .tedit__item p {
   color: #556BAC;
   text-transform: none;
-}
-
-/*# sourceMappingURL=style.css.map */
+}/*# sourceMappingURL=style.css.map */

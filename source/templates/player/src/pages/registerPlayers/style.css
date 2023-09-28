@@ -80,12 +80,20 @@
     font-size: 20px;
   }
 }
+.register-players__player input::-moz-placeholder {
+  color: #FFFFFF;
+  font-size: 14px;
+  font-weight: 200;
+}
 .register-players__player input::placeholder {
   color: #FFFFFF;
   font-size: 14px;
   font-weight: 200;
 }
 @media (min-width: 800px) {
+  .register-players__player input::-moz-placeholder {
+    font-size: 18px;
+  }
   .register-players__player input::placeholder {
     font-size: 18px;
   }
@@ -100,6 +108,4 @@
   display: inline-flex;
   justify-content: center;
   align-items: center;
-}
-
-/*# sourceMappingURL=style.css.map */
+}/*# sourceMappingURL=style.css.map */

@@ -26,10 +26,13 @@
   font-size: 24px;
   background: none;
 }
-.lead-input__value::placeholder {
+.lead-input__value::-moz-placeholder {
   color: #FFEA7D;
   font-size: 24px;
   font-weight: 700;
 }
-
-/*# sourceMappingURL=style.css.map */
+.lead-input__value::placeholder {
+  color: #FFEA7D;
+  font-size: 24px;
+  font-weight: 700;
+}/*# sourceMappingURL=style.css.map */

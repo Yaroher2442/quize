@@ -29,15 +29,21 @@
   -webkit-appearance: none;
   margin: 0;
 }
+.register-team__input_text::-moz-placeholder {
+  color: #FFFFFF;
+  font-size: 14px;
+  font-weight: 200;
+}
 .register-team__input_text::placeholder {
   color: #FFFFFF;
   font-size: 14px;
   font-weight: 200;
 }
 @media (min-width: 800px) {
+  .register-team__input_text::-moz-placeholder {
+    font-size: 18px;
+  }
   .register-team__input_text::placeholder {
     font-size: 18px;
   }
-}
-
-/*# sourceMappingURL=style.css.map */
+}/*# sourceMappingURL=style.css.map */

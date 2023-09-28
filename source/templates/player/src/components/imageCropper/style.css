@@ -68,7 +68,6 @@
 .image-cropper .croparea__mediaClassName {
   border-radius: 0 !important;
   color: blue !important;
-  object-fit: contain;
-}
-
-/*# sourceMappingURL=style.css.map */
+  -o-object-fit: contain;
+     object-fit: contain;
+}/*# sourceMappingURL=style.css.map */
