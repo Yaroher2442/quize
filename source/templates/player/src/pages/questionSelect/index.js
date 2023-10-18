@@ -86,17 +86,6 @@ const QuestionSelect = () => {
     useEffect(() => {
         if (currentAnswer !== null) {
             setInputLock(true);
-        } else if (timeToAnswerLeft <= 0) {
-            toast('Время вышло!', {toastId: 'timeOut'});
-            sendAnswer(true);
-        } else {
-            setCurrentTimeToAnswer(timeToAnswerLeft);
-        }
-    }, [timeToAnswerLeft]);
-
-    useEffect(() => {
-        if (currentAnswer !== null) {
-            setInputLock(true);
             toast('Ожидайте ведущего', {toastId: 'wait'});
         } else if (timeToAnswerLeft <= 0) {
             toast('Время вышло!', {toastId: 'timeOut'});
