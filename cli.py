@@ -81,6 +81,7 @@ def main(scenario: str = "scenario.json"):
     app = loader.load()
     app.prepare(host="0.0.0.0", port=8844, single_process=True)
     logger.success("Load complete")
+    logger.success(f"ADMIN LINK: http://{MY_IP}:8844/admin/ui/index.html")
     logger.success(f"LEAD LINK: http://{MY_IP}:8844/lead/ui/index.html")
     logger.success(f"PLAYER LINK: http://{MY_IP}:8844/player/ui/index.html")
     Sanic.serve(primary=app, app_loader=loader)
