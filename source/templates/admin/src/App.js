@@ -5,9 +5,19 @@ import {useEffect, useState} from 'react';
 
 
 const App = () => {
+    const { NODE_ENV, REACT_APP_SERVER_URL } = process.env;
+    const baseUrl = NODE_ENV == 'development' ? REACT_APP_SERVER_URL : window.location.origin;
 
-    const { REACT_APP_SERVER_URL: baseUrl } = process.env
     const [json, setJson] = useState({});
+    const [gameName, setGameName] = useState('');
+
+    const getGameName = async () => {
+        async function getGameInfo () {
+            return await axios.get(baseUrl + '/game/info');
+        }
+        const gameInfo = await getGameInfo();
+        setGameName(gameInfo.data.name);
+    }
 
     const updateJson = async () => {
         let response = await axios.get(baseUrl + '/admin/data');
@@ -15,6 +25,7 @@ const App = () => {
     }
 
     useEffect(() => {
+        getGameName();
         updateJson();
         setInterval(updateJson, 1000);
     }, []);
@@ -28,7 +39,7 @@ const App = () => {
 
                 <div className='content-container'>
                     <TeamsTable gameData={json}/>
-                    <GameTable gameData={json}/>
+                    <GameTable gameName={gameName} gameData={json}/>
                 </div>
             </div>
         </div>

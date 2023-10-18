@@ -14,8 +14,6 @@ export const ButtonsContainer = ({baseUrl}) => {
         await axios.post(baseUrl + '/admin/reset');
     }
 
-    const sendBackStage = async () => {}
-    const sendNextStage = async () => {}
 
     return (
         <div className="button-container">
@@ -38,7 +36,7 @@ export const ButtonsContainer = ({baseUrl}) => {
                 onCancel={() => setIsLeadQROpen(false)}
             >
                 <QRCode
-                    value={window.location.origin + '/lead/ui/index.html'}
+                    value={baseUrl + '/lead/ui/index.html'}
                     style={{margin: '0 auto'}}
                     bgColor={'#ffffff'}
                     size={260}
@@ -54,7 +52,7 @@ export const ButtonsContainer = ({baseUrl}) => {
                 onCancel={() => setIsPlayerQROpen(false)}
             >
                 <QRCode
-                    value={window.location.origin + '/player/ui/index.html'}
+                    value={baseUrl + '/player/ui/index.html'}
                     style={{margin: '0 auto'}}
                     bgColor={'#ffffff'}
                     size={260}

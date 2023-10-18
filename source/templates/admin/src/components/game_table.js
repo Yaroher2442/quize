@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Table } from 'antd';
 
-export const GameTable = ({ gameData }) => {
+export const GameTable = ({ gameData, gameName }) => {
 
     const [dataSource, setDataSource] = useState([]);
 
@@ -42,6 +42,10 @@ export const GameTable = ({ gameData }) => {
                         : value,
                 });
             }
+            data.unshift({
+                key: 'Название игры',
+                value: gameName
+            })
             setDataSource(data);
         }
     }
