@@ -4,7 +4,7 @@ const TextBeforeQuestion = () => {
 
     return(
         <section>
-            <h1>Внимание <br/>вопрос!</h1>
+            <h1>Ожидайте<br/>вопрос</h1>
         </section>
     )
 }

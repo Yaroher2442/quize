@@ -153,7 +153,7 @@ const App = () => {
                 getAppState().then(r => {
                     AppStore.update(s => {
                         s.gamePage = 'textPage';
-                        s.pageTitle = 'Раунд завершён.\nИгра скоро начнётся'
+                        s.pageTitle = 'Раунд завершён.\nИгра скоро продолжится'
                     });
                 });
                 break;
@@ -323,7 +323,7 @@ const App = () => {
             case 'NEXT_ROUND':
                 AppStore.update(s => {
                     s.gamePage = 'textPage';
-                    s.pageTitle = 'Раунд завершён.\nИгра скоро начнётся';
+                    s.pageTitle = 'Раунд завершён.\nИгра скоро продолжится';
                 });
                 break;
             case 'SHOW_RESULTS':
