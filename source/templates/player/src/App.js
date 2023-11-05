@@ -262,7 +262,6 @@ const App = () => {
                 AppStore.update(s => {s.timeToAnswerLeft = edata.time;});
                 break;
             case 'admin_reload':
-                console.log('HERHEHRHEHERHER');
                 await getAppState();
                 break;
         }

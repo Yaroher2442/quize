@@ -177,6 +177,9 @@ const App = () => {
                     s.blitzTime = edata.time;
                 });
                 break;
+            case 'admin_reload':
+                getAppState();
+                break;
         }
     };
 
@@ -199,6 +202,7 @@ const App = () => {
         evtSource.addEventListener('team_was_removed', e => onEvtMessage('team_was_removed', e));
         evtSource.addEventListener('next_round', e => onEvtMessage('next_round', e));
         evtSource.addEventListener('timer_tick', e => onEvtMessage('timer_tick', e));
+        evtSource.addEventListener('admin_reload', e => onEvtMessage('admin_reload', e));
     };
 
     const getAppState = async () => {
@@ -215,6 +219,10 @@ const App = () => {
 
         switch (stage) {
             case 'WAITING_START':
+                AppStore.update(s => {
+                    s.gamePage = 'textPage';
+                    s.pageTitle = 'Добро пожаловать!';
+                });
                 break;
             case 'WAITING_NEXT':
                 AppStore.update(s => {
