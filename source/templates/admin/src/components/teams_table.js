@@ -1,9 +1,10 @@
-import { Table, Tag, Button, QRCode, Modal } from 'antd';
+import { Table, Tag, Button, QRCode, Modal, Space, Popover, ConfigProvider } from 'antd';
 import axios from 'axios';
 import { useState, useEffect } from 'react';
 
 export const TeamsTable = ({ gameData }) => {
 
+    const [showCopied, setShowCopied] = useState('');
     const [qrOpened, setQrOpened] = useState('');
     const [dataSource, setDataSource] = useState([]);
     const columns = [
@@ -23,7 +24,7 @@ export const TeamsTable = ({ gameData }) => {
             key: 'current_tactic',
         },
         {
-            title: 'QR-код команды',
+            title: 'Ссылка',
             dataIndex: 'team_qr',
             key: 'team_qr',
         },
@@ -57,12 +58,25 @@ export const TeamsTable = ({ gameData }) => {
         let teamsData = [];
 
         if (!isEmpty(gameData)) {
+
+            const copy = (url) => {
+                if (showCopied) return;
+                navigator.clipboard.writeText(url);
+                setShowCopied(url);
+                setTimeout(() => {
+                    setShowCopied('');
+                }, 2000);
+            }
+
             gameData.Teams.forEach((team) => {
                 teamsData.push({
                     team_name: team.team_name,
                     current_answer: team.current_answer,
                     current_tactic: team.current_tactic,
-                    team_qr: <Button type="primary" onClick={() => setQrOpened(team.url)}>QR</Button>
+                    team_qr: <Space>
+                        <Button type="primary" onClick={() => setQrOpened(team.url)}>QR</Button>
+                        <div style={{width:'100px'}}><Button block={true} type="primary" onClick={() => copy(team.url)}>{showCopied == team.url ? 'Copied' : 'Copy link'}</Button></div>
+                    </Space>
                 },);
             });
         }
