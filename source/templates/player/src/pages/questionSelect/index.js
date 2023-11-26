@@ -130,7 +130,7 @@ const QuestionSelect = () => {
                 ))}
             </div>
             <CountDown totalTime={timeToAnswer} timeLeft={currentTimeToAnswer ?? timeToAnswer}/>
-            <button className="question-select__send-btn" onClick={() => sendAnswer()} disabled={inputLock} style={{'color': accentColor}}>Отправить</button>
+            <button className="question-select__send-btn" onClick={() => sendAnswer()} disabled={inputLock}>{inputLock ? 'Отправлено' : 'Отправить'}</button>
         </section>
     )
 }

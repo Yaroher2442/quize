@@ -102,7 +102,7 @@ const QuestionInput = () => {
                 }
             </div>
             <CountDown totalTime={timeToAnswer} timeLeft={currentTimeToAnswer ?? timeToAnswer}/>
-            <button className="question-input__send-btn" onClick={() => sendAnswer()} style={{'color': accentColor}} disabled={inputLock}>Отправить</button>
+            <button className="question-input__send-btn" onClick={() => sendAnswer()} disabled={inputLock}>{inputLock ? 'Отправлено' : 'Отправить'}</button>
         </section>
     )
 }
