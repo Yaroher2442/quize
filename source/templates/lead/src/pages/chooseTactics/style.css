@@ -4,4 +4,13 @@
 }
 .choose-tactics__btns_spacer {
   width: 20px;
+}
+.choose-tactics__btn-media {
+  border: 3px solid transparent;
+  background-origin: border-box;
+}
+.choose-tactics__btn-media:disabled {
+  background: transparent;
+  border: 3px solid white;
+  color: white;
 }/*# sourceMappingURL=style.css.map */

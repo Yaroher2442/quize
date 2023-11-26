@@ -40,6 +40,7 @@ const ChooseAnswers = ({getAppState, openModal}) => {
     }, []);
 
     const showMediaAfter = async () => {
+        if (!allTeamsChosenAnswer) return;
         await request.showMediaAfter();
         AppStore.update(s => {
             s.shownMediaAfter = true;
@@ -79,7 +80,7 @@ const ChooseAnswers = ({getAppState, openModal}) => {
             <div className="choose-answers__btns_wrapper">
                 { mediaInQuestion &&
                     <>
-                        <button disabled={!allTeamsChosenAnswer} onClick={showMediaAfter}>Медиа</button>
+                        <button className={'choose-answers__btn-media'} disabled={shownMediaAfter} onClick={showMediaAfter}>Медиа</button>
                         <div className="choose-answers__btns_spacer" />
                     </>
                 }

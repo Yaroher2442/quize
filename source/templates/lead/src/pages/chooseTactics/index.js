@@ -47,6 +47,7 @@ const ChooseTactics = ({getAppState}) => {
     };
 
     const showMediaBefore = async () => {
+        if (!allTeamsChosenTactic) return;
         await request.showMediaBefore();
         AppStore.update(s => {
             s.shownMediaBefore = true;
@@ -73,7 +74,7 @@ const ChooseTactics = ({getAppState}) => {
             <div className="choose-tactics__btns_wrapper">
                 { mediaInQuestion &&
                     <>
-                        <button disabled={!allTeamsChosenTactic} onClick={showMediaBefore}>Медиа</button>
+                        <button className="choose-tactics__btn-media" disabled={shownMediaBefore} onClick={showMediaBefore}>Медиа</button>
                         <div className="choose-tactics__btns_spacer" />
                     </>
                 }

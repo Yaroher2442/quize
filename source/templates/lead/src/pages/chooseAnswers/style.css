@@ -53,4 +53,13 @@
 }
 .choose-answers__btns_spacer {
   width: 20px;
+}
+.choose-answers__btn-media {
+  border: 3px solid transparent;
+  background-origin: border-box;
+}
+.choose-answers__btn-media:disabled {
+  background: transparent;
+  border: 3px solid white;
+  color: white;
 }/*# sourceMappingURL=style.css.map */
