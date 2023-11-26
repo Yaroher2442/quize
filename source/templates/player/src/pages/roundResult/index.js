@@ -85,7 +85,7 @@ const RoundResult = ({openBlitzModal}) => {
                         if (mul !== 0 && !teamResult.all_in) {
                             parsedResults.push({
                                 'name': 'Убрать неверные ответы',
-                                'value': 'x'+ mul
+                                'value': '×'+ mul
                             });
                         }
                     }
@@ -94,7 +94,7 @@ const RoundResult = ({openBlitzModal}) => {
                     if (val && teamResult.question_bet === 0.0 && !teamResult.all_in) {
                         parsedResults.push({
                             'name': 'Правильные ответы подряд',
-                            'value': 'x3'
+                            'value': '×3'
                         });
                     }
                     break;
@@ -102,7 +102,7 @@ const RoundResult = ({openBlitzModal}) => {
                     if (val) {
                         parsedResults.push({
                             'name': 'Один за всех',
-                            'value': 'x3'
+                            'value': '×3'
                         });
                     }
                     break;
@@ -134,7 +134,7 @@ const RoundResult = ({openBlitzModal}) => {
                     if (val && teamResult.question_bet === 0.0 && !teamResult.all_in) {
                         parsedResults.push({
                             'name': 'Единственная команда, ответившая правильно',
-                            'value': 'x2'
+                            'value': '×2'
                         });
                     }
                     break;
