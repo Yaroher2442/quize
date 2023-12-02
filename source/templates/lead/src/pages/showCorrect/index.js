@@ -31,6 +31,13 @@ const ShowCorrect = () => {
                 <h2>Правильный ответ</h2>
                 <h1>{questions[questionNumber-1].correct_answer}</h1>
             </div>
+            {
+                questions[questionNumber - 1].description !== "" && 
+                <div>
+                    <h2>Комментарий</h2>
+                    <h1>{questions[questionNumber - 1].description}</h1>
+                </div>
+            }
             <button onClick={openNextPage}>Результат ответа</button>
         </section>
     )
