@@ -1,4 +1,4 @@
-from pydantic import BaseModel, ValidationError, validator, constr
+from pydantic import BaseModel, ValidationError, validator, constr, Field
 from typing import List, Dict, Optional, Union
 
 
@@ -31,6 +31,7 @@ class QuestionScenario(BaseModel):
     type: str
     question: str
     answers: Union[str, List[str]]
+    description: Optional[str] = Field(default="")
     correct_answer: str
     time_to_answer: int
     media_data: MediaDataScenario
@@ -41,6 +42,7 @@ class BlitzQuestionScenario(BaseModel):
     type: str
     question: str
     correct_answer: str
+    description: Optional[str] = Field(default="")
 
 
 class SettingsScenario(BaseModel):
