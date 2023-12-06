@@ -51,7 +51,7 @@ class SettingsScenario(BaseModel):
     display_name: bool
     time_to_answer: int
     use_special_tactics: Union[bool, None] = None
-    blitz_score: Union[int, None] = None
+    blitz_score: Optional[int] = Field(default=10)
 
 
 class BlitzRoundScenario(BaseModel):
