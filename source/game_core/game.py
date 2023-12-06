@@ -346,7 +346,7 @@ class QuizeGame:
 
         def get_next_round_data():
             try:
-                return self.all_rounds[self.current_round + 1]
+                return self.scenario.rounds[self.current_round + 1]
             except Exception as e:
                 return None
 
