@@ -343,6 +343,13 @@ class QuizeGame:
                 self.stage != GameStage.SHOW_MEDIA_AFTER):
             self.sanic.add_task(self.timer_task(self.emitter, self.current_time), name="timer")
         """
+
+        def get_next_round_data():
+            try:
+                return self.all_rounds[self.current_round + 1]
+            except Exception as e:
+                return None
+
         data = self.get_round(state=True)
         p = {"current_round": self.current_round, "current_question": self.current_question,
              "all_rounds": len(self.scenario.rounds),
@@ -354,6 +361,7 @@ class QuizeGame:
              "next_blitz": self.next_blitz(),
              "round": data[0].dict(),
              "next_round": data[1],
+             "next_round_data": get_next_round_data(),
              "timer": self.current_time,
              "skip_emails": self.scenario.game_settings.skip_emails
              }
