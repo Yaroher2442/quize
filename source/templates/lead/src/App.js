@@ -130,11 +130,14 @@ const App = () => {
 
     const getAppState = async () => {
         const appState = await request.getAppState();
-        const {all_rounds, next_test, next_blitz, current_round, teams, timer, stage, question, round, current_question, prv_stage} = appState.data;
+        const {all_rounds, next_test, next_blitz, current_round, teams, timer, stage, question, round, current_question, prv_stage, next_round_data} = appState.data;
 
         AppStore.update(s => {
             if (round.type === 'blitz') {
                 s.isLast = all_rounds === current_round;
+            }
+            if (next_blitz) {
+                s.blitzCorrectScore = next_round_data.settings.blitz_score;                
             }
             s.isNextRoundTest = next_test;
             s.teamsRegistered = teams;
@@ -142,7 +145,7 @@ const App = () => {
             s.teamsCount = teams.length;
             s.isTestRound = round.settings.is_test;
             s.isBlitzRound = round.type === 'blitz';
-            s.nextBlitz = next_blitz && current_round != 1;
+            s.nextBlitz = next_blitz;
             s.questions = round.questions;
             s.questionNumber = current_question;
             s.timerToAnswer = round.settings.time_to_answer;

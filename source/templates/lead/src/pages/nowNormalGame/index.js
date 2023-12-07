@@ -10,11 +10,13 @@ const NowNormalGame = ({getAppState}) => {
         nextBlitz,
         isNextRoundTest,
         questionNumber,
+        blitzCorrectScore,
     } = AppStore.useState(s => ({
         isBlitzRound: s.isBlitzRound,
         nextBlitz: s.nextBlitz,
         isNextRoundTest: s.isNextRoundTest,
         questionNumber: s.questionNumber,
+        blitzCorrectScore: s.blitzCorrectScore,
     }));
 
     const openNextPage = async () => {
@@ -82,6 +84,7 @@ const NowNormalGame = ({getAppState}) => {
 
                 }
             </div>
+            {nextBlitz && <h2>Каждый правильный ответ равен {blitzCorrectScore} баллам</h2>}
             <button onClick={openNextPage}>Начать игру</button>
         </section>
     )

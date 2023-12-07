@@ -8,6 +8,7 @@ export const AppStore = new Store({
     isTestRound: false,
     isNextRoundTest: false,
     isBlitzRound: false,
+    blitzCorrectScore: 0,
     nextBlitz: false,
     isNextRound: false,
     questionNumber: 1,
